@@ -95,6 +95,26 @@ class App extends Component {
     });
   };
 
+  handleUndo = id => {
+    const remainderList = this.state.doneItems.filter((item, index) => {
+      if (index !== id) {
+        return item;
+      } else {
+        Helper.pushNotify(
+          item + " added to open tasks successfully!",
+          "Added Back!",
+          "owl-72.png"
+        );
+        return null;
+      }
+    });
+    const doneList = this.state.doneItems.filter((item, index) => index === id);
+    this.setState({
+      doneItems: remainderList,
+      openItems: [...this.state.openItems, doneList]
+    });
+  };
+
   handleRemove = (id, active) => {
     let itemClicked;
     active === "open"
@@ -164,15 +184,23 @@ class App extends Component {
                 title={"Open Tasks"}
                 items={this.state.openItems}
                 btn1={this.handleDone}
+                btn1Title={"Done"}
+                btn1Class={"success"}
                 btn2={e => this.handleRemove(e, "open")}
+                btn2Title={"Delete"}
+                btn2Class={"danger"}
               />
             </div>
             <div className="col-md-6 col-xl-4">
               <List
                 title={"Completed Tasks"}
                 items={this.state.doneItems}
-                btn1={this.handleDone}
+                btn1={this.handleUndo}
+                btn1Title={"Undo"}
+                btn1Class={"warning"}
                 btn2={e => this.handleRemove(e, "done")}
+                btn2Title={"Delete"}
+                btn2Class={"danger"}
               />
             </div>
           </div>

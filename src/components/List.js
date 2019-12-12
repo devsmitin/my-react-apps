@@ -16,10 +16,10 @@ class List extends Component {
               {this.props.btn1 ? (
                 <button
                   type="button"
-                  className="btn btn-success"
+                  className={"btn btn-" + this.props.btn1Class}
                   onClick={() => this.props.btn1(index)}
                 >
-                  Done
+                  {this.props.btn1Title}
                 </button>
               ) : (
                 ""
@@ -27,10 +27,10 @@ class List extends Component {
               {this.props.btn2 ? (
                 <button
                   type="button"
-                  className="btn btn-danger"
+                  className={"btn btn-" + this.props.btn2Class}
                   onClick={() => this.props.btn2(index)}
                 >
-                  Delete
+                  {this.props.btn2Title}
                 </button>
               ) : (
                 ""
