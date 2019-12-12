@@ -1,0 +1,24 @@
+// main scss file
+// not much css right now.
+// if css increases more than 100 lines, it will be divided in multiple files and importerd here
+
+.btn:disabled {
+  cursor: not-allowed;
+}
+
+.container {
+  &.w-600 {
+    width: 600px;
+    max-width: 100%;
+  }
+}
+
+.scroll-list {
+  // max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  .scroll-list-title {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+}
