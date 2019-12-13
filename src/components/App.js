@@ -1,12 +1,16 @@
 import React, { Component } from "react";
-import List from "./List";
+// import Firebase from "firebase";
+// import config from "./config";
 import * as Helper from "../Helper";
+
+import List from "./List";
 
 import "./App.scss";
 
 class App extends Component {
   constructor(props) {
     super(props);
+    Firebase.initializeApp(config);
     this.state = {
       term: "",
       openItems: [],
@@ -52,11 +56,11 @@ class App extends Component {
       term: "",
       openItems: [...this.state.openItems, this.state.term]
     });
-    Helper.pushNotify(
-      this.state.term + " added to the list!",
-      "Success!",
-      "owl-72.png"
-    );
+    // Helper.pushNotify(
+    //   this.state.term + " added to the list!",
+    //   "Success!",
+    //   "owl-72.png"
+    // );
   };
 
   overflowAlert = () => {
@@ -80,11 +84,11 @@ class App extends Component {
       if (index !== id) {
         return item;
       } else {
-        Helper.pushNotify(
-          item + " marked done successfully!",
-          "Completed!",
-          "owl-72.png"
-        );
+        // Helper.pushNotify(
+        //   item + " marked done successfully!",
+        //   "Completed!",
+        //   "owl-72.png"
+        // );
         return null;
       }
     });
@@ -100,11 +104,11 @@ class App extends Component {
       if (index !== id) {
         return item;
       } else {
-        Helper.pushNotify(
-          item + " added to open tasks successfully!",
-          "Added Back!",
-          "owl-72.png"
-        );
+        // Helper.pushNotify(
+        //   item + " added to open tasks successfully!",
+        //   "Added Back!",
+        //   "owl-72.png"
+        // );
         return null;
       }
     });
@@ -124,11 +128,11 @@ class App extends Component {
       if (index !== id) {
         return item;
       } else {
-        Helper.pushNotify(
-          item + " deleted successfully!",
-          "Deleted!",
-          "owl-72.png"
-        );
+        // Helper.pushNotify(
+        //   item + " deleted successfully!",
+        //   "Deleted!",
+        //   "owl-72.png"
+        // );
         return null;
       }
     });
