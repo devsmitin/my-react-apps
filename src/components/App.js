@@ -14,45 +14,38 @@ class App extends Component {
       term: "",
       openItems: [],
       doneItems: [],
-      maxLen: 20,
-      dataFetched: false
+      maxLen: 20
     };
   }
 
-  componentDidMount() {
-    const openItemsRef = fire.database().ref("openItems");
-    openItemsRef.on("value", snapshot => {
-      let tasks = snapshot.val();
-      let newState = [];
-      for (const task in tasks) {
-        newState.push(task);
-      }
-      this.setState({
-        openItems: newState
-      });
-    });
-  }
+  componentDidMount = () => {
+    this.getUserData();
+  };
 
-  fetchData = () => {
-    if (!this.state.dataFetched) {
-      fetch("https://jsonplaceholder.typicode.com/todos")
-        .then(response => response.json())
-        .then(data =>
-          data.map(data =>
-            this.setState({
-              openItems: [...this.state.openItems, data.title],
-              dataFetched: true
-            })
-          )
-        )
-        .then(
-          Helper.pushNotify(
-            "Data fetched successfully!",
-            "Success!",
-            "owl-72.png"
-          )
-        );
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState !== this.state) {
+      this.writeUserData();
     }
+  };
+
+  notif = (msg, title) => {
+    Helper.pushNotify(msg, title, "owl-72.png");
+  };
+
+  writeUserData = () => {
+    fire
+      .database()
+      .ref("/")
+      .set(this.state);
+  };
+
+  getUserData = () => {
+    let ref = fire.database().ref("/");
+    ref.on("value", snapshot => {
+      const state = snapshot.val();
+      this.setState(state);
+    });
+    this.notif("Data sync finished", "Success!");
   };
 
   onChange = event => {
@@ -61,9 +54,14 @@ class App extends Component {
 
   onSubmit = event => {
     event.preventDefault();
+    let obj = {
+      title: this.state.term.trim(),
+      completed: false,
+      time: Date.now()
+    };
     this.setState({
       term: "",
-      openItems: [...this.state.openItems, this.state.term]
+      openItems: [...this.state.openItems, obj]
     });
     // Helper.pushNotify(
     //   this.state.term + " added to the list!",
@@ -104,7 +102,7 @@ class App extends Component {
     const doneList = this.state.openItems.filter((item, index) => index === id);
     this.setState({
       openItems: remainderList,
-      doneItems: [...this.state.doneItems, doneList]
+      doneItems: [...this.state.doneItems, ...doneList]
     });
   };
 
@@ -124,7 +122,7 @@ class App extends Component {
     const doneList = this.state.doneItems.filter((item, index) => index === id);
     this.setState({
       doneItems: remainderList,
-      openItems: [...this.state.openItems, doneList]
+      openItems: [...this.state.openItems, ...doneList]
     });
   };
 
@@ -172,20 +170,12 @@ class App extends Component {
                       <button
                         className="btn btn-success mr-2"
                         disabled={
-                          this.state.term.length === 0 ||
-                          this.state.term.length > this.state.maxLen
+                          this.state.term.trim().length === 0 ||
+                          this.state.term.trim().length > this.state.maxLen
                         }
                       >
                         Add
                       </button>
-                      {/* <button
-                  type="button"
-                  className="btn btn-secondary"
-                  disabled={this.state.dataFetched}
-                  onClick={this.fetchData}
-                >
-                  Fetch Notes
-                </button> */}
                       <span className="btn float-right disabled">
                         {this.state.maxLen - this.state.term.length}
                       </span>
