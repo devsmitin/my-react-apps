@@ -1,4 +1,6 @@
-const firebaseConfig = {
+import firebase from "firebase";
+
+const config = {
   apiKey: "AIzaSyCaQUJ_3_Cg8gaROLxHwnZrX1ulGHeQ-jU",
   authDomain: "my-react-apps-47c96.firebaseapp.com",
   databaseURL: "https://my-react-apps-47c96.firebaseio.com",
@@ -9,4 +11,5 @@ const firebaseConfig = {
   measurementId: "G-4DY7BGNBTX"
 };
 
-export default config;
+const fire = firebase.initializeApp(config);
+export default fire;
