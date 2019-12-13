@@ -10,7 +10,7 @@ import "./App.scss";
 class App extends Component {
   constructor(props) {
     super(props);
-    Firebase.initializeApp(config);
+    // Firebase.initializeApp(config);
     this.state = {
       term: "",
       openItems: [],
