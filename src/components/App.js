@@ -19,9 +19,19 @@ class App extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.fetchData();
-  // }
+  componentDidMount() {
+    const openItemsRef = fire.database().ref("openItems");
+    openItemsRef.on("value", snapshot => {
+      let tasks = snapshot.val();
+      let newState = [];
+      for (const task in tasks) {
+        newState.push(task);
+      }
+      this.setState({
+        openItems: newState
+      });
+    });
+  }
 
   fetchData = () => {
     if (!this.state.dataFetched) {
