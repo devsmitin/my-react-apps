@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-// import Firebase from "firebase";
-// import config from "./config";
+import fire from "./fire";
 import * as Helper from "../Helper";
 
+import Header from "./Header";
 import List from "./List";
 
 import "./App.scss";
@@ -10,7 +10,6 @@ import "./App.scss";
 class App extends Component {
   constructor(props) {
     super(props);
-    // Firebase.initializeApp(config);
     this.state = {
       term: "",
       openItems: [],
@@ -20,9 +19,19 @@ class App extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.fetchData();
-  // }
+  componentDidMount() {
+    const openItemsRef = fire.database().ref("openItems");
+    openItemsRef.on("value", snapshot => {
+      let tasks = snapshot.val();
+      let newState = [];
+      for (const task in tasks) {
+        newState.push(task);
+      }
+      this.setState({
+        openItems: newState
+      });
+    });
+  }
 
   fetchData = () => {
     if (!this.state.dataFetched) {
@@ -143,31 +152,33 @@ class App extends Component {
 
   render() {
     return (
-      <main className="">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md">
-              <div className="card shadow-sm mb-3">
-                <div className="card-body">
-                  <h4 className="card-title">Add Tasks</h4>
-                  <form onSubmit={this.onSubmit}>
-                    <input
-                      type="text"
-                      className="form-control mb-3"
-                      value={this.state.term}
-                      onChange={this.onChange}
-                      autoFocus
-                    />
-                    <button
-                      className="btn btn-success mr-2"
-                      disabled={
-                        this.state.term.length === 0 ||
-                        this.state.term.length > this.state.maxLen
-                      }
-                    >
-                      Add
-                    </button>
-                    {/* <button
+      <>
+        <Header />
+        <main className="">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-md">
+                <div className="card shadow-sm mb-3">
+                  <div className="card-body">
+                    <h4 className="card-title">Add Tasks</h4>
+                    <form onSubmit={this.onSubmit}>
+                      <input
+                        type="text"
+                        className="form-control mb-3"
+                        value={this.state.term}
+                        onChange={this.onChange}
+                        autoFocus
+                      />
+                      <button
+                        className="btn btn-success mr-2"
+                        disabled={
+                          this.state.term.length === 0 ||
+                          this.state.term.length > this.state.maxLen
+                        }
+                      >
+                        Add
+                      </button>
+                      {/* <button
                   type="button"
                   className="btn btn-secondary"
                   disabled={this.state.dataFetched}
@@ -175,41 +186,42 @@ class App extends Component {
                 >
                   Fetch Notes
                 </button> */}
-                    <span className="btn float-right disabled">
-                      {this.state.maxLen - this.state.term.length}
-                    </span>
-                  </form>
-                  {this.overflowAlert()}
+                      <span className="btn float-right disabled">
+                        {this.state.maxLen - this.state.term.length}
+                      </span>
+                    </form>
+                    {this.overflowAlert()}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-md-6 col-xl-4">
-              <List
-                title={"Open Tasks"}
-                items={this.state.openItems}
-                btn1={this.handleDone}
-                btn1Title={"Done"}
-                btn1Class={"success"}
-                btn2={e => this.handleRemove(e, "open")}
-                btn2Title={"Delete"}
-                btn2Class={"danger"}
-              />
-            </div>
-            <div className="col-md-6 col-xl-4">
-              <List
-                title={"Completed Tasks"}
-                items={this.state.doneItems}
-                btn1={this.handleUndo}
-                btn1Title={"Undo"}
-                btn1Class={"warning"}
-                btn2={e => this.handleRemove(e, "done")}
-                btn2Title={"Delete"}
-                btn2Class={"danger"}
-              />
+              <div className="col-md-6 col-xl-4">
+                <List
+                  title={"Open Tasks"}
+                  items={this.state.openItems}
+                  btn1={this.handleDone}
+                  btn1Title={"Done"}
+                  btn1Class={"success"}
+                  btn2={e => this.handleRemove(e, "open")}
+                  btn2Title={"Delete"}
+                  btn2Class={"danger"}
+                />
+              </div>
+              <div className="col-md-6 col-xl-4">
+                <List
+                  title={"Completed Tasks"}
+                  items={this.state.doneItems}
+                  btn1={this.handleUndo}
+                  btn1Title={"Undo"}
+                  btn1Class={"warning"}
+                  btn2={e => this.handleRemove(e, "done")}
+                  btn2Title={"Delete"}
+                  btn2Class={"danger"}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </>
     );
   }
 }
