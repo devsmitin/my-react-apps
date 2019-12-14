@@ -14,38 +14,55 @@ class App extends Component {
       term: "",
       openItems: [],
       doneItems: [],
-      maxLen: 20
+      maxLen: 20,
+      fb_loading: true
     };
   }
 
-  componentDidMount = () => {
-    this.getUserData();
-  };
+  componentDidMount() {
+    const openItemsRef = fire.database().ref("openItems");
+    const doneItemsRef = fire.database().ref("doneItems");
+    this.getUserData(openItemsRef, "openItems");
+    this.getUserData(doneItemsRef, "doneItems");
+    this.setState({ fb_loading: false });
+  }
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (prevState !== this.state) {
-      this.writeUserData();
+    if (prevState.openItems !== this.state.openItems) {
+      this.writeUserData(this.state.openItems, "openItems");
+    }
+    if (prevState.doneItems !== this.state.doneItems) {
+      this.writeUserData(this.state.doneItems, "doneItems");
     }
   };
 
   notif = (msg, title) => {
     Helper.pushNotify(msg, title, "owl-72.png");
+    alert(msg);
   };
 
-  writeUserData = () => {
+  writeUserData = (varRef, ref) => {
     fire
       .database()
-      .ref("/")
-      .set(this.state);
+      .ref(ref)
+      .set(varRef);
   };
 
-  getUserData = () => {
-    let ref = fire.database().ref("/");
-    ref.on("value", snapshot => {
-      const state = snapshot.val();
-      this.setState(state);
+  getUserData = (varRef, ref) => {
+    varRef.on("value", snapshot => {
+      let items = snapshot.val();
+      let newState = [];
+      for (const item in items) {
+        if (items.hasOwnProperty(item)) {
+          const element = items[item];
+          newState.push(element);
+        }
+      }
+      this.setState({
+        [ref]: newState
+      });
     });
-    this.notif("Data sync finished", "Success!");
+    // this.notif("Data sync finished", "Success!");
   };
 
   onChange = event => {
@@ -151,11 +168,12 @@ class App extends Component {
   render() {
     return (
       <>
-        <Header />
+        {this.state.fb_loading && Helper.showLoader()}
+        <Header userId={this.state.identity} />
         <main className="">
           <div className="container-fluid">
             <div className="row">
-              <div className="col-md">
+              <div className="col-md-12 col-xl-4">
                 <div className="card shadow-sm mb-3">
                   <div className="card-body">
                     <h4 className="card-title">Add Tasks</h4>
