@@ -19,12 +19,18 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    this.getUserData();
+    const openItemsRef = fire.database().ref("openItems");
+    const doneItemsRef = fire.database().ref("doneItems");
+    this.getUserData(openItemsRef);
+    this.getUserData(doneItemsRef);
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (prevState !== this.state) {
-      this.writeUserData();
+    if (prevState.openItems !== this.state.openItems) {
+      this.writeUserData(this.state.openItems, "openItems");
+    }
+    if (prevState.doneItems !== this.state.doneItems) {
+      this.writeUserData(this.state.doneItems, "doneItems");
     }
   };
 
@@ -32,20 +38,31 @@ class App extends Component {
     Helper.pushNotify(msg, title, "owl-72.png");
   };
 
-  writeUserData = () => {
+  writeUserData = (varRef, ref) => {
     fire
       .database()
-      .ref("/")
-      .set(this.state);
+      .ref(ref)
+      .set(varRef);
+    console.log("in fun");
   };
 
-  getUserData = () => {
-    let ref = fire.database().ref("/");
-    ref.on("value", snapshot => {
-      const state = snapshot.val();
-      this.setState(state);
+  getUserData = varRef => {
+    // let ref = fire.database().ref("/");
+    // ref.on("value", snapshot => {
+    //   const state = snapshot.val();
+    //   this.setState(state);
+    // });
+    varRef.on("value", snapshot => {
+      let items = snapshot.val();
+      let newState = [];
+      for (const item in items) {
+        newState.push(item);
+      }
+      this.setState({
+        varRef: newState
+      });
     });
-    this.notif("Data sync finished", "Success!");
+    // this.notif("Data sync finished", "Success!");
   };
 
   onChange = event => {
@@ -151,7 +168,7 @@ class App extends Component {
   render() {
     return (
       <>
-        <Header />
+        <Header userId={this.state.identity} />
         <main className="">
           <div className="container-fluid">
             <div className="row">
