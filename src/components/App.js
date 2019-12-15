@@ -11,6 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // users: [],
       term: "",
       openItems: [],
       doneItems: [],
@@ -20,20 +21,29 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const openItemsRef = fire.database().ref("openItems");
-    const doneItemsRef = fire.database().ref("doneItems");
-    this.getUserData(openItemsRef, "openItems");
-    this.getUserData(doneItemsRef, "doneItems");
-    this.setState({ fb_loading: false });
+    // const openItemsRef = fire.database().ref("openItems");
+    // const doneItemsRef = fire.database().ref("doneItems");
+    // this.getUserData(openItemsRef, "openItems");
+    // this.getUserData(doneItemsRef, "doneItems");
+    const user = localStorage.getItem("react_user")
+      ? localStorage.getItem("react_user")
+      : "usr" + Date.now();
+
+    localStorage.setItem("react_user", user);
+    this.setState({ currentUser: user });
+    this.setState({
+      [user]: { openItems: [], doneItems: [] },
+      fb_loading: false
+    });
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (prevState.openItems !== this.state.openItems) {
-      this.writeUserData(this.state.openItems, "openItems");
-    }
-    if (prevState.doneItems !== this.state.doneItems) {
-      this.writeUserData(this.state.doneItems, "doneItems");
-    }
+    // if (prevState.currentUser !== this.state.currentUser) {
+    //   this.writeUserData(
+    //     this.state[this.state.currentUser],
+    //     this.state.currentUser
+    //   );
+    // }
   };
 
   notif = (msg, title) => {
