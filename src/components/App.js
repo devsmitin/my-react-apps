@@ -12,40 +12,52 @@ class App extends Component {
     super(props);
     this.state = {
       term: "",
-      openItems: [],
-      doneItems: [],
       maxLen: 20,
       fb_loading: true
     };
   }
 
   componentDidMount() {
-    const openItemsRef = fire.database().ref("openItems");
-    const doneItemsRef = fire.database().ref("doneItems");
-    this.getUserData(openItemsRef, "openItems");
-    this.getUserData(doneItemsRef, "doneItems");
-    this.setState({ fb_loading: false });
+    const timeNow = Date.now();
+    let user;
+    if (localStorage.getItem("react_user")) {
+      user = localStorage.getItem("react_user");
+    } else {
+      user = "usr_" + timeNow;
+      localStorage.setItem("react_user", user);
+    }
+
+    this.setState({
+      currentUser: user,
+      [user]: { lastUpdate: timeNow, openItems: [], doneItems: [] }
+    });
+
+    setTimeout(() => {
+      // const openItemsRef = fire.database().ref(user[openItems]);
+      // this.getUserData(openItemsRef, user[openItems]);
+      this.setState({ fb_loading: false });
+    }, 1000);
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (prevState.openItems !== this.state.openItems) {
-      this.writeUserData(this.state.openItems, "openItems");
-    }
-    if (prevState.doneItems !== this.state.doneItems) {
-      this.writeUserData(this.state.doneItems, "doneItems");
+    let userId = this.state.currentUser;
+    let userData = this.state[userId];
+    let userDataOld = prevState[userId];
+    if (userData !== userDataOld) {
+      this.writeUserData(userId, userData);
     }
   };
 
   notif = (msg, title) => {
     Helper.pushNotify(msg, title, "owl-72.png");
-    alert(msg);
+    // alert(msg);
   };
 
-  writeUserData = (varRef, ref) => {
+  writeUserData = (ref, refdata) => {
     fire
       .database()
       .ref(ref)
-      .set(varRef);
+      .set(refdata);
   };
 
   getUserData = (varRef, ref) => {
@@ -76,15 +88,14 @@ class App extends Component {
       completed: false,
       time: Date.now()
     };
+
+    let userId = this.state.currentUser;
+    let opn = this.state[userId].openItems;
+
     this.setState({
       term: "",
-      openItems: [...this.state.openItems, obj]
+      [userId]: { ...this.state[userId], openItems: [...opn, obj] }
     });
-    // Helper.pushNotify(
-    //   this.state.term + " added to the list!",
-    //   "Success!",
-    //   "owl-72.png"
-    // );
   };
 
   overflowAlert = () => {
@@ -104,65 +115,95 @@ class App extends Component {
   };
 
   handleDone = id => {
-    const remainderList = this.state.openItems.filter((item, index) => {
-      if (index !== id) {
-        return item;
-      } else {
-        // Helper.pushNotify(
-        //   item + " marked done successfully!",
-        //   "Completed!",
-        //   "owl-72.png"
-        // );
-        return null;
+    const remainderList = this.state[this.state.currentUser].openItems.filter(
+      (item, index) => {
+        if (index !== id) {
+          return item;
+        } else {
+          // this.notif(
+          //   item + " marked done successfully!",
+          //   "Completed!",
+          // );
+          return null;
+        }
       }
-    });
-    const doneList = this.state.openItems.filter((item, index) => index === id);
+    );
+    const doneList = this.state[this.state.currentUser].openItems.filter(
+      (item, index) => index === id
+    );
+
+    let userId = this.state.currentUser;
+
     this.setState({
-      openItems: remainderList,
-      doneItems: [...this.state.doneItems, ...doneList]
+      [userId]: {
+        ...this.state[userId],
+        openItems: remainderList,
+        doneItems: [
+          ...this.state[this.state.currentUser].doneItems,
+          ...doneList
+        ]
+      }
     });
   };
 
   handleUndo = id => {
-    const remainderList = this.state.doneItems.filter((item, index) => {
-      if (index !== id) {
-        return item;
-      } else {
-        // Helper.pushNotify(
-        //   item + " added to open tasks successfully!",
-        //   "Added Back!",
-        //   "owl-72.png"
-        // );
-        return null;
+    const remainderList = this.state[this.state.currentUser].doneItems.filter(
+      (item, index) => {
+        if (index !== id) {
+          return item;
+        } else {
+          // this.notif(
+          //   item + " added to open tasks successfully!",
+          //   "Added Back!",
+          // );
+          return null;
+        }
       }
-    });
-    const doneList = this.state.doneItems.filter((item, index) => index === id);
+    );
+    const doneList = this.state[this.state.currentUser].doneItems.filter(
+      (item, index) => index === id
+    );
+
+    let userId = this.state.currentUser;
+
     this.setState({
-      doneItems: remainderList,
-      openItems: [...this.state.openItems, ...doneList]
+      [userId]: {
+        ...this.state[userId],
+        doneItems: remainderList,
+        openItems: [
+          ...this.state[this.state.currentUser].openItems,
+          ...doneList
+        ]
+      }
     });
   };
 
   handleRemove = (id, active) => {
     let itemClicked;
     active === "open"
-      ? (itemClicked = this.state.openItems)
-      : (itemClicked = this.state.doneItems);
+      ? (itemClicked = this.state[this.state.currentUser].openItems)
+      : (itemClicked = this.state[this.state.currentUser].doneItems);
+
+    let userId = this.state.currentUser;
+
     const remainder = itemClicked.filter((item, index) => {
       if (index !== id) {
         return item;
       } else {
-        // Helper.pushNotify(
+        // this.notif(
         //   item + " deleted successfully!",
         //   "Deleted!",
-        //   "owl-72.png"
         // );
         return null;
       }
     });
     active === "open"
-      ? this.setState({ openItems: remainder })
-      : this.setState({ doneItems: remainder });
+      ? this.setState({
+          [userId]: { ...this.state[userId], openItems: remainder }
+        })
+      : this.setState({
+          [userId]: { ...this.state[userId], doneItems: remainder }
+        });
   };
 
   render() {
@@ -183,7 +224,6 @@ class App extends Component {
                         className="form-control mb-3"
                         value={this.state.term}
                         onChange={this.onChange}
-                        autoFocus
                       />
                       <button
                         className="btn btn-success mr-2"
@@ -205,7 +245,10 @@ class App extends Component {
               <div className="col-md-6 col-xl-4">
                 <List
                   title={"Open Tasks"}
-                  items={this.state.openItems}
+                  items={
+                    this.state[this.state.currentUser] &&
+                    this.state[this.state.currentUser].openItems
+                  }
                   btn1={this.handleDone}
                   btn1Title={"Done"}
                   btn1Class={"success"}
@@ -217,7 +260,10 @@ class App extends Component {
               <div className="col-md-6 col-xl-4">
                 <List
                   title={"Completed Tasks"}
-                  items={this.state.doneItems}
+                  items={
+                    this.state[this.state.currentUser] &&
+                    this.state[this.state.currentUser].doneItems
+                  }
                   btn1={this.handleUndo}
                   btn1Title={"Undo"}
                   btn1Class={"warning"}
