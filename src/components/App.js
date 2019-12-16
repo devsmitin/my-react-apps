@@ -29,7 +29,6 @@ class App extends Component {
 
     this.setState({
       currentUser: user,
-      [user]: { lastUpdate: timeNow, openItems: [], doneItems: [] }
     });
 
     setTimeout(() => {
@@ -72,11 +71,14 @@ class App extends Component {
       //     newState.push(element);
       //   }
       // }
-      // this.setState({
-      //   [refData]: {...newState}
-      // });
+
+      if (items) {
+        this.setState({
+          [refData]: items
+        });
+      }
     });
-    this.notif("Data sync finished", "Success!");
+    // this.notif("Data sync finished", "Success!");
   };
 
   onChange = event => {
@@ -92,7 +94,7 @@ class App extends Component {
     };
 
     let userId = this.state.currentUser;
-    let opn = this.state[userId].openItems;
+    let opn = this.state[userId].openItems ? this.state[userId].openItems : [];
 
     this.setState({
       term: "",
@@ -135,13 +137,14 @@ class App extends Component {
     );
 
     let userId = this.state.currentUser;
+    let dn = this.state[userId].doneItems ? this.state[userId].doneItems : [];
 
     this.setState({
       [userId]: {
         ...this.state[userId],
         openItems: remainderList,
         doneItems: [
-          ...this.state[this.state.currentUser].doneItems,
+          ...dn,
           ...doneList
         ]
       }
