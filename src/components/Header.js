@@ -27,7 +27,11 @@ class Header extends Component {
         >
           <span className="toggle-icon">Toggle Navbar</span>
         </button>
-        <div className={"navbar-collapse flex-lg-fill" + (this.state.isOpen ? " show" : "")}>
+        <div
+          className={
+            "navbar-collapse flex-lg-fill" + (this.state.isOpen ? " show" : "")
+          }
+        >
           <div className="navbar-nav ml-lg-auto">
             <a className="nav-item nav-link active" href="/">
               Test <span className="sr-only">(current)</span>
