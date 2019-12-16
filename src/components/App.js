@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const timeNow = "today";
+    const timeNow = Date.now();
     let user;
     if (localStorage.getItem("react_user")) {
       user = localStorage.getItem("react_user");

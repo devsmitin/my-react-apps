@@ -1,59 +1,62 @@
 .navbar {
   height: 50px;
-  .navbar-collapse {
-    position: fixed;
-    width: 100%;
-    top: 50px;
-    left: 0;
-    bottom: 0;
-    z-index: 101;
-    background: #fff;
-    padding: 1rem 1rem;
-    transition: 0.25s all;
-    transform: translateX(0);
-    &:not(.show) {
-      display: block;
-      transform: translateX(-100%);
+  @media (max-width: 991px) {
+    
+    .navbar-collapse {
+      position: fixed;
+      width: 100%;
+      top: 50px;
+      left: 0;
+      bottom: 0;
+      z-index: 101;
+      background: #fff;
+      padding: 1rem 1rem;
+      transition: 0.25s all;
+      transform: translateX(0);
+      &:not(.show) {
+        display: block;
+        transform: translateX(-100%);
+      }
     }
-  }
-
-  .navbar-toggler {
-    border: 0;
-    height: 32px;
-    width: 32px;
-    padding: 0;
-    position: absolute;
-    z-index: 999;
-    outline: none;
-    .toggle-icon {
-      display: block;
-      height: 2px;
-      width: 80%;
-      margin: 0 auto;
-      background-color: #333;
-      font-size: 0;
-      &:before,
-      &:after {
-        content: "";
+  
+    .navbar-toggler {
+      border: 0;
+      height: 32px;
+      width: 32px;
+      padding: 0;
+      position: absolute;
+      z-index: 999;
+      outline: none;
+      .toggle-icon {
         display: block;
         height: 2px;
         width: 80%;
-        position: absolute;
+        margin: 0 auto;
         background-color: #333;
-        transition: 0.25s all;
-      }
-      &:before {
-        top: 6px;
-      }
-      &:after {
-        bottom: 6px;
-      }
-    }
-    &:not(.collapsed) {
-      .toggle-icon {
+        font-size: 0;
         &:before,
         &:after {
-          width: 100%;
+          content: "";
+          display: block;
+          height: 2px;
+          width: 80%;
+          position: absolute;
+          background-color: #333;
+          transition: 0.25s all;
+        }
+        &:before {
+          top: 6px;
+        }
+        &:after {
+          bottom: 6px;
+        }
+      }
+      &:not(.collapsed) {
+        .toggle-icon {
+          &:before,
+          &:after {
+            width: 100%;
+          }
         }
       }
     }
