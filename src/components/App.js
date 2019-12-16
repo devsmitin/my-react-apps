@@ -29,12 +29,11 @@ class App extends Component {
 
     this.setState({
       currentUser: user,
-      [user]: { lastUpdate: timeNow, openItems: [], doneItems: [] }
     });
 
     setTimeout(() => {
-      // const openItemsRef = fire.database().ref(user[openItems]);
-      // this.getUserData(openItemsRef, user[openItems]);
+      const dataRef = fire.database().ref(user);
+      this.getUserData(dataRef, user);
       this.setState({ fb_loading: false });
     }, 1000);
   }
@@ -50,7 +49,7 @@ class App extends Component {
 
   notif = (msg, title) => {
     Helper.pushNotify(msg, title, "owl-72.png");
-    // alert(msg);
+    alert(msg);
   };
 
   writeUserData = (ref, refdata) => {
@@ -60,19 +59,24 @@ class App extends Component {
       .set(refdata);
   };
 
-  getUserData = (varRef, ref) => {
-    varRef.on("value", snapshot => {
+  getUserData = (ref, refData) => {
+    ref.on("value", snapshot => {
       let items = snapshot.val();
-      let newState = [];
-      for (const item in items) {
-        if (items.hasOwnProperty(item)) {
-          const element = items[item];
-          newState.push(element);
-        }
+      console.log(items);
+      
+      // let newState = [];
+      // for (const item in items) {
+      //   if (items.hasOwnProperty(item)) {
+      //     const element = items[item];
+      //     newState.push(element);
+      //   }
+      // }
+
+      if (items) {
+        this.setState({
+          [refData]: items
+        });
       }
-      this.setState({
-        [ref]: newState
-      });
     });
     // this.notif("Data sync finished", "Success!");
   };
@@ -90,7 +94,7 @@ class App extends Component {
     };
 
     let userId = this.state.currentUser;
-    let opn = this.state[userId].openItems;
+    let opn = this.state[userId].openItems ? this.state[userId].openItems : [];
 
     this.setState({
       term: "",
@@ -133,13 +137,14 @@ class App extends Component {
     );
 
     let userId = this.state.currentUser;
+    let dn = this.state[userId].doneItems ? this.state[userId].doneItems : [];
 
     this.setState({
       [userId]: {
         ...this.state[userId],
         openItems: remainderList,
         doneItems: [
-          ...this.state[this.state.currentUser].doneItems,
+          ...dn,
           ...doneList
         ]
       }
