@@ -22,20 +22,24 @@ class App extends Component {
     let user;
     if (localStorage.getItem("react_user")) {
       user = localStorage.getItem("react_user");
+      this.setState({
+        currentUser: user,
+      });
+      setTimeout(() => {
+        const dataRef = fire.database().ref(user);
+        this.getUserData(dataRef, user);
+        this.setState({ fb_loading: false });
+      }, 1000);
     } else {
       user = "usr_" + timeNow;
       localStorage.setItem("react_user", user);
+      this.setState({
+        currentUser: user,
+      });
     }
 
-    this.setState({
-      currentUser: user,
-    });
+    
 
-    setTimeout(() => {
-      const dataRef = fire.database().ref(user);
-      this.getUserData(dataRef, user);
-      this.setState({ fb_loading: false });
-    }, 1000);
   }
 
   componentDidUpdate = (prevProps, prevState) => {
