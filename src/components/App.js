@@ -33,8 +33,8 @@ class App extends Component {
     });
 
     setTimeout(() => {
-      // const openItemsRef = fire.database().ref(user[openItems]);
-      // this.getUserData(openItemsRef, user[openItems]);
+      const dataRef = fire.database().ref(user);
+      this.getUserData(dataRef, user);
       this.setState({ fb_loading: false });
     }, 1000);
   }
@@ -50,7 +50,7 @@ class App extends Component {
 
   notif = (msg, title) => {
     Helper.pushNotify(msg, title, "owl-72.png");
-    // alert(msg);
+    alert(msg);
   };
 
   writeUserData = (ref, refdata) => {
@@ -60,21 +60,23 @@ class App extends Component {
       .set(refdata);
   };
 
-  getUserData = (varRef, ref) => {
-    varRef.on("value", snapshot => {
+  getUserData = (ref, refData) => {
+    ref.on("value", snapshot => {
       let items = snapshot.val();
-      let newState = [];
-      for (const item in items) {
-        if (items.hasOwnProperty(item)) {
-          const element = items[item];
-          newState.push(element);
-        }
-      }
-      this.setState({
-        [ref]: newState
-      });
+      console.log(items);
+      
+      // let newState = [];
+      // for (const item in items) {
+      //   if (items.hasOwnProperty(item)) {
+      //     const element = items[item];
+      //     newState.push(element);
+      //   }
+      // }
+      // this.setState({
+      //   [refData]: {...newState}
+      // });
     });
-    // this.notif("Data sync finished", "Success!");
+    this.notif("Data sync finished", "Success!");
   };
 
   onChange = event => {

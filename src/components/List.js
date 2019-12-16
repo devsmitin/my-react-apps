@@ -28,6 +28,8 @@ class List extends Component {
         <li className="list-group-item scroll-list-title">
           <h5 className="mb-0">{this.props.title}</h5>
         </li>
+
+        {/* {console.log(this.props)} */}
         {this.props.items &&
           this.props.items.map((item, index) => (
             <li key={index} className="list-group-item" data-key={index}>
@@ -67,7 +69,8 @@ class List extends Component {
                 {this.handleDate(item.time)}
               </span>
             </li>
-          ))}
+          ))
+        }
       </ul>
     );
   }
