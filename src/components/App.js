@@ -11,9 +11,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      term: "",
-      maxLen: 20,
-      fb_loading: true
+      title: "",
+      details: "",
+      maxLen: 240,
+      showLoading: true
     };
   }
 
@@ -22,34 +23,31 @@ class App extends Component {
     let user;
     if (localStorage.getItem("react_user")) {
       user = localStorage.getItem("react_user");
+      this.setState({
+        currentUser: user
+      });
+      setTimeout(() => {
+        const dataRef = fire.database().ref(user);
+        this.getUserData(dataRef, user);
+      }, 1000);
     } else {
       user = "usr_" + timeNow;
       localStorage.setItem("react_user", user);
+      this.setState({
+        currentUser: user,
+        showLoading: false,
+        [user]: {}
+      });
     }
-
-    this.setState({
-      currentUser: user,
-    });
-
-    setTimeout(() => {
-      const dataRef = fire.database().ref(user);
-      this.getUserData(dataRef, user);
-      this.setState({ fb_loading: false });
-    }, 1000);
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate = prevState => {
     let userId = this.state.currentUser;
     let userData = this.state[userId];
     let userDataOld = prevState[userId];
     if (userData !== userDataOld) {
       this.writeUserData(userId, userData);
     }
-  };
-
-  notif = (msg, title) => {
-    Helper.pushNotify(msg, title, "owl-72.png");
-    alert(msg);
   };
 
   writeUserData = (ref, refdata) => {
@@ -62,34 +60,41 @@ class App extends Component {
   getUserData = (ref, refData) => {
     ref.on("value", snapshot => {
       let items = snapshot.val();
-      console.log(items);
-      
-      // let newState = [];
-      // for (const item in items) {
-      //   if (items.hasOwnProperty(item)) {
-      //     const element = items[item];
-      //     newState.push(element);
-      //   }
-      // }
 
-      if (items) {
-        this.setState({
-          [refData]: items
-        });
-      }
+      items
+        ? this.setState({
+            [refData]: items
+          })
+        : this.setState({
+            [refData]: {}
+          });
     });
-    // this.notif("Data sync finished", "Success!");
+    setTimeout(() => {
+      // this.notif("Data synced with your data on server", "Data sync finished!");
+      this.setState({ showLoading: false });
+    }, 2000);
+  };
+
+  notif = (msg, title) => {
+    Helper.pushNotify(msg, title, "owl-72.png");
+    alert(msg);
   };
 
   onChange = event => {
-    this.setState({ term: event.target.value });
+    // this.setState({ details: event.target.value });
+    console.log(event.target.name, event.target.value);
+
+    const value = event.target.value;
+    this.setState({
+      [event.target.name]: value
+    });
   };
 
   onSubmit = event => {
     event.preventDefault();
     let obj = {
-      title: this.state.term.trim(),
-      completed: false,
+      title: this.state.title.trim(),
+      details: this.state.details.trim(),
       time: Date.now()
     };
 
@@ -97,7 +102,8 @@ class App extends Component {
     let opn = this.state[userId].openItems ? this.state[userId].openItems : [];
 
     this.setState({
-      term: "",
+      title: "",
+      details: "",
       [userId]: { ...this.state[userId], openItems: [...opn, obj] }
     });
   };
@@ -105,8 +111,8 @@ class App extends Component {
   overflowAlert = () => {
     if (this.getRemainingChars() < 0) {
       return (
-        <div className="alert alert-warning text-left mt-3 mb-0">
-          Warning: Text Too Long
+        <div className="alert alert-danger text-left mt-3 mb-0">
+          Description Too Long.
         </div>
       );
     }
@@ -114,7 +120,7 @@ class App extends Component {
   };
 
   getRemainingChars = () => {
-    let chars = this.state.maxLen - this.state.term.length;
+    let chars = this.state.maxLen - this.state.details.length;
     return chars;
   };
 
@@ -143,10 +149,7 @@ class App extends Component {
       [userId]: {
         ...this.state[userId],
         openItems: remainderList,
-        doneItems: [
-          ...dn,
-          ...doneList
-        ]
+        doneItems: [...dn, ...doneList]
       }
     });
   };
@@ -170,22 +173,20 @@ class App extends Component {
     );
 
     let userId = this.state.currentUser;
+    let op = this.state[userId].openItems ? this.state[userId].openItems : [];
 
     this.setState({
       [userId]: {
         ...this.state[userId],
         doneItems: remainderList,
-        openItems: [
-          ...this.state[this.state.currentUser].openItems,
-          ...doneList
-        ]
+        openItems: [...op, ...doneList]
       }
     });
   };
 
-  handleRemove = (id, active) => {
+  handleRemove = (id, currentList) => {
     let itemClicked;
-    active === "open"
+    currentList === "open"
       ? (itemClicked = this.state[this.state.currentUser].openItems)
       : (itemClicked = this.state[this.state.currentUser].doneItems);
 
@@ -202,7 +203,7 @@ class App extends Component {
         return null;
       }
     });
-    active === "open"
+    currentList === "open"
       ? this.setState({
           [userId]: { ...this.state[userId], openItems: remainder }
         })
@@ -214,7 +215,7 @@ class App extends Component {
   render() {
     return (
       <>
-        {this.state.fb_loading && Helper.showLoader()}
+        {this.state.showLoading && Helper.showLoader()}
         <Header userId={this.state.identity} />
         <main className="">
           <div className="container-fluid">
@@ -225,22 +226,39 @@ class App extends Component {
                     <h4 className="card-title">Add Tasks</h4>
                     <form onSubmit={this.onSubmit}>
                       <input
+                        name="title"
                         type="text"
-                        className="form-control mb-3"
-                        value={this.state.term}
+                        className={
+                          "form-control mb-3" +
+                          (this.state.title.length === 50 ? " is-invalid" : "")
+                        }
+                        value={this.state.title}
                         onChange={this.onChange}
+                        maxLength="50"
+                      />
+                      <textarea
+                        name="details"
+                        className={
+                          "form-control mb-3" +
+                          (this.state.details.length >= this.state.maxLen
+                            ? " is-invalid"
+                            : "")
+                        }
+                        value={this.state.details}
+                        onChange={this.onChange}
+                        rows="4"
                       />
                       <button
                         className="btn btn-success mr-2"
                         disabled={
-                          this.state.term.trim().length === 0 ||
-                          this.state.term.trim().length > this.state.maxLen
+                          this.state.details.trim().length === 0 ||
+                          this.state.details.length > this.state.maxLen
                         }
                       >
                         Add
                       </button>
                       <span className="btn float-right disabled">
-                        {this.state.maxLen - this.state.term.length}
+                        {this.state.maxLen - this.state.details.length}
                       </span>
                     </form>
                     {this.overflowAlert()}

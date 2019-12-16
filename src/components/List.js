@@ -37,6 +37,7 @@ class List extends Component {
                 <h6 className="font-weight-bold">
                   {index + 1}. {item.title}
                 </h6>
+                <p>{item.details}</p>
               </div>
               <div className="btn-group btn-group-sm" role="group">
                 {this.props.btn1 ? (
@@ -69,8 +70,7 @@ class List extends Component {
                 {this.handleDate(item.time)}
               </span>
             </li>
-          ))
-        }
+          ))}
       </ul>
     );
   }
