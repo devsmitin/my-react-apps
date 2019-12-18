@@ -2,10 +2,12 @@
 // not much css right now.
 // if css increases more than 100 lines, it will be divided in multiple files and importerd here
 
-// html,
-// body {
-//   font-size: 14px;
-// }
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
+html,
+body {
+  font-family: "Roboto", sans-serif;
+}
 
 .btn:disabled {
   cursor: not-allowed;
@@ -36,4 +38,12 @@
   bottom: 0;
   background-color: rgba(#fff, 0.8);
   z-index: 99;
+}
+
+.card,
+.form-control,
+.btn,
+.btn-group > .btn,
+.list-group-item:nth-child(n) {
+  border-radius: 0;
 }
