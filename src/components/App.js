@@ -12,7 +12,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showLoading: true
+      showLoading: true,
+      showForm: false
     };
   }
 
@@ -76,6 +77,10 @@ class App extends Component {
   notif = (msg, title) => {
     // Helper.pushNotify(msg, title, "owl-72.png");
     // alert(msg);
+  };
+
+  showForm = () => {
+    this.setState({ showForm: !this.state.showForm });
   };
 
   onSubmit = (formTitle, formDetails) => {
@@ -215,10 +220,26 @@ class App extends Component {
               </div>
             </div>
           </div>
+          {this.state.showForm ? (
+            <div className="overlay">
+              <Form
+                hasClass="w-600 mx-auto shadow-lg"
+                submitForm={this.onSubmit}
+                closeForm={this.showForm}
+              />
+            </div>
+          ) : null}
+
+          <div className="fab-wrapper">
+            <button
+              className="btn btn-success shadow fab-btn"
+              type="button"
+              onClick={this.showForm}
+            >
+              +<span className="d-none">Add Task</span>
+            </button>
+          </div>
         </main>
-        <div className="overlay">
-          <Form hasClass="w-600 mx-auto shadow-lg" submitForm={this.onSubmit} />
-        </div>
       </>
     );
   }

@@ -80,6 +80,12 @@ class Form extends Component {
             >
               Add
             </button>
+            <button
+              className="btn btn-outline-secondary mr-2"
+              onClick={this.props.closeForm}
+            >
+              Cancel
+            </button>
             <span className="btn float-right disabled">
               {this.state.maxLen - this.state.details.length}
             </span>

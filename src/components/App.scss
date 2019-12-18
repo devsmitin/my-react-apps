@@ -15,7 +15,7 @@ body {
 
 .w-600 {
   width: 600px;
-  max-width: 100%;
+  max-width: 90%;
 }
 
 .scroll-list {
@@ -56,5 +56,27 @@ body {
   z-index: 99;
   justify-content: center;
   padding-top: 80px;
-  display: none;
+  // display: none;
+}
+
+.fab-wrapper {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  .fab-btn {
+    padding: 0;
+    height: 48px;
+    width: 48px;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 50%;
+  }
+  @media (min-width: 768px) {
+    bottom: 2rem;
+    right: 2rem;
+    .fab-btn {
+      height: 56px;
+      width: 56px;
+    }
+  }
 }
