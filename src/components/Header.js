@@ -17,7 +17,7 @@ class Header extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-3">
-        <a className="navbar-brand d-block mx-auto" href="/">
+        <a className="navbar-brand d-block mx-auto p-0" href="/">
           Navbar
         </a>
         <button
