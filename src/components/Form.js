@@ -40,11 +40,12 @@ class Form extends Component {
       title: "",
       details: ""
     });
+    this.props.closeForm();
   };
 
   render() {
     return (
-      <div className="card shadow-sm mb-3">
+      <div className={"card shadow-sm mb-3 " + this.props.hasClass}>
         <div className="card-body">
           <h4 className="card-title">Add Tasks</h4>
           <form onSubmit={this.handleSubmit}>
@@ -79,6 +80,12 @@ class Form extends Component {
               }
             >
               Add
+            </button>
+            <button
+              className="btn btn-outline-secondary mr-2"
+              onClick={this.props.closeForm}
+            >
+              Cancel
             </button>
             <span className="btn float-right disabled">
               {this.state.maxLen - this.state.details.length}
