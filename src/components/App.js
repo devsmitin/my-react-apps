@@ -68,14 +68,14 @@ class App extends Component {
           });
     });
     setTimeout(() => {
-      // this.notif("Data synced with your data on server", "Data sync finished!");
+      this.notif("Data synced with your data on server", "Data sync finished!");
       this.setState({ showLoading: false });
     }, 2000);
   };
 
   notif = (msg, title) => {
     Helper.pushNotify(msg, title, "owl-72.png");
-    alert(msg);
+    // alert(msg);
   };
 
   onSubmit = (formTitle, formDetails) => {
@@ -99,10 +99,7 @@ class App extends Component {
         if (index !== id) {
           return item;
         } else {
-          // this.notif(
-          //   item + " marked done successfully!",
-          //   "Completed!",
-          // );
+          this.notif(item + " marked done successfully!", "Completed!");
           return null;
         }
       }
@@ -129,10 +126,7 @@ class App extends Component {
         if (index !== id) {
           return item;
         } else {
-          // this.notif(
-          //   item + " added to open tasks successfully!",
-          //   "Added Back!",
-          // );
+          this.notif(item + " added to successfully!", "Added Back!");
           return null;
         }
       }
@@ -165,10 +159,7 @@ class App extends Component {
       if (index !== id) {
         return item;
       } else {
-        // this.notif(
-        //   item + " deleted successfully!",
-        //   "Deleted!",
-        // );
+        this.notif(item + " deleted successfully!", "Deleted!");
         return null;
       }
     });
