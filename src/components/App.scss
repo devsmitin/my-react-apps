@@ -13,11 +13,9 @@ body {
   cursor: not-allowed;
 }
 
-.container {
-  &.w-600 {
-    width: 600px;
-    max-width: 100%;
-  }
+.w-600 {
+  width: 600px;
+  max-width: 100%;
 }
 
 .scroll-list {
@@ -46,4 +44,17 @@ body {
 .btn-group > .btn,
 .list-group-item:nth-child(n) {
   border-radius: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(#fff, 0.8);
+  z-index: 99;
+  justify-content: center;
+  padding-top: 80px;
+  display: none;
 }

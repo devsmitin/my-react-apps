@@ -44,7 +44,7 @@ class Form extends Component {
 
   render() {
     return (
-      <div className="card shadow-sm mb-3">
+      <div className={"card shadow-sm mb-3 " + this.props.hasClass}>
         <div className="card-body">
           <h4 className="card-title">Add Tasks</h4>
           <form onSubmit={this.handleSubmit}>

@@ -1,7 +1,6 @@
 .navbar {
   height: 50px;
   @media (max-width: 991px) {
-    
     .navbar-collapse {
       position: fixed;
       width: 100%;
@@ -18,14 +17,14 @@
         transform: translateX(-100%);
       }
     }
-  
+
     .navbar-toggler {
       border: 0;
       height: 32px;
       width: 32px;
       padding: 0;
       position: absolute;
-      z-index: 999;
+      z-index: 98;
       outline: none;
       .toggle-icon {
         display: block;

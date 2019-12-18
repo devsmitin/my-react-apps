@@ -180,10 +180,7 @@ class App extends Component {
         <main className="">
           <div className="container-fluid">
             <div className="row">
-              <div className="col-md-12 col-xl-4">
-                <Form submitForm={this.onSubmit} />
-              </div>
-              <div className="col-md-6 col-xl-4">
+              <div className="col-md-4">
                 <List
                   title={"Open Tasks"}
                   items={
@@ -198,7 +195,10 @@ class App extends Component {
                   btn2Class={"danger"}
                 />
               </div>
-              <div className="col-md-6 col-xl-4">
+              <div className="col-md-4">
+                <List title={"Working Tasks"} />
+              </div>
+              <div className="col-md-4">
                 <List
                   title={"Completed Tasks"}
                   items={
@@ -216,6 +216,9 @@ class App extends Component {
             </div>
           </div>
         </main>
+        <div className="overlay">
+          <Form hasClass="w-600 mx-auto shadow-lg" submitForm={this.onSubmit} />
+        </div>
       </>
     );
   }
