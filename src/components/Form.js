@@ -40,6 +40,7 @@ class Form extends Component {
       title: "",
       details: ""
     });
+    this.props.closeForm();
   };
 
   render() {
