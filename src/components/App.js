@@ -3,6 +3,7 @@ import fire from "./fire";
 import * as Helper from "../Helper";
 
 import Header from "./Header";
+import Form from "./Form";
 import List from "./List";
 
 import "./App.scss";
@@ -11,9 +12,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
-      details: "",
-      maxLen: 240,
       showLoading: true
     };
   }
@@ -80,21 +78,10 @@ class App extends Component {
     alert(msg);
   };
 
-  onChange = event => {
-    // this.setState({ details: event.target.value });
-    console.log(event.target.name, event.target.value);
-
-    const value = event.target.value;
-    this.setState({
-      [event.target.name]: value
-    });
-  };
-
-  onSubmit = event => {
-    event.preventDefault();
+  onSubmit = (formTitle, formDetails) => {
     let obj = {
-      title: this.state.title.trim(),
-      details: this.state.details.trim(),
+      title: formTitle.trim(),
+      details: formDetails.trim(),
       time: Date.now()
     };
 
@@ -102,26 +89,8 @@ class App extends Component {
     let opn = this.state[userId].openItems ? this.state[userId].openItems : [];
 
     this.setState({
-      title: "",
-      details: "",
       [userId]: { ...this.state[userId], openItems: [...opn, obj] }
     });
-  };
-
-  overflowAlert = () => {
-    if (this.getRemainingChars() < 0) {
-      return (
-        <div className="alert alert-danger text-left mt-3 mb-0">
-          Description Too Long.
-        </div>
-      );
-    }
-    return "";
-  };
-
-  getRemainingChars = () => {
-    let chars = this.state.maxLen - this.state.details.length;
-    return chars;
   };
 
   handleDone = id => {
@@ -221,49 +190,7 @@ class App extends Component {
           <div className="container-fluid">
             <div className="row">
               <div className="col-md-12 col-xl-4">
-                <div className="card shadow-sm mb-3">
-                  <div className="card-body">
-                    <h4 className="card-title">Add Tasks</h4>
-                    <form onSubmit={this.onSubmit}>
-                      <input
-                        name="title"
-                        type="text"
-                        className={
-                          "form-control mb-3" +
-                          (this.state.title.length === 50 ? " is-invalid" : "")
-                        }
-                        value={this.state.title}
-                        onChange={this.onChange}
-                        maxLength="50"
-                      />
-                      <textarea
-                        name="details"
-                        className={
-                          "form-control mb-3" +
-                          (this.state.details.length >= this.state.maxLen
-                            ? " is-invalid"
-                            : "")
-                        }
-                        value={this.state.details}
-                        onChange={this.onChange}
-                        rows="4"
-                      />
-                      <button
-                        className="btn btn-success mr-2"
-                        disabled={
-                          this.state.details.trim().length === 0 ||
-                          this.state.details.length > this.state.maxLen
-                        }
-                      >
-                        Add
-                      </button>
-                      <span className="btn float-right disabled">
-                        {this.state.maxLen - this.state.details.length}
-                      </span>
-                    </form>
-                    {this.overflowAlert()}
-                  </div>
-                </div>
+                <Form submitForm={this.onSubmit} />
               </div>
               <div className="col-md-6 col-xl-4">
                 <List
