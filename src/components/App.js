@@ -74,7 +74,7 @@ class App extends Component {
   };
 
   notif = (msg, title) => {
-    Helper.pushNotify(msg, title, "owl-72.png");
+    // Helper.pushNotify(msg, title, "owl-72.png");
     // alert(msg);
   };
 
@@ -99,7 +99,7 @@ class App extends Component {
         if (index !== id) {
           return item;
         } else {
-          this.notif(item + " marked done successfully!", "Completed!");
+          this.notif(item.title + " marked done successfully!", "Completed!");
           return null;
         }
       }
@@ -126,7 +126,7 @@ class App extends Component {
         if (index !== id) {
           return item;
         } else {
-          this.notif(item + " added to successfully!", "Added Back!");
+          this.notif(item.title + " added to successfully!", "Added Back!");
           return null;
         }
       }
@@ -159,7 +159,7 @@ class App extends Component {
       if (index !== id) {
         return item;
       } else {
-        this.notif(item + " deleted successfully!", "Deleted!");
+        this.notif(item.title + " deleted successfully!", "Deleted!");
         return null;
       }
     });
