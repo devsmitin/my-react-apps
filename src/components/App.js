@@ -185,7 +185,7 @@ class App extends Component {
         <main className="">
           <div className="container-fluid">
             <div className="row">
-              <div className="col-md-4">
+              <div className="col-md">
                 <List
                   title={"Open Tasks"}
                   items={
@@ -200,10 +200,10 @@ class App extends Component {
                   btn2Class={"danger"}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-md d-none">
                 <List title={"Working Tasks"} />
               </div>
-              <div className="col-md-4">
+              <div className="col-md">
                 <List
                   title={"Completed Tasks"}
                   items={
