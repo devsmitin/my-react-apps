@@ -24,9 +24,14 @@ class List extends Component {
 
   render() {
     return (
-      <ul className="list-group mb-3 scroll-list">
-        <li className="list-group-item scroll-list-title">
-          <h5 className="mb-0">{this.props.title}</h5>
+      <ul className="list-group mb-2 mb-md-3">
+        <li className="list-group-item">
+          <h5 className="mb-0">
+            <strong>{this.props.title}</strong>
+            <span className="badge badge-secondary float-right">
+              {this.props.items ? this.props.items.length : 0}
+            </span>
+          </h5>
         </li>
 
         {/* {console.log(this.props)} */}
@@ -37,7 +42,7 @@ class List extends Component {
                 <h6 className="font-weight-bold">
                   {index + 1}. {item.title}
                 </h6>
-                <p>{item.details}</p>
+                <p className="details">{item.details}</p>
               </div>
               <div className="btn-group btn-group-sm" role="group">
                 {this.props.btn1 ? (
