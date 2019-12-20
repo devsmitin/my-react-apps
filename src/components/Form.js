@@ -59,6 +59,7 @@ class Form extends Component {
               value={this.state.title}
               onChange={this.onChange}
               maxLength="50"
+              placeholder="Title"
             />
             <textarea
               name="details"
@@ -71,10 +72,12 @@ class Form extends Component {
               value={this.state.details}
               onChange={this.onChange}
               rows="4"
+              placeholder="Description"
             />
             <button
               className="btn btn-success mr-2"
               disabled={
+                this.state.title.trim().length === 0 ||
                 this.state.details.trim().length === 0 ||
                 this.state.details.length > this.state.maxLen
               }

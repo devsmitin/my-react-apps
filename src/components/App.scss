@@ -9,33 +9,10 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+// override classes
+
 .btn:disabled {
   cursor: not-allowed;
-}
-
-.w-600 {
-  width: 600px;
-  max-width: 90%;
-}
-
-.scroll-list {
-  // max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  .scroll-list-title {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
-}
-
-.loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(#fff, 0.8);
-  z-index: 99;
 }
 
 .card,
@@ -46,6 +23,41 @@ body {
   border-radius: 0;
 }
 
+.form-control {
+  background-color: var(--light);
+}
+
+.container-fluid {
+  @media (max-width: 767px) {
+    padding: 0;
+    .no-gutters-xs {
+      margin-right: 0;
+      margin-left: 0;
+      > .col,
+      > [class*="col-"] {
+        padding-right: 0;
+        padding-left: 0;
+      }
+    }
+    .list-group-item {
+      border-left: 0;
+      border-right: 0;
+    }
+  }
+}
+
+// component classes
+
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(#fff, 0.8);
+  z-index: 9999;
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -53,7 +65,7 @@ body {
   right: 0;
   bottom: 0;
   background-color: rgba(#fff, 0.8);
-  z-index: 99;
+  z-index: 9998;
   justify-content: center;
   padding-top: 80px;
   // display: none;
@@ -63,6 +75,7 @@ body {
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
+  z-index: 99;
   .fab-btn {
     padding: 0;
     height: 48px;
@@ -79,4 +92,15 @@ body {
       width: 56px;
     }
   }
+}
+
+// specific classes
+
+.details {
+  white-space: pre-wrap;
+}
+
+.w-600 {
+  width: 600px;
+  max-width: 90%;
 }
