@@ -34,26 +34,21 @@ class Header extends Component {
           }
         >
           <ul className="navbar-nav ml-lg-auto">
-            <li className="nav-item">
-              <NavLink
-                className="nav-link"
-                exact
-                to="/"
-                onClick={this.toggleNav}
-              >
-                Home
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                className="nav-link"
-                exact
-                to="/test"
-                onClick={this.toggleNav}
-              >
-                Open Tasks
-              </NavLink>
-            </li>
+            {this.props.links &&
+              this.props.links.map((link, index) => {
+                return (
+                  <li className="nav-item" key={index}>
+                    <NavLink
+                      className="nav-link"
+                      exact
+                      to={link.to}
+                      onClick={this.toggleNav}
+                    >
+                      {link.title}
+                    </NavLink>
+                  </li>
+                );
+              })}
           </ul>
         </div>
       </nav>
