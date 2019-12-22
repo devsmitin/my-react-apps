@@ -111,7 +111,7 @@ class Welcome extends Component {
     return (
       <main className="">
         <div className="container-fluid text-center">
-          <h1 className="h3 my-3">Welcome Home!</h1>
+          <h1 className="h3 my-5">Welcome to {this.props.appname}!</h1>
           <button
             className={
               "btn btn-secondary rounded" +
@@ -123,14 +123,17 @@ class Welcome extends Component {
           </button>
           {this.state.weather ? (
             <div>
-              <h1 title="Current Temp">{this.state.weather.w_temp}&deg;C</h1>
+              <h1 title="Current Temp" className="display-4">
+                {this.state.weather.w_temp}
+                &deg;C
+              </h1>
               <h4>
                 {this.state.weather.w_location.city +
                   ", " +
                   this.state.weather.w_location.country}
               </h4>
               <h5>Feels like {this.state.weather.w_temp_feels}&deg;C</h5>
-              <h5>
+              <h5 className="text-capitalize">
                 {this.state.weather.w_desc}, Wind: {this.state.weather.w_wind}
               </h5>
             </div>

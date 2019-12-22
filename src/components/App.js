@@ -25,7 +25,11 @@ class App extends Component {
       <BrowserRouter>
         <Header title={this.state.apptitle} links={this.state.navlinks} />
         <Switch>
-          <Route exact path="/" component={Welcome} />
+          <Route
+            exact
+            path="/"
+            component={() => <Welcome appname={this.state.apptitle} />}
+          />
           <Route path="/tasker" component={Tasker} />
           <Route path="/reminder" component={Test} />
         </Switch>
