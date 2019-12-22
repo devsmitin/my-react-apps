@@ -2,9 +2,9 @@ import React from "react";
 
 const Test = () => {
   return (
-    <main className="">
+    <main className="text-center">
       <div className="container-fluid">
-        <h1>This is test component for routing</h1>
+        <h1>Coming Soon</h1>
       </div>
     </main>
   );
