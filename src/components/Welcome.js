@@ -31,8 +31,8 @@ class Welcome extends Component {
   getWeatherInfo = location => {
     const API_KEY = "3dc98cc5c53896bfed6db93c5b6a03a0";
 
-    // let apiEndPointForcast = "api.openweathermap.org/data/2.5/forecast?";
-    let apiEndPointNow = "http://api.openweathermap.org/data/2.5/weather";
+    // let apiEndPointForcast = "https://api.openweathermap.org/data/2.5/forecast?";
+    let apiEndPointNow = "https://api.openweathermap.org/data/2.5/weather";
     let queryString = `?lat=${location.latitude}&lon=${location.longitude}&appid=${API_KEY}&units=metric`;
 
     fetch(apiEndPointNow + queryString, {
@@ -111,7 +111,7 @@ class Welcome extends Component {
     return (
       <main className="">
         <div className="container-fluid text-center">
-          <h1 className="h3 mb-5">Welcome Home!</h1>
+          <h1 className="h3 my-3">Welcome Home!</h1>
           <button
             className={
               "btn btn-secondary rounded" +
