@@ -15,6 +15,15 @@ class Welcome extends Component {
     };
   }
 
+  componentDidMount() {
+    if (localStorage.getItem("react_user_weather")) {
+      let w_data = localStorage.getItem("react_user_weather");
+      this.setState({
+        weather: w_data
+      });
+    }
+  }
+
   notif = (msg, title) => {
     Helper.pushNotify(msg, title, "owl-72.png");
   };
@@ -41,18 +50,20 @@ class Welcome extends Component {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        this.setState({
-          weather: {
-            w_temp: data.main.temp,
-            w_temp_feels: data.main.feels_like,
-            w_desc: data.weather[0].description,
-            w_wind: data.wind.speed + "km/h",
-            w_location: {
-              city: data.name,
-              country: data.sys.country
-            }
+        let w_data = {
+          w_temp: data.main.temp,
+          w_temp_feels: data.main.feels_like,
+          w_desc: data.weather[0].description,
+          w_wind: data.wind.speed + "km/h",
+          w_location: {
+            city: data.name,
+            country: data.sys.country
           }
+        };
+        this.setState({
+          weather: w_data
         });
+        localStorage.setItem("react_user_weather", w_data);
       })
       .catch(err => {
         this.notif("There was an error. Please try again later", "Error!");
