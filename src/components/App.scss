@@ -16,15 +16,21 @@ body {
 }
 
 .card,
-.form-control,
 .btn,
-.btn-group > .btn,
-.list-group-item:nth-child(n) {
-  border-radius: 0;
+.btn-group > .btn {
+  border-radius: 3px;
 }
 
 .form-control {
-  background-color: var(--light);
+  // background-color: var(--light);
+  border-width: 0 0 2px 0;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  border-radius: 0;
+  outline: none;
+  &:focus {
+    box-shadow: none;
+  }
 }
 
 .container-fluid {

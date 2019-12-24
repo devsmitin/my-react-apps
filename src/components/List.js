@@ -1,25 +1,9 @@
 import React, { Component } from "react";
+import * as Helper from "../Helper";
 
 class List extends Component {
-  handleDate = (date, length) => {
-    let d = new Date(date);
-    let strDate;
-    length === "full"
-      ? (strDate =
-          d.getDate() +
-          "/" +
-          (d.getMonth() + 1) +
-          "/" +
-          d.getFullYear() +
-          " " +
-          d.getHours() +
-          ":" +
-          d.getMinutes() +
-          ":" +
-          d.getSeconds())
-      : (strDate =
-          d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear());
-    return strDate;
+  handleDate = (time, format) => {
+    return Helper.handleDate(time, format);
   };
 
   render() {
@@ -45,7 +29,7 @@ class List extends Component {
                 <p className="details">{item.details}</p>
               </div>
               <div className="btn-group btn-group-sm" role="group">
-                {this.props.btn1 ? (
+                {this.props.btn1 && (
                   <button
                     type="button"
                     className={"btn btn-" + this.props.btn1Class}
@@ -53,10 +37,8 @@ class List extends Component {
                   >
                     {this.props.btn1Title}
                   </button>
-                ) : (
-                  ""
                 )}
-                {this.props.btn2 ? (
+                {this.props.btn2 && (
                   <button
                     type="button"
                     className={"btn btn-" + this.props.btn2Class}
@@ -64,15 +46,13 @@ class List extends Component {
                   >
                     {this.props.btn2Title}
                   </button>
-                ) : (
-                  ""
                 )}
               </div>
               <span
                 className="btn btn-sm float-right disabled"
-                title={this.handleDate(item.time, "full")}
+                title={this.handleDate(item.time)}
               >
-                {this.handleDate(item.time)}
+                {this.handleDate(item.time, "dd/mm/yyyy")}
               </span>
             </li>
           ))}

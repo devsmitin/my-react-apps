@@ -9,6 +9,7 @@ export function pushNotify(msg, title, i) {
       });
     });
   }
+  console.log(msg);
 }
 
 export function showLoader(show) {
@@ -19,4 +20,45 @@ export function showLoader(show) {
       </div>
     </div>
   ) : null;
+}
+
+export function handleDate(timestamp, format) {
+  let time = new Date(timestamp);
+  const formatNumber = n => ("0" + n).slice(-2);
+
+  let date = time.getDate(),
+    month = time.getMonth() + 1,
+    year = time.getFullYear(),
+    hours = formatNumber(time.getHours()),
+    min = formatNumber(time.getMinutes()),
+    sec = formatNumber(time.getSeconds()),
+    strOut;
+
+  switch (format) {
+    case "dd/mm/yyyy":
+      strOut = date + "/" + month + "/" + year;
+      break;
+    case "mm/dd/yyyy":
+      strOut = month + "/" + date + "/" + year;
+      break;
+    case "dd-mm-yyyy":
+      strOut = date + "-" + month + "-" + year;
+      break;
+    case "mm-dd-yyyy":
+      strOut = month + "-" + date + "-" + year;
+      break;
+    case "HH:mm":
+      strOut = hours + ":" + min;
+      break;
+    default:
+      strOut =
+        date + "/" + month + "/" + year + " " + hours + ":" + min + ":" + sec;
+      break;
+  }
+  return strOut;
+}
+
+export function handleDateDiff(newTimestamp, oldTimestamp, diffIn) {
+  var diff = newTimestamp - oldTimestamp;
+  return diff / 60000;
 }
