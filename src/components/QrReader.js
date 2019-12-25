@@ -11,12 +11,18 @@ class QrReader extends Component {
   }
 
   handleScan = data => {
-    if (data && data.substring(0, 4) === "usr_") {
-      this.setState({
-        result: data
-      });
-      this.props.getCode(data);
-      this.props.closeScanner();
+    if (data) {
+      if (data.substring(0, 4) === "usr_") {
+        this.setState({
+          result: data
+        });
+        this.props.getCode(data);
+        this.props.closeScanner();
+      } else {
+        this.setState({
+          result: "Invalid QR code: " + data
+        });
+      }
     }
   };
 
