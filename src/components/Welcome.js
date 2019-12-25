@@ -32,10 +32,10 @@ class Welcome extends Component {
     const API_KEY = "3dc98cc5c53896bfed6db93c5b6a03a0";
 
     // let apiEndPointForcast = "https://api.openweathermap.org/data/2.5/forecast?";
-    let apiEndPointNow = "https://api.openweathermap.org/data/2.5/weather";
+    let apiEndPoint = "https://api.openweathermap.org/data/2.5/weather";
     let queryString = `?lat=${location.latitude}&lon=${location.longitude}&appid=${API_KEY}&units=metric`;
 
-    fetch(apiEndPointNow + queryString, {
+    fetch(apiEndPoint + queryString, {
       method: "GET"
     })
       .then(response => response.json())

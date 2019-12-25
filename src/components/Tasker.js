@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+// import axios from "axios";
 import fire from "./fire";
 import * as Helper from "../Helper";
 
+import QrReader from "./QrReader";
 import Form from "./Form";
 import List from "./List";
 
@@ -11,12 +13,17 @@ class Tasker extends Component {
     this.state = {
       apptitle: "Task Manager",
       showLoading: true,
-      showForm: false
+      showForm: false,
+      showAuth: false
     };
   }
 
+  checkDevice = () => {
+    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    return isMobile;
+  };
+
   componentDidMount() {
-    const timeNow = Date.now();
     let user;
     if (localStorage.getItem("react_user")) {
       user = localStorage.getItem("react_user");
@@ -27,16 +34,62 @@ class Tasker extends Component {
         const dataRef = fire.database().ref(user);
         this.getUserData(dataRef, user);
       }, 1000);
+      this.setUserImg(user);
     } else {
-      user = "usr_" + timeNow;
-      localStorage.setItem("react_user", user);
       this.setState({
-        currentUser: user,
         showLoading: false,
-        [user]: {}
+        showAuth: true
       });
     }
   }
+
+  setUserImg = user => {
+    if (!this.checkDevice() && user !== undefined) {
+      let qrProvider = "https://api.qrserver.com/v1/create-qr-code/";
+      let queryString = `?data=${user}&size=256x256`;
+      this.setState({
+        userImg: qrProvider + queryString
+      });
+    }
+  };
+
+  showAuthScreen = () => {
+    return (
+      <div className="overlay text-center">
+        <button
+          className="btn btn-secondary m-2"
+          type="button"
+          onClick={this.showScanner}
+        >
+          Login Using QR Code
+        </button>
+        <button
+          className="btn btn-secondary m-2"
+          type="button"
+          onClick={this.setNewUser}
+        >
+          New User
+        </button>
+      </div>
+    );
+  };
+
+  setNewUser = () => {
+    let user;
+    const timeNow = Date.now();
+    user = "usr_" + timeNow;
+    localStorage.setItem("react_user", user);
+    this.setState({
+      currentUser: user,
+      showLoading: false,
+      showAuth: false,
+      [user]: {}
+    });
+  };
+
+  showScanner = () => {
+    this.setState({ scanCode: !this.state.scanCode });
+  };
 
   componentDidUpdate = prevState => {
     let userId = this.state.currentUser;
@@ -57,7 +110,6 @@ class Tasker extends Component {
   getUserData = (ref, refData) => {
     ref.on("value", snapshot => {
       let items = snapshot.val();
-
       items
         ? this.setState({
             [refData]: items
@@ -93,6 +145,20 @@ class Tasker extends Component {
     this.setState({
       [userId]: { ...this.state[userId], openItems: [...oi, obj] }
     });
+  };
+
+  onScan = userCode => {
+    this.setState({
+      currentUser: userCode,
+      showAuth: false,
+      showLoading: true
+    });
+    localStorage.setItem("react_user", userCode);
+    setTimeout(() => {
+      const dataRef = fire.database().ref(userCode);
+      this.getUserData(dataRef, userCode);
+    }, 1000);
+    this.setUserImg(userCode);
   };
 
   handleDone = id => {
@@ -178,6 +244,7 @@ class Tasker extends Component {
     return (
       <>
         {this.state.showLoading && Helper.showLoader()}
+        {this.state.showAuth && this.showAuthScreen()}
         <main className="">
           <div className="container-fluid">
             <div className="row no-gutters-xs">
@@ -196,9 +263,6 @@ class Tasker extends Component {
                   btn2Class={"danger"}
                 />
               </div>
-              <div className="col-md d-none">
-                <List title={"Working Tasks"} />
-              </div>
               <div className="col-md">
                 <List
                   title={"Completed Tasks"}
@@ -214,17 +278,24 @@ class Tasker extends Component {
                   btn2Class={"danger"}
                 />
               </div>
+              {!this.checkDevice() && (
+                <div className="col-md">
+                  <div className="card text-center">
+                    <div className="card-body">
+                      <h6 className="font-weight-bold mb-3">
+                        QR code for mobile login
+                      </h6>
+                      <img
+                        src={this.state.userImg}
+                        alt={this.state.currentUser}
+                        className="border p-2 bg-white shadow-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          {this.state.showForm ? (
-            <div className="overlay">
-              <Form
-                hasClass="w-600 mx-auto shadow-lg"
-                submitForm={this.onSubmit}
-                closeForm={this.showForm}
-              />
-            </div>
-          ) : null}
 
           <div className="fab-wrapper">
             <button
@@ -235,6 +306,27 @@ class Tasker extends Component {
               +<span className="d-none">Add Task</span>
             </button>
           </div>
+
+          {this.state.scanCode && (
+            <div className="overlay">
+              <div className="w-300 mx-auto">
+                <QrReader
+                  getCode={this.onScan}
+                  closeScanner={this.showScanner}
+                />
+              </div>
+            </div>
+          )}
+
+          {this.state.showForm && (
+            <div className="overlay">
+              <Form
+                hasClass="w-600 mx-auto shadow-lg"
+                submitForm={this.onSubmit}
+                closeForm={this.showForm}
+              />
+            </div>
+          )}
         </main>
       </>
     );
