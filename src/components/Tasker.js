@@ -30,10 +30,14 @@ class Tasker extends Component {
       }, 1000);
       this.setUserImg(user);
     } else {
-      this.setState({
-        showLoading: false,
-        showAuth: true
-      });
+      if (Helper.checkDevice()) {
+        this.setState({
+          showLoading: false,
+          showAuth: true
+        });
+      } else {
+        this.setNewUser();
+      }
     }
   }
 
@@ -124,6 +128,7 @@ class Tasker extends Component {
       showAuth: false,
       [user]: {}
     });
+    this.setUserImg(user);
   };
 
   setUserImg = user => {

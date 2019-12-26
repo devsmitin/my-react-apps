@@ -17,7 +17,7 @@ class App extends Component {
       navlinks: [
         { title: "Home", to: "/" },
         { title: "Tasker", to: "/tasker" },
-        { title: "Product", to: "/product" },
+        // { title: "Product", to: "/product" },
         { title: "Reminder", to: "/reminder" }
       ]
     };
