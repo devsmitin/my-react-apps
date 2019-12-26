@@ -60,5 +60,13 @@ export function handleDate(timestamp, format) {
 
 export function handleDateDiff(newTimestamp, oldTimestamp, diffIn) {
   var diff = newTimestamp - oldTimestamp;
-  return diff / 60000;
+  if (diffIn === "mins") {
+    return diff / 60000;
+  }
+  return diff / 1;
+}
+
+export function checkDevice() {
+  let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  return isMobile;
 }

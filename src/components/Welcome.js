@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import * as Helper from "../Helper";
+import axios from "axios";
 
+import * as Helper from "../Helper";
 // import "./Weather.scss";
 
 class Welcome extends Component {
@@ -35,10 +36,9 @@ class Welcome extends Component {
     let apiEndPoint = "https://api.openweathermap.org/data/2.5/weather";
     let queryString = `?lat=${location.latitude}&lon=${location.longitude}&appid=${API_KEY}&units=metric`;
 
-    fetch(apiEndPoint + queryString, {
-      method: "GET"
-    })
-      .then(response => response.json())
+    axios
+      .get(apiEndPoint + queryString)
+      .then(response => response.data)
       .then(data => {
         // console.log(data);
         let w_data = {
@@ -65,17 +65,23 @@ class Welcome extends Component {
 
   getLocationName = location => {
     let apiEndPoint = "https://geocodeapi.p.rapidapi.com/GetNearestCities";
-    let queryString = `?latitude=${location.latitude}&longitude=${location.longitude}&range=0`;
-    fetch(apiEndPoint + queryString, {
-      method: "GET",
-      headers: {
-        "x-rapidapi-host": "geocodeapi.p.rapidapi.com",
-        "x-rapidapi-key": "37144eb94cmsh0830bdd3832cd1bp1160bcjsn0d0ecd6d1400"
-      }
-    })
-      .then(response => response.json())
+    axios
+      .get(apiEndPoint, {
+        headers: {
+          "content-type": "application/octet-stream",
+          "x-rapidapi-host": "geocodeapi.p.rapidapi.com",
+          "x-rapidapi-key": "37144eb94cmsh0830bdd3832cd1bp1160bcjsn0d0ecd6d1400"
+        },
+        params: {
+          latitude: location.latitude,
+          longitude: location.longitude,
+          range: "0"
+        }
+      })
+      .then(response => response.data)
       .then(data => {
-        this.setLocation(data[0]);
+        console.log(data[0]);
+        // this.setLocation(data[0]);
       })
       .catch(err => {
         this.notif("There was an error. Please try again later", "Error!");
@@ -151,10 +157,20 @@ class Welcome extends Component {
               <h5 className="text-capitalize">
                 {this.state.weather.w_desc}, Wind: {this.state.weather.w_wind}
               </h5>
-              <span>
+              <p className="mb-1">
                 Checked at:{" "}
                 {Helper.handleDate(this.state.weather.w_time, "HH:mm")}
-              </span>
+              </p>
+              <p>
+                {parseInt(
+                  Helper.handleDateDiff(
+                    Date.now(),
+                    this.state.weather.w_time,
+                    "mins"
+                  )
+                )}{" "}
+                min ago
+              </p>
             </div>
           )}
           <button

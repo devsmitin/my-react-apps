@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+import "./App.scss";
+
 import Header from "./Header";
 import Tasker from "./Tasker";
 import Welcome from "./Welcome";
+import Product from "./Product";
 import Test from "./Test";
-
-import "./App.scss";
 
 class App extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class App extends Component {
       navlinks: [
         { title: "Home", to: "/" },
         { title: "Tasker", to: "/tasker" },
+        { title: "Product", to: "/product" },
         { title: "Reminder", to: "/reminder" }
       ]
     };
@@ -31,6 +33,7 @@ class App extends Component {
             component={() => <Welcome appname={this.state.apptitle} />}
           />
           <Route path="/tasker" component={Tasker} />
+          <Route path="/product" component={Product} />
           <Route path="/reminder" component={Test} />
         </Switch>
       </BrowserRouter>
