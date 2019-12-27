@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import axios from "axios";
 import fire from "./fire";
 import * as Helper from "../Helper";
 
@@ -18,11 +17,6 @@ class Tasker extends Component {
     };
   }
 
-  checkDevice = () => {
-    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    return isMobile;
-  };
-
   componentDidMount() {
     let user;
     if (localStorage.getItem("react_user")) {
@@ -36,21 +30,52 @@ class Tasker extends Component {
       }, 1000);
       this.setUserImg(user);
     } else {
-      this.setState({
-        showLoading: false,
-        showAuth: true
-      });
+      if (Helper.checkDevice()) {
+        this.setState({
+          showLoading: false,
+          showAuth: true
+        });
+      } else {
+        this.setNewUser();
+      }
     }
   }
 
-  setUserImg = user => {
-    if (!this.checkDevice() && user !== undefined) {
-      let qrProvider = "https://api.qrserver.com/v1/create-qr-code/";
-      let queryString = `?data=${user}&size=256x256`;
-      this.setState({
-        userImg: qrProvider + queryString
-      });
+  componentDidUpdate = prevState => {
+    let userId = this.state.currentUser;
+    let userData = this.state[userId];
+    let userDataOld = prevState[userId];
+    if (userData !== userDataOld) {
+      this.writeUserData(userId, userData);
     }
+  };
+
+  getUserData = (ref, refData) => {
+    ref.on("value", snapshot => {
+      let items = snapshot.val();
+      items
+        ? this.setState({
+            [refData]: items
+          })
+        : this.setState({
+            [refData]: {}
+          });
+    });
+    setTimeout(() => {
+      this.notif("Data synced with your data on server", "Data sync finished!");
+      this.setState({ showLoading: false });
+    }, 2000);
+  };
+
+  writeUserData = (ref, refdata) => {
+    fire
+      .database()
+      .ref(ref)
+      .set(refdata);
+  };
+
+  notif = (msg, title) => {
+    // Helper.pushNotify(msg, title, "owl-72.png");
   };
 
   showAuthScreen = () => {
@@ -74,6 +99,24 @@ class Tasker extends Component {
     );
   };
 
+  showScanner = () => {
+    this.setState({ scanCode: !this.state.scanCode });
+  };
+
+  onScan = userCode => {
+    this.setState({
+      currentUser: userCode,
+      showAuth: false,
+      showLoading: true
+    });
+    localStorage.setItem("react_user", userCode);
+    setTimeout(() => {
+      const dataRef = fire.database().ref(userCode);
+      this.getUserData(dataRef, userCode);
+    }, 1000);
+    this.setUserImg(userCode);
+  };
+
   setNewUser = () => {
     let user;
     const timeNow = Date.now();
@@ -85,47 +128,17 @@ class Tasker extends Component {
       showAuth: false,
       [user]: {}
     });
+    this.setUserImg(user);
   };
 
-  showScanner = () => {
-    this.setState({ scanCode: !this.state.scanCode });
-  };
-
-  componentDidUpdate = prevState => {
-    let userId = this.state.currentUser;
-    let userData = this.state[userId];
-    let userDataOld = prevState[userId];
-    if (userData !== userDataOld) {
-      this.writeUserData(userId, userData);
+  setUserImg = user => {
+    if (!Helper.checkDevice() && user !== undefined) {
+      let qrProvider = "https://api.qrserver.com/v1/create-qr-code/";
+      let queryString = `?data=${user}&size=256x256`;
+      this.setState({
+        userImg: qrProvider + queryString
+      });
     }
-  };
-
-  writeUserData = (ref, refdata) => {
-    fire
-      .database()
-      .ref(ref)
-      .set(refdata);
-  };
-
-  getUserData = (ref, refData) => {
-    ref.on("value", snapshot => {
-      let items = snapshot.val();
-      items
-        ? this.setState({
-            [refData]: items
-          })
-        : this.setState({
-            [refData]: {}
-          });
-    });
-    setTimeout(() => {
-      this.notif("Data synced with your data on server", "Data sync finished!");
-      this.setState({ showLoading: false });
-    }, 2000);
-  };
-
-  notif = (msg, title) => {
-    // Helper.pushNotify(msg, title, "owl-72.png");
   };
 
   showForm = () => {
@@ -145,20 +158,6 @@ class Tasker extends Component {
     this.setState({
       [userId]: { ...this.state[userId], openItems: [...oi, obj] }
     });
-  };
-
-  onScan = userCode => {
-    this.setState({
-      currentUser: userCode,
-      showAuth: false,
-      showLoading: true
-    });
-    localStorage.setItem("react_user", userCode);
-    setTimeout(() => {
-      const dataRef = fire.database().ref(userCode);
-      this.getUserData(dataRef, userCode);
-    }, 1000);
-    this.setUserImg(userCode);
   };
 
   handleDone = id => {
@@ -278,7 +277,7 @@ class Tasker extends Component {
                   btn2Class={"danger"}
                 />
               </div>
-              {!this.checkDevice() && (
+              {!Helper.checkDevice() && (
                 <div className="col-md">
                   <div className="card text-center">
                     <div className="card-body">

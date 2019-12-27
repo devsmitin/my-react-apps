@@ -16,9 +16,11 @@ class QrReader extends Component {
         this.setState({
           result: data
         });
+        navigator.vibrate(50);
         this.props.getCode(data);
         this.props.closeScanner();
       } else {
+        navigator.vibrate([50, 50]);
         this.setState({
           result: "Invalid QR code: " + data
         });
