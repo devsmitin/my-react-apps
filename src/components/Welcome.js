@@ -137,15 +137,16 @@ class Welcome extends Component {
     let img_url = this.state.unsplash_img
       ? this.state.unsplash_img.urls.raw
       : "";
+    let format = "webp";
+    let width = window.innerWidth;
     return (
       <main className="">
         <div className="container-fluid">
           {/* <h1 className="h3 my-5">Welcome to {this.props.appname}!</h1> */}
-
           <div
             className="weather-img"
             style={{
-              backgroundImage: "url(" + img_url + "&fm=webp&w=768&q=50)"
+              backgroundImage: `url(${img_url}&fm=${format}&w=${width}&q=50)`
             }}
           />
 
