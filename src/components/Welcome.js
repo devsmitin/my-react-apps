@@ -23,10 +23,40 @@ class Welcome extends Component {
         weather: w_data
       });
     }
+    if (localStorage.getItem("react_user_background")) {
+      let data = JSON.parse(localStorage.getItem("react_user_background"));
+      this.setState({
+        unsplash_img: data
+      });
+    }
   }
 
   notif = (msg, title) => {
     Helper.pushNotify(msg, title, "owl-72.png");
+  };
+
+  getRandomPhoto = () => {
+    const API_KEY =
+      "cd1ba1edce7d302607850f0bfd96f3220a70eec97b0aced1476398ca880d1a09";
+
+    let term = "snow, nature";
+    let apiEndPoint = "https://api.unsplash.com/photos/random";
+    axios
+      .get(apiEndPoint, {
+        params: { query: term },
+        headers: {
+          Authorization: "Client-ID " + API_KEY
+        }
+      })
+      .then(response => response.data)
+      .then(data => {
+        data.fetchedAt = Date.now();
+        this.setState({ unsplash_img: data });
+        localStorage.setItem("react_user_background", JSON.stringify(data));
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   getWeatherInfo = location => {
@@ -56,6 +86,7 @@ class Welcome extends Component {
           weather: w_data
         });
         localStorage.setItem("react_user_weather", JSON.stringify(w_data));
+        this.getRandomPhoto();
       })
       .catch(err => {
         this.notif("There was an error. Please try again later", "Error!");
@@ -63,40 +94,6 @@ class Welcome extends Component {
       });
   };
 
-  getLocationName = location => {
-    let apiEndPoint = "https://geocodeapi.p.rapidapi.com/GetNearestCities";
-    axios
-      .get(apiEndPoint, {
-        headers: {
-          "content-type": "application/octet-stream",
-          "x-rapidapi-host": "geocodeapi.p.rapidapi.com",
-          "x-rapidapi-key": "37144eb94cmsh0830bdd3832cd1bp1160bcjsn0d0ecd6d1400"
-        },
-        params: {
-          latitude: location.latitude,
-          longitude: location.longitude,
-          range: "0"
-        }
-      })
-      .then(response => response.data)
-      .then(data => {
-        console.log(data[0]);
-        // this.setLocation(data[0]);
-      })
-      .catch(err => {
-        this.notif("There was an error. Please try again later", "Error!");
-        console.log(err);
-      });
-  };
-
-  setLocation = data => {
-    this.setState({
-      location: {
-        city: data.City,
-        country: data.Country
-      }
-    });
-  };
   getLocation = () => {
     if (!navigator.geolocation) {
       console.log("Browser does not support notifications.");
@@ -105,7 +102,6 @@ class Welcome extends Component {
 
       let geoSuccess = position => {
         let currentPostion = position.coords;
-        // this.getLocationName(currentPostion);
         this.getWeatherInfo(currentPostion);
       };
       let geoError = error => {
@@ -136,16 +132,27 @@ class Welcome extends Component {
       );
     }
   };
+
   render() {
+    let img_url = this.state.unsplash_img
+      ? this.state.unsplash_img.urls.raw
+      : "";
     return (
       <main className="">
-        <div className="container-fluid text-center">
-          <h1 className="h3 my-5">Welcome to {this.props.appname}!</h1>
+        <div className="container-fluid">
+          {/* <h1 className="h3 my-5">Welcome to {this.props.appname}!</h1> */}
+
+          <div
+            className="weather-img"
+            style={{
+              backgroundImage: "url(" + img_url + "&fm=webp&w=768&q=50)"
+            }}
+          />
 
           {this.state.weather && (
-            <div className="mb-4">
+            <div className="mt-5 weather-result">
               <h1 title="Current Temp" className="display-4">
-                {this.state.weather.w_temp}
+                {this.state.weather.w_temp.toFixed(1)}
                 &deg;C
               </h1>
               <h4>
@@ -153,7 +160,10 @@ class Welcome extends Component {
                   ", " +
                   this.state.weather.w_location.country}
               </h4>
-              <h5>Feels like {this.state.weather.w_temp_feels}&deg;C</h5>
+              <h5>
+                Feels like {this.state.weather.w_temp_feels.toFixed(1)}
+                &deg;C
+              </h5>
               <h5 className="text-capitalize">
                 {this.state.weather.w_desc}, Wind: {this.state.weather.w_wind}
               </h5>
@@ -162,33 +172,23 @@ class Welcome extends Component {
                 {Helper.handleDate(this.state.weather.w_time, "HH:mm")}
               </p>
               <p>
-                {parseInt(
-                  Helper.handleDateDiff(
-                    Date.now(),
-                    this.state.weather.w_time,
-                    "mins"
-                  )
-                )}{" "}
+                {
+                  Helper.handleDateDiff(Date.now(), this.state.weather.w_time)
+                    .minuits
+                }{" "}
                 min ago
               </p>
+              {Helper.handleDateDiff(Date.now(), this.state.weather.w_time)
+                .minuits > 5 ? (
+                <button
+                  className="btn btn-secondary rounded position-relative"
+                  onClick={this.getLocation}
+                >
+                  Check Weather
+                </button>
+              ) : null}
             </div>
           )}
-          <button
-            className={
-              "btn btn-secondary rounded" +
-              (this.state.weather &&
-              Helper.handleDateDiff(
-                Date.now(),
-                this.state.weather.w_time,
-                "mins"
-              ) < 5
-                ? " d-none"
-                : "")
-            }
-            onClick={this.getLocation}
-          >
-            Check Weather
-          </button>
         </div>
       </main>
     );

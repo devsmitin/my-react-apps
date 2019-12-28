@@ -18,7 +18,7 @@ class Header extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-2 mb-md-3 sticky-top">
-        <NavLink className="navbar-brand d-block mx-auto p-0" exact to="/">
+        <NavLink className="navbar-brand p-0" exact to="/">
           {this.props.title}
         </NavLink>
         <button

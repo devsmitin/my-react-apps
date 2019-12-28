@@ -58,15 +58,58 @@ export function handleDate(timestamp, format) {
   return strOut;
 }
 
-export function handleDateDiff(newTimestamp, oldTimestamp, diffIn) {
-  var diff = newTimestamp - oldTimestamp;
-  if (diffIn === "mins") {
-    return diff / 60000;
-  }
-  return diff / 1;
+export function handleDateDiff(newTimestamp, oldTimestamp) {
+  let msDiff = newTimestamp - oldTimestamp;
+  let secDiff = msDiff / 1000;
+  let minDiff = secDiff / 60;
+  let hrDiff = minDiff / 60;
+  let diffObj = {
+    ms: parseInt(msDiff),
+    seconds: parseInt(secDiff),
+    minuits: parseInt(minDiff),
+    hours: parseInt(hrDiff)
+  };
+  return diffObj;
 }
 
 export function checkDevice() {
   let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   return isMobile;
 }
+
+// useless fun
+
+// getLocationName = location => {
+//   let apiEndPoint = "https://geocodeapi.p.rapidapi.com/GetNearestCities";
+//   axios
+//     .get(apiEndPoint, {
+//       headers: {
+//         "content-type": "application/octet-stream",
+//         "x-rapidapi-host": "geocodeapi.p.rapidapi.com",
+//         "x-rapidapi-key": "37144eb94cmsh0830bdd3832cd1bp1160bcjsn0d0ecd6d1400"
+//       },
+//       params: {
+//         latitude: location.latitude,
+//         longitude: location.longitude,
+//         range: "0"
+//       }
+//     })
+//     .then(response => response.data)
+//     .then(data => {
+//       console.log(data[0]);
+//       // this.setLocation(data[0]);
+//     })
+//     .catch(err => {
+//       this.notif("There was an error. Please try again later", "Error!");
+//       console.log(err);
+//     });
+// };
+
+// setLocation = data => {
+//   this.setState({
+//     location: {
+//       city: data.City,
+//       country: data.Country
+//     }
+//   });
+// };
