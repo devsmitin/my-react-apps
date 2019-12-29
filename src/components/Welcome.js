@@ -138,7 +138,7 @@ class Welcome extends Component {
       ? this.state.unsplash_img.urls.raw
       : "";
     let format = "webp";
-    let width = window.innerWidth;
+    let width = window.innerWidth > 1080 ? window.innerWidth : 1080;
     return (
       <main className="">
         <div className="container-fluid">
