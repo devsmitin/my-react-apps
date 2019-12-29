@@ -14,6 +14,7 @@ class Welcome extends Component {
         enableHighAccuracy: true
       }
     };
+    this.intervalID = 0;
   }
 
   componentDidMount() {
@@ -29,6 +30,15 @@ class Welcome extends Component {
         unsplash_img: data
       });
     }
+    this.intervalID = setInterval(() => {
+      this.setState({
+        timeAgo: this.countDown()
+      });
+    }, 10 * 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
   }
 
   notif = (msg, title) => {
@@ -133,16 +143,24 @@ class Welcome extends Component {
     }
   };
 
+  countDown = () => {
+    if (this.state.weather) {
+      let i = Helper.handleDateDiff(Date.now(), this.state.weather.w_time)
+        .minuits;
+      return i;
+    }
+  };
+
   render() {
     let img_url = this.state.unsplash_img
       ? this.state.unsplash_img.urls.raw
       : "";
     let format = "webp";
-    let width = window.innerWidth;
+    let width = window.innerWidth > 1080 ? window.innerWidth : 1080;
+    let fap = this.state.timeAgo ? this.state.timeAgo : this.countDown();
     return (
       <main className="">
         <div className="container-fluid">
-          {/* <h1 className="h3 my-5">Welcome to {this.props.appname}!</h1> */}
           <div
             className="weather-img"
             style={{
@@ -151,7 +169,7 @@ class Welcome extends Component {
           />
 
           {this.state.weather && (
-            <div className="mt-5 weather-result">
+            <div className="weather-result">
               <h1 title="Current Temp" className="display-4">
                 {this.state.weather.w_temp.toFixed(1)}
                 &deg;C
@@ -169,18 +187,11 @@ class Welcome extends Component {
                 {this.state.weather.w_desc}, Wind: {this.state.weather.w_wind}
               </h5>
               <p className="mb-1">
-                Checked at:{" "}
-                {Helper.handleDate(this.state.weather.w_time, "HH:mm")}
+                {"Checked at: " +
+                  Helper.handleDate(this.state.weather.w_time, "HH:mm")}
               </p>
-              <p>
-                {
-                  Helper.handleDateDiff(Date.now(), this.state.weather.w_time)
-                    .minuits
-                }{" "}
-                min ago
-              </p>
-              {Helper.handleDateDiff(Date.now(), this.state.weather.w_time)
-                .minuits > 5 ? (
+              <p>{fap + " min ago"}</p>
+              {fap > 9 ? (
                 <button
                   className="btn btn-secondary rounded position-relative"
                   onClick={this.getLocation}
