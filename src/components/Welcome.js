@@ -168,7 +168,7 @@ class Welcome extends Component {
             }}
           />
 
-          {this.state.weather && (
+          {this.state.weather ? (
             <div className="weather-result">
               <h1 title="Current Temp" className="display-4">
                 {this.state.weather.w_temp.toFixed(1)}
@@ -199,6 +199,15 @@ class Welcome extends Component {
                   Check Weather
                 </button>
               ) : null}
+            </div>
+          ) : (
+            <div className="text-center">
+              <button
+                className="btn btn-secondary rounded position-relative"
+                onClick={this.getLocation}
+              >
+                Check Weather
+              </button>
             </div>
           )}
         </div>
