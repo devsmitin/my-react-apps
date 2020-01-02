@@ -9,6 +9,8 @@ import Welcome from "./Welcome";
 import Product from "./Product";
 import Test from "./Test";
 
+import redux from "../redux/redux";
+
 class App extends Component {
   constructor(props) {
     super(props);

@@ -75,7 +75,7 @@ class Tasker extends Component {
   };
 
   notif = (msg, title) => {
-    // Helper.pushNotify(msg, title, "owl-72.png");
+    Helper.pushNotify(msg, title, "owl-72.png");
   };
 
   showAuthScreen = () => {

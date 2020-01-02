@@ -1,0 +1,28 @@
+Redux
+
+install:
+npm i redux --save-dev
+
+1. redux/store/store.js
+  - createStore takes a reducer as the first argument
+  - state in Redux comes from reducers
+
+2. redux/reducers/reducers.js
+  - the only way to change the state is by sending a signal to the store
+  - this signal is an action
+  - dispatching an action means sending out a signal to the store
+  - actions are nothing more than JavaScript objects with two properties: type and payload
+  - something like:
+    {
+      type: "ADD_TASK",
+      payload: { title: "Some task name", description: "Description/details" }
+    }
+  - type is required while payload can be optional
+
+3. redux/actions/actions.js
+  - wrap every action within a function
+
+4. redux/actions-types/actions-types.js
+  - declare actions as constants as best practice & to avoide duplicates
+
+now import redux in app.js and use from console... 🤣
