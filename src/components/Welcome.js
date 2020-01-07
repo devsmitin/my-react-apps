@@ -158,6 +158,23 @@ class Welcome extends Component {
     let format = "webp";
     let width = window.innerWidth > 1080 ? window.innerWidth : 1080;
     let fap = this.state.timeAgo ? this.state.timeAgo : this.countDown();
+    let refresher;
+
+    if (fap > 59) {
+      refresher = this.getLocation();
+    } else if (fap > 9) {
+      refresher = (
+        <button
+          className="btn btn-secondary rounded position-relative"
+          onClick={this.getLocation}
+        >
+          Check Weather
+        </button>
+      );
+    } else {
+      refresher = null;
+    }
+
     return (
       <main className="">
         <div className="container-fluid">
@@ -191,14 +208,7 @@ class Welcome extends Component {
                   Helper.handleDate(this.state.weather.w_time, "HH:mm")}
               </p>
               <p>{fap + " min ago"}</p>
-              {fap > 9 ? (
-                <button
-                  className="btn btn-secondary rounded position-relative"
-                  onClick={this.getLocation}
-                >
-                  Check Weather
-                </button>
-              ) : null}
+              {refresher}
             </div>
           ) : (
             <div className="text-center">
