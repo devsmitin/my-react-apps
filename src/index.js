@@ -6,6 +6,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 
+// import store from "./redux/"
+
 ReactDOM.render(<App />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
