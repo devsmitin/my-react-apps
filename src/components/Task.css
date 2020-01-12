@@ -1,0 +1,13 @@
+.post {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+.post .post-title,
+.post .post-body {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.post .post-body {
+  white-space: pre;
+}
