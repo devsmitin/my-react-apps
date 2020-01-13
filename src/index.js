@@ -10,8 +10,7 @@ import * as serviceWorker from "./serviceWorker";
 
 import App from "./App";
 
-import postReducer from "./redux/reducers/postReducer";
-const store = createStore(postReducer);
+import store from "./redux/store";
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(

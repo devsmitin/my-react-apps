@@ -4,27 +4,27 @@ import { connect } from "react-redux";
 import Task from "./Task";
 
 class TaskList extends Component {
-  renderTask = post => {
-    return <Task key={post.id} post={post} />;
+  renderTask = task => {
+    return <Task key={task.id} task={task} />;
   };
 
   render() {
-    const incompleteTasks = this.props.posts.filter(post => !post.completed);
-    const completeTasks = this.props.posts.filter(post => post.completed);
+    const incompleteTasks = this.props.tasks.filter(task => !task.completed);
+    const completeTasks = this.props.tasks.filter(task => task.completed);
 
     return (
       <div>
-        <h1>All Tasks</h1>
         <div className="row">
           <div className="col-md-6">
             <h3>Pending Tasks ({incompleteTasks.length})</h3>
-            {incompleteTasks.map(post => this.renderTask(post))}
+            {incompleteTasks.map(task => this.renderTask(task))}
           </div>
 
           <div className="col-md-6">
             <h3>Completed Tasks ({completeTasks.length})</h3>
-            {completeTasks.map(post => this.renderTask(post))}
+            {completeTasks.map(task => this.renderTask(task))}
           </div>
+          {/* {console.log(this.props)} */}
         </div>
       </div>
     );
@@ -33,7 +33,7 @@ class TaskList extends Component {
 
 const mapStateToProps = state => {
   return {
-    posts: state
+    tasks: state
   };
 };
 export default connect(mapStateToProps)(TaskList);

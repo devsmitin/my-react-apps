@@ -1,27 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import "./Task.css";
+import "./Task.scss";
 
 class Task extends Component {
   onDelete = () => {
-    this.props.dispatch({ type: "DELETE_TASK", id: this.props.post.id });
+    this.props.dispatch({ type: "DELETE_TASK", id: this.props.task.id });
   };
 
   onComplete = () => {
-    this.props.dispatch({ type: "COMPLETE_TASK", id: this.props.post.id });
+    this.props.dispatch({ type: "COMPLETE_TASK", id: this.props.task.id });
   };
 
   render() {
-    const { post } = this.props;
+    const { task } = this.props;
     return (
-      <div className="post">
-        <h2 className="post-title">{post.title}</h2>
-        <p className="post-body">{post.body}</p>
+      <div className="task">
+        <h2 className="task-title">{task.title}</h2>
+        <p className="task-body">{task.body}</p>
         <p></p>
-        {!post.completed && (
-          <button onClick={this.onComplete} disabled={post.completed}>
-            {post.completed ? "Completed" : "Done"}
+        {!task.completed && (
+          <button onClick={this.onComplete} disabled={task.completed}>
+            {task.completed ? "Completed" : "Done"}
           </button>
         )}
         <button onClick={this.onDelete}>Delete</button>

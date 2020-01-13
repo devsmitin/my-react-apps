@@ -1,0 +1,13 @@
+.task {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  .task-title,
+  .task-body {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  .task-body {
+    white-space: pre;
+  }
+}
