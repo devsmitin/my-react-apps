@@ -5,7 +5,7 @@ import Task from "./Task";
 
 class TaskList extends Component {
   renderTask = task => {
-    return <Task key={task.id} task={task} />;
+    return <Task key={task.updated} task={task} />;
   };
 
   render() {

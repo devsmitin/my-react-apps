@@ -5,6 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+    background: #454545;
+  }
 }
 
 /* common & compiled css below */

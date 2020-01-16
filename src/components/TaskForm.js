@@ -29,11 +29,11 @@ class TaskForm extends Component {
     e.preventDefault();
     if (this.state.title.trim().length && this.state.body.trim().length) {
       const data = {
+        updated: Date.now(),
         id: Date.now(),
         title: this.state.title.trim(),
         body: this.state.body.trim(),
-        completed: false,
-        updated: false
+        completed: false
       };
       this.props.addTask(data);
       this.resetInputs();
