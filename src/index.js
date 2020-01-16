@@ -3,14 +3,13 @@ import ReactDOM from "react-dom";
 import "./css/bootstrap-grid.min.css";
 import "./index.css";
 
-import { createStore } from "redux";
 import { Provider } from "react-redux";
+import store from "./redux/store";
 
 import * as serviceWorker from "./serviceWorker";
 
 import App from "./App";
 
-import store from "./redux/store";
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
