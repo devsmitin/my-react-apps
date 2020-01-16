@@ -1,13 +1,13 @@
 import { ADD_TASK, DELETE_TASK, COMPLETE_TASK } from "./actionTypes";
 
 export function addTask(payload) {
-  return { type: ADD_TASK, payload };
+  return { type: ADD_TASK, data: payload };
 }
 
 export function deleteTask(payload) {
-  return { type: DELETE_TASK, payload };
+  return { type: DELETE_TASK, data: payload };
 }
 
 export function completeTask(payload) {
-  return { type: COMPLETE_TASK, payload };
+  return { type: COMPLETE_TASK, data: payload };
 }

@@ -5,8 +5,6 @@ const initialState = [];
 const taskReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TASK:
-      let i = state.concat([action.data]);
-      console.log(i);
       return state.concat([action.data]);
 
     case DELETE_TASK:

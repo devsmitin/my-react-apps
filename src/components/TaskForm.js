@@ -35,7 +35,7 @@ class TaskForm extends Component {
         completed: false,
         updated: false
       };
-      this.props.addTask({ data });
+      this.props.addTask(data);
       this.resetInputs();
     } else {
       alert("Invalid or missing inputs. Both fields are required");

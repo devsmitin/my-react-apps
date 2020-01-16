@@ -24,7 +24,6 @@ class TaskList extends Component {
             <h3>Completed Tasks ({completeTasks.length})</h3>
             {completeTasks.map(task => this.renderTask(task))}
           </div>
-          {/* {console.log(this.props)} */}
         </div>
       </div>
     );
