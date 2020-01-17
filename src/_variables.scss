@@ -1,0 +1,20 @@
+// css variables
+:root {
+  --color-text: #333;
+  --color-link: #039292;
+
+  --bg-body: #fff;
+  --bg-nav: #fafafa;
+
+  @media (prefers-color-scheme: dark) {
+    --color-text: #fff;
+    --bg-body: #454545;
+  }
+}
+
+// Default
+$color-text: var(--color-text);
+$color-link: var(--color-link);
+$bg-body: var(--bg-body);
+$bg-nav: var(--bg-nav);
+$grey: #ddd;
