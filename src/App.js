@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.scss";
 
 import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+// import Sidebar from "./components/Sidebar";
 import Viewbar from "./components/Viewbar";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
@@ -16,7 +16,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div className="main-content">
           <Viewbar />
           <div className="container-fluid">

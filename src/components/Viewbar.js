@@ -1,18 +1,31 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { toggleForm } from "../redux/actions/layoutActions";
+import { toggleForm, setView } from "../redux/actions/layoutActions";
 
 class Viewbar extends Component {
+  setView = val => {
+    this.props.setView(val);
+  };
+
   toggleTaskForm = () => {
-    console.log("test");
     this.props.toggleForm();
   };
   render() {
     return (
       <div className="site-viewbar">
-        <button>One List</button>
-        <button>Two List</button>
+        <button
+          onClick={() => this.setView(1)}
+          disabled={this.props.state.layout.viewType === 1}
+        >
+          One List
+        </button>
+        <button
+          onClick={() => this.setView(2)}
+          disabled={this.props.state.layout.viewType === 2}
+        >
+          Two List
+        </button>
         <button onClick={this.toggleTaskForm}>Add Task</button>
       </div>
     );
@@ -27,7 +40,8 @@ const mapStateToProps = state => {
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggleForm: () => dispatch(toggleForm())
+    toggleForm: () => dispatch(toggleForm()),
+    setView: value => dispatch(setView(value))
   };
 }
 

@@ -18,7 +18,7 @@ const mainReducer = (state = initialState, action) => {
 
     case SET_VIEW:
       console.log("action:", action);
-      return (state.viewType = action.viewType);
+      return (state = { ...state, viewType: action.value });
 
     default:
       return state;

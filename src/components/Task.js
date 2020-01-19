@@ -24,7 +24,11 @@ class Task extends Component {
   render() {
     const { task } = this.props;
     return (
-      <div className="task">
+      <div
+        className={
+          "task " + (task.completed ? " is_completed" : " is_incomplete")
+        }
+      >
         <h2 className="task-title">{task.title}</h2>
         <p className="task-body">{task.body}</p>
         <p>Created at: {Helper.handleDate(task.id)}</p>

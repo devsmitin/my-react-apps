@@ -9,6 +9,6 @@ export function toggleForm() {
   return { type: TOGGLE_FORM };
 }
 
-export function setView() {
-  return { type: SET_VIEW };
+export function setView(payload) {
+  return { type: SET_VIEW, value: payload };
 }
