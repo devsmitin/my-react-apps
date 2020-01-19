@@ -23,7 +23,6 @@ class App extends Component {
             <TaskList />
           </div>
         </div>
-        {console.log("layout", layout)}
         {layout.formVisible && <TaskForm />}
       </div>
     );

@@ -43,7 +43,9 @@ input[type="submit"],
       // background-color: darken($grey, 10);
     }
   }
-
+  &[disabled] {
+    @include shadow-none;
+  }
   &:not(:last-child) {
     margin-right: 0.5rem;
   }

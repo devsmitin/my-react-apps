@@ -43,6 +43,10 @@ class TaskForm extends Component {
     }
   };
 
+  handleCancel = () => {
+    this.props.toggleForm();
+  };
+
   render() {
     return (
       <div className="overlay">
@@ -63,7 +67,18 @@ class TaskForm extends Component {
               value={this.state.body}
               onChange={this.onChange}
             />
-            <button>Task</button>
+            <button
+              type="submit"
+              disabled={
+                this.state.title.trim().length === 0 ||
+                this.state.body.trim().length === 0
+              }
+            >
+              Add Task
+            </button>
+            <button type="button" onClick={this.handleCancel}>
+              Cancel
+            </button>
           </form>
         </div>
       </div>

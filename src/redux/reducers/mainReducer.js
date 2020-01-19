@@ -14,9 +14,7 @@ const mainReducer = (state = initialState, action) => {
 
     case TOGGLE_FORM:
       console.log("action:", action);
-      return Object.assign({}, state, {
-        formVisible: !state.formVisible
-      });
+      return (state = { ...state, formVisible: !state.formVisible });
 
     case SET_VIEW:
       console.log("action:", action);
