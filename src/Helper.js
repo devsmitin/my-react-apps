@@ -26,8 +26,8 @@ export function handleDate(timestamp, format) {
   let time = new Date(timestamp);
   const formatNumber = n => ("0" + n).slice(-2);
 
-  let date = time.getDate(),
-    month = time.getMonth() + 1,
+  let date = formatNumber(time.getDate()),
+    month = formatNumber(time.getMonth() + 1),
     year = time.getFullYear(),
     hours = formatNumber(time.getHours()),
     min = formatNumber(time.getMinutes()),
