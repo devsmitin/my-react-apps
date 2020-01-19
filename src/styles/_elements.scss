@@ -1,0 +1,50 @@
+input:not([type="radio"]):not([type="checkbox"]),
+textarea,
+select {
+  color: inherit;
+  font-family: inherit;
+  font-size: 0.9rem;
+  background-color: rgba($grey, 0.25);
+  border: 1px solid rgba($grey, 0.5);
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  &:focus {
+    border: 1px solid $color-link;
+  }
+}
+
+textarea {
+  resize: none;
+}
+
+button,
+input[type="submit"],
+.btn {
+  font-family: inherit;
+  padding: 0.5rem 1rem;
+  min-width: 6.25rem;
+  display: inline-block;
+  background-color: $grey;
+  border: 1px solid transparent;
+  cursor: pointer;
+  // @include transition-250;
+  &:hover {
+    @include shadow-out;
+  }
+  &:active {
+    // @include shadow-in;
+    @include shadow-none;
+    background-color: darken($grey, 10);
+  }
+  &:not(:hover) {
+    &:focus {
+      outline: 1px dotted $theme-accent;
+      // background-color: darken($grey, 10);
+    }
+  }
+
+  &:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}

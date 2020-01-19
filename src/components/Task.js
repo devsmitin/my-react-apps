@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { deleteTask, completeTask, incompleteTask } from "../redux/actions";
+import {
+  deleteTask,
+  completeTask,
+  incompleteTask
+} from "../redux/actions/taskActions";
 
 import * as Helper from "../Helper";
-
-import "./Task.scss";
 
 class Task extends Component {
   onDelete = () => {

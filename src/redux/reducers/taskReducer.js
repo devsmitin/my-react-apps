@@ -3,7 +3,7 @@ import {
   DELETE_TASK,
   COMPLETE_TASK,
   INCOMPLETE_TASK
-} from "../actionTypes";
+} from "../actions";
 
 const initialState = [];
 

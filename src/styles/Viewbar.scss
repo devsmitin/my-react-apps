@@ -1,0 +1,14 @@
+.site-viewbar {
+  position: sticky;
+  top: $nav-height;
+  right: 0;
+  left: 0;
+  margin-bottom: 1rem;
+  z-index: 999;
+  height: $nav-height;
+  background-color: $bg-nav;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba($grey, 0.75);
+  padding: 0 1rem;
+}

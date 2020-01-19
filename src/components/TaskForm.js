@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addTask } from "../redux/actions";
+import { addTask } from "../redux/actions/taskActions";
+import { toggleForm } from "../redux/actions/layoutActions";
 
 class TaskForm extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class TaskForm extends Component {
         completed: false
       };
       this.props.addTask(data);
-      this.resetInputs();
+      this.props.toggleForm();
     } else {
       alert("Invalid or missing inputs. Both fields are required");
     }
@@ -44,34 +45,43 @@ class TaskForm extends Component {
 
   render() {
     return (
-      <div>
-        <h3>Create Task</h3>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            name="title"
-            placeholder="Enter Task Title"
-            value={this.state.title}
-            onChange={this.onChange}
-          />
-          <textarea
-            rows="4"
-            name="body"
-            placeholder="Enter Task Description"
-            value={this.state.body}
-            onChange={this.onChange}
-          />
-          <button>Task</button>
-        </form>
+      <div className="overlay">
+        <div className="overlay-body task-from">
+          <h3>Create Task</h3>
+          <form onSubmit={this.handleSubmit}>
+            <input
+              type="text"
+              name="title"
+              placeholder="Enter Task Title"
+              value={this.state.title}
+              onChange={this.onChange}
+            />
+            <textarea
+              rows="4"
+              name="body"
+              placeholder="Enter Task Description"
+              value={this.state.body}
+              onChange={this.onChange}
+            />
+            <button>Task</button>
+          </form>
+        </div>
       </div>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    state
+  };
+};
+
 function mapDispatchToProps(dispatch) {
   return {
-    addTask: task => dispatch(addTask(task))
+    addTask: task => dispatch(addTask(task)),
+    toggleForm: () => dispatch(toggleForm())
   };
 }
 
-export default connect(null, mapDispatchToProps)(TaskForm);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskForm);

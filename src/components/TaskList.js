@@ -14,6 +14,7 @@ class TaskList extends Component {
 
     return (
       <div>
+        {/* {console.log("this.props", this.props)} */}
         <div className="row">
           <div className="col-md-6">
             <h3>Pending Tasks ({incompleteTasks.length})</h3>
@@ -32,7 +33,7 @@ class TaskList extends Component {
 
 const mapStateToProps = state => {
   return {
-    tasks: state
+    tasks: state.tasks
   };
 };
 export default connect(mapStateToProps)(TaskList);

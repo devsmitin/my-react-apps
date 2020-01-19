@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./css/bootstrap-grid.min.css";
-import "./index.scss";
+import "./index.css";
 
 import { Provider } from "react-redux";
 import store from "./redux/store";

@@ -1,6 +1,9 @@
 import { createStore } from "redux";
-import rootReducer from "./reducers/taskReducer";
+import reducer from "./reducers";
 
-const store = createStore(rootReducer);
+const store = createStore(reducer);
+
+window.store = store;
+console.log("STORE:", store.getState());
 
 export default store;

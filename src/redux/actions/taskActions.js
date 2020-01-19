@@ -1,5 +1,6 @@
-import { ADD_TASK, DELETE_TASK, COMPLETE_TASK, INCOMPLETE_TASK } from "./actionTypes";
+import { ADD_TASK, DELETE_TASK, COMPLETE_TASK, INCOMPLETE_TASK } from ".";
 
+// task reducer actions
 export function addTask(payload) {
   return { type: ADD_TASK, data: payload };
 }

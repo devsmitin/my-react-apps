@@ -1,26 +1,45 @@
-import React from "react";
+import React, { Component } from "react";
 import "./App.scss";
 
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import Viewbar from "./components/Viewbar";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
-import Header from "./components/Header";
 
-function App() {
-  return (
-    <div className="App">
-      <Header />
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-4">
-            <TaskForm />
-          </div>
-          <div className="col-md-8">
+import { connect } from "react-redux";
+import { toggleForm } from "./redux/actions/layoutActions";
+
+class App extends Component {
+  render() {
+    const layout = this.props.state.layout;
+    return (
+      <div className="App">
+        <Header />
+        <Sidebar />
+        <div className="main-content">
+          <Viewbar />
+          <div className="container-fluid">
             <TaskList />
           </div>
         </div>
+        {console.log("layout", layout)}
+        {layout.formVisible && <TaskForm />}
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    state
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    toggleForm: () => dispatch(toggleForm())
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

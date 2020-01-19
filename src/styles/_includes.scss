@@ -1,0 +1,22 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-bottom: 1rem;
+}
+
+@mixin transition-250 {
+  transition: 0.25s all linear;
+}
+@mixin shadow-out {
+  box-shadow: 0 4px 4px -2px rgba(#000, 0.3);
+}
+@mixin shadow-in {
+  box-shadow: 0 1px 4px rgba(#000, 0.3) inset;
+}
+@mixin shadow-none {
+  box-shadow: none;
+}
