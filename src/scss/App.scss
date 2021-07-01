@@ -33,9 +33,13 @@ body {
   }
 }
 
+.container,
 .container-fluid {
+  .list-group-item {
+    background-color: transparent;
+  }
   @media (max-width: 767px) {
-    padding: 0;
+    // padding: 0;
     .no-gutters-xs {
       margin-right: 0;
       margin-left: 0;
@@ -45,10 +49,10 @@ body {
         padding-left: 0;
       }
     }
-    .list-group-item {
-      border-left: 0;
-      border-right: 0;
-    }
+    // .list-group-item {
+    //   border-left: 0;
+    //   border-right: 0;
+    // }
   }
 }
 
@@ -98,6 +102,12 @@ body {
       width: 56px;
     }
   }
+}
+
+.login-box {
+  width: calc(100% - 1.5rem);
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 // specific classes
