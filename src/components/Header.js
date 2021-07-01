@@ -7,7 +7,7 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: false,
     };
   }
 
@@ -17,10 +17,11 @@ class Header extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-2 mb-md-3 sticky-top">
-        <NavLink className="navbar-brand p-0" exact to="/">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-2 mb-md-3 sticky-top">
+        <span className="navbar-brand p-0">{this.props.title}</span>
+        {/* <NavLink className="navbar-brand p-0" exact to="/">
           {this.props.title}
-        </NavLink>
+        </NavLink> */}
         <button
           className={"navbar-toggler" + (this.state.isOpen ? "" : " collapsed")}
           type="button"

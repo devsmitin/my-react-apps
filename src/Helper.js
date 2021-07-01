@@ -3,15 +3,23 @@ import axios from "axios";
 import { countryData, unsplash, weather } from "./config";
 
 export function pushNotify(msg, title, i) {
-  if (Notification.permission === "granted" && false) {
-    navigator.serviceWorker.ready.then(function(registration) {
-      registration.showNotification(title, {
-        body: msg,
-        icon: i ? i : "",
-      });
-    });
+  let isProd = true;
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+    isProd = false;
   }
-  console.log(title, msg);
+
+  if (isProd) {
+    if (Notification.permission === "granted") {
+      navigator.serviceWorker.ready.then(function(registration) {
+        registration.showNotification(title, {
+          body: msg,
+          icon: i ? i : "",
+        });
+      });
+    }
+  } else {
+    console.log(title, msg);
+  }
 }
 
 export function showLoader(show) {

@@ -6,6 +6,7 @@ import QrReader from "./QrReader";
 import Form from "./Form";
 import List from "./List";
 import AuthScreen from "./AuthScreen";
+import { qrProvider } from "../../config";
 
 class Tasker extends Component {
   constructor(props) {
@@ -30,7 +31,6 @@ class Tasker extends Component {
           this.getUserData(dataRef, user);
         }
       );
-      this.setUserImg(user);
     } else {
       this.setState({
         showLoading: false,
@@ -55,16 +55,15 @@ class Tasker extends Component {
           {
             currentUser: userId,
             userLists: items,
+            otp: userId.replace("dz_", ""),
           },
           () => {
             localStorage.setItem("react_user", userId);
-            // setTimeout(() => {
-            this.notif(
-              "Data synced with your data on server",
-              "Data sync finished!"
-            );
-            this.setState({ showLoading: false });
-            // }, 2000);
+            // this.notif(
+            //   "Data synced with your data on server",
+            //   "Data sync finished!"
+            // );
+            this.setUserImg(userId);
           }
         );
       } else {
@@ -140,11 +139,11 @@ class Tasker extends Component {
   };
 
   setUserImg = (user) => {
-    if (!Helper.checkDevice() && user !== undefined) {
-      let qrProvider = "https://api.qrserver.com/v1/create-qr-code/";
+    if (user !== undefined) {
       let queryString = `?data=${user}&size=256x256`;
       this.setState({
-        userImg: qrProvider + queryString,
+        userImg: qrProvider.EndPoint + queryString,
+        showLoading: false,
       });
     }
   };
@@ -196,7 +195,7 @@ class Tasker extends Component {
       if (index !== id) {
         return item;
       } else {
-        this.notif(item.title + " marked as open!", "Undo successful!");
+        this.notif(item.title + " marked as open!", "Reopened!");
         return null;
       }
     });
@@ -269,7 +268,7 @@ class Tasker extends Component {
     let doneItems = {
       title: "Closed Tasks",
       items: userLists && userLists.doneItems,
-      btn1Title: "Mark open",
+      btn1Title: "Reopen",
       btn1: this.handleUndo,
       btn2Title: "Delete",
       btn2: (e) => this.handleRemove(e, "done"),
@@ -292,28 +291,28 @@ class Tasker extends Component {
                 <div className="">
                   <List {...openItems} />
                 </div>
-                <div className="bg-light">
+                <div className="">
                   <List {...doneItems} />
                 </div>
               </div>
               <div className="col-lg-4">
-                <div className="card text-center rounded-0">
-                  <div className="card-body">
+                <div className="card rounded-0">
+                  <div className="card-body text-center">
+                    <p className="mb-0">
+                      User ID: <strong>{otp}</strong>
+                    </p>
                     {!Helper.checkDevice() && (
                       <>
-                        <h6 className="font-weight-bold mb-3">
+                        <h6 className="font-weight-bold my-3">
                           QR code for mobile login
                         </h6>
                         <img
                           src={userImg}
                           alt={currentUser}
-                          className="border p-2 mb-3 bg-white shadow-sm"
+                          className="img-fluid border p-2 bg-white shadow-sm"
                         />
                       </>
                     )}
-                    <p className="text-center mb-0">
-                      User ID: <strong>{otp}</strong>
-                    </p>
                   </div>
                 </div>
               </div>
