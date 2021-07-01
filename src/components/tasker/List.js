@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import * as Helper from "../Helper";
+import * as Helper from "../../Helper";
 
 class List extends Component {
   handleDate = (time, format) => {
@@ -8,7 +8,7 @@ class List extends Component {
 
   render() {
     return (
-      <ul className="list-group mb-2 mb-md-3">
+      <ul className="list-group mb-2 mb-md-3 rounded-0">
         <li className="list-group-item">
           <h5 className="mb-0">
             <strong>{this.props.title}</strong>
@@ -18,7 +18,6 @@ class List extends Component {
           </h5>
         </li>
 
-        {/* {console.log(this.props)} */}
         {this.props.items &&
           this.props.items.map((item, index) => (
             <li key={index} className="list-group-item" data-key={index}>
@@ -32,7 +31,7 @@ class List extends Component {
                 {this.props.btn1 && (
                   <button
                     type="button"
-                    className={"btn btn-" + this.props.btn1Class}
+                    className="btn btn-outline-secondary"
                     onClick={() => this.props.btn1(index)}
                   >
                     {this.props.btn1Title}
@@ -41,7 +40,7 @@ class List extends Component {
                 {this.props.btn2 && (
                   <button
                     type="button"
-                    className={"btn btn-" + this.props.btn2Class}
+                    className="btn btn-outline-secondary"
                     onClick={() => this.props.btn2(index)}
                   >
                     {this.props.btn2Title}

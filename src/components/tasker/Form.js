@@ -6,14 +6,14 @@ class Form extends Component {
     this.state = {
       title: "",
       details: "",
-      maxLen: 240
+      maxLen: 240,
     };
   }
 
-  onChange = event => {
+  onChange = (event) => {
     const value = event.target.value;
     this.setState({
-      [event.target.name]: value
+      [event.target.name]: value,
     });
   };
 
@@ -33,17 +33,18 @@ class Form extends Component {
     return chars;
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     this.props.submitForm(this.state.title, this.state.details);
     this.setState({
       title: "",
-      details: ""
+      details: "",
     });
     this.props.closeForm();
   };
 
   render() {
+    let { title, details, maxLen } = this.state;
     return (
       <div className={"card shadow-sm mb-3 " + this.props.hasClass}>
         <div className="card-body">
@@ -53,10 +54,9 @@ class Form extends Component {
               name="title"
               type="text"
               className={
-                "form-control mb-3" +
-                (this.state.title.length === 50 ? " is-invalid" : "")
+                "form-control mb-3" + (title.length === 50 ? " is-invalid" : "")
               }
-              value={this.state.title}
+              value={title}
               onChange={this.onChange}
               maxLength="50"
               placeholder="Title"
@@ -65,11 +65,9 @@ class Form extends Component {
               name="details"
               className={
                 "form-control mb-3" +
-                (this.state.details.length >= this.state.maxLen
-                  ? " is-invalid"
-                  : "")
+                (details.length >= maxLen ? " is-invalid" : "")
               }
-              value={this.state.details}
+              value={details}
               onChange={this.onChange}
               rows="4"
               placeholder="Description"
@@ -77,9 +75,9 @@ class Form extends Component {
             <button
               className="btn btn-success mr-2"
               disabled={
-                this.state.title.trim().length === 0 ||
-                this.state.details.trim().length === 0 ||
-                this.state.details.length > this.state.maxLen
+                title.trim().length === 0 ||
+                details.trim().length === 0 ||
+                details.length > maxLen
               }
             >
               Add
@@ -91,7 +89,7 @@ class Form extends Component {
               Cancel
             </button>
             <span className="btn float-right disabled">
-              {this.state.maxLen - this.state.details.length}
+              {maxLen - details.length}
             </span>
           </form>
           {this.overflowAlert()}

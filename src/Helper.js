@@ -1,15 +1,17 @@
 import React from "react";
+import axios from "axios";
+import { countryData, unsplash, weather } from "./config";
 
 export function pushNotify(msg, title, i) {
-  if (Notification.permission === "granted") {
+  if (Notification.permission === "granted" && false) {
     navigator.serviceWorker.ready.then(function(registration) {
       registration.showNotification(title, {
         body: msg,
-        icon: i ? i : ""
+        icon: i ? i : "",
       });
     });
   }
-  console.log(msg);
+  console.log(title, msg);
 }
 
 export function showLoader(show) {
@@ -24,7 +26,7 @@ export function showLoader(show) {
 
 export function handleDate(timestamp, format) {
   let time = new Date(timestamp);
-  const formatNumber = n => ("0" + n).slice(-2);
+  const formatNumber = (n) => ("0" + n).slice(-2);
 
   let date = time.getDate(),
     month = time.getMonth() + 1,
@@ -58,6 +60,80 @@ export function handleDate(timestamp, format) {
   return strOut;
 }
 
+export function getWeatherData(location) {
+  const { latitude, longitude } = location;
+
+  const key = weather.API_KEY;
+  const apiEndPoint = weather.EndPoint;
+  const units = weather.Units;
+
+  let queryString = `?lat=${latitude}&lon=${longitude}&appid=${key}&units=${units}`;
+
+  let res = axios
+    .get(apiEndPoint + queryString)
+    .then((response) => response.data)
+    .catch((err) => {
+      pushNotify(
+        "There was an error. Please try again later",
+        "Error!",
+        "owl-72.png"
+      );
+      console.log(err);
+    });
+
+  return res;
+}
+
+export function getRandomPhoto(term) {
+  const API_KEY = unsplash.API_KEY;
+  const apiEndPoint = unsplash.EndPoint;
+
+  let res = axios
+    .get(apiEndPoint, {
+      params: { query: term },
+      headers: {
+        Authorization: "Client-ID " + API_KEY,
+      },
+    })
+    .then((response) => response.data)
+    .catch((err) => {
+      console.log(err);
+    });
+
+  return res;
+}
+
+export function getCountryName(code) {
+  const apiEndPoint = countryData.EndPoint;
+  let res = axios
+    .get(apiEndPoint + code)
+    .then((response) => response.data)
+    .catch((err) => {
+      console.log(err);
+    });
+  return res;
+}
+
+export function geoError(error) {
+  let err;
+  switch (error.code) {
+    case 1:
+      err = "1: permission denied";
+      break;
+    case 2:
+      err = "2: position unavailable (error response from location provider)";
+      break;
+    case 3:
+      err = "3: timed out";
+      break;
+    default:
+      err = "0: unknown error";
+      break;
+  }
+  console.log("Error occurred. Error code: " + err);
+  pushNotify("Location access error. Try again.", "Error!", "owl-72.png");
+}
+
 export function handleDateDiff(newTimestamp, oldTimestamp) {
   let msDiff = newTimestamp - oldTimestamp;
   let secDiff = msDiff / 1000;
@@ -67,7 +143,7 @@ export function handleDateDiff(newTimestamp, oldTimestamp) {
     ms: parseInt(msDiff),
     seconds: parseInt(secDiff),
     minuits: parseInt(minDiff),
-    hours: parseInt(hrDiff)
+    hours: parseInt(hrDiff),
   };
   return diffObj;
 }
@@ -77,39 +153,7 @@ export function checkDevice() {
   return isMobile;
 }
 
-// useless fun
-
-// getLocationName = location => {
-//   let apiEndPoint = "https://geocodeapi.p.rapidapi.com/GetNearestCities";
-//   axios
-//     .get(apiEndPoint, {
-//       headers: {
-//         "content-type": "application/octet-stream",
-//         "x-rapidapi-host": "geocodeapi.p.rapidapi.com",
-//         "x-rapidapi-key": "37144eb94cmsh0830bdd3832cd1bp1160bcjsn0d0ecd6d1400"
-//       },
-//       params: {
-//         latitude: location.latitude,
-//         longitude: location.longitude,
-//         range: "0"
-//       }
-//     })
-//     .then(response => response.data)
-//     .then(data => {
-//       console.log(data[0]);
-//       // this.setLocation(data[0]);
-//     })
-//     .catch(err => {
-//       this.notif("There was an error. Please try again later", "Error!");
-//       console.log(err);
-//     });
-// };
-
-// setLocation = data => {
-//   this.setState({
-//     location: {
-//       city: data.City,
-//       country: data.Country
-//     }
-//   });
-// };
+export function aRandomLetter() {
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  return alphabet[Math.floor(Math.random() * alphabet.length)];
+}

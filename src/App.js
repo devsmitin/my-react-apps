@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import "./App.scss";
+import "./scss/App.scss";
 
-import Header from "./Header";
-import Tasker from "./Tasker";
-import Welcome from "./Welcome";
-import Product from "./Product";
-import Test from "./Test";
+import Header from "./components/Header";
+import Tasker from "./components/tasker/Tasker";
+import Weather from "./components/weather/Weather";
+import Test from "./components/Test";
 
 class App extends Component {
   constructor(props) {
@@ -17,9 +16,8 @@ class App extends Component {
       navlinks: [
         { title: "Home", to: "/" },
         { title: "Tasker", to: "/tasker" },
-        // { title: "Product", to: "/product" },
-        { title: "Reminder", to: "/reminder" }
-      ]
+        { title: "Reminder", to: "/reminder" },
+      ],
     };
   }
   render() {
@@ -30,10 +28,9 @@ class App extends Component {
           <Route
             exact
             path="/"
-            component={() => <Welcome appname={this.state.apptitle} />}
+            component={() => <Weather appname={this.state.apptitle} />}
           />
           <Route path="/tasker" component={Tasker} />
-          <Route path="/product" component={Product} />
           <Route path="/reminder" component={Test} />
         </Switch>
       </BrowserRouter>
