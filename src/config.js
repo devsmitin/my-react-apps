@@ -1,3 +1,12 @@
+const AppData = {
+  apptitle: "My Apps",
+  navlinks: [
+    { title: "Weather", to: "/" },
+    { title: "Tasker", to: "/tasker" },
+    { title: "Reminder", to: "/reminder" },
+  ],
+};
+
 const weather = {
   API_KEY: "3dc98cc5c53896bfed6db93c5b6a03a0",
   EndPoint: "https://api.openweathermap.org/data/2.5/weather",
@@ -11,8 +20,11 @@ const unsplash = {
 
 const countryData = {
   EndPoint: "https://restcountries.eu/rest/v2/alpha/",
+};
 
-}
+const qrProvider = {
+  EndPoint: "https://api.qrserver.com/v1/create-qr-code/",
+};
 
 const fireconfig = {
   apiKey: "AIzaSyCaQUJ_3_Cg8gaROLxHwnZrX1ulGHeQ-jU",
@@ -25,4 +37,4 @@ const fireconfig = {
   measurementId: "G-4DY7BGNBTX",
 };
 
-export { fireconfig, weather, unsplash, countryData };
+export { AppData, fireconfig, weather, unsplash, qrProvider, countryData };

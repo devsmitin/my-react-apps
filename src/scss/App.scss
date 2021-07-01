@@ -35,9 +35,6 @@ body {
 
 .container,
 .container-fluid {
-  .list-group-item {
-    background-color: transparent;
-  }
   @media (max-width: 767px) {
     // padding: 0;
     .no-gutters-xs {
