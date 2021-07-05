@@ -244,6 +244,11 @@ class Tasker extends Component {
         });
   };
 
+  handleLogout = () => {
+    localStorage.setItem("react_user", "");
+    window.location.reload();
+  };
+
   render() {
     const {
       currentUser,
@@ -298,21 +303,29 @@ class Tasker extends Component {
               <div className="col-lg-4">
                 <div className="card rounded-0">
                   <div className="card-body text-center">
-                    <p className="mb-0">
+                    <p className="">
                       User ID: <strong>{otp}</strong>
                     </p>
                     {!Helper.checkDevice() && (
                       <>
-                        <h6 className="font-weight-bold my-3">
+                        <h6 className="font-weight-bold mb-3">
                           QR code for mobile login
                         </h6>
                         <img
                           src={userImg}
                           alt={currentUser}
-                          className="img-fluid border p-2 bg-white shadow-sm"
+                          className="img-fluid border p-2 mb-3 bg-white shadow-sm"
                         />
                       </>
                     )}
+                    <div>
+                      <button
+                        className="btn btn-danger"
+                        onClick={this.handleLogout}
+                      >
+                        Logout
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
