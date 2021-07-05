@@ -25,7 +25,7 @@ class List extends Component {
                 <h6 className="font-weight-bold">
                   {index + 1}. {item.title}
                 </h6>
-                <p className="details">{item.details}</p>
+                <div className="details">{item.details}</div>
               </div>
               <div className="btn-group btn-group-sm" role="group">
                 {this.props.btn1 && (
