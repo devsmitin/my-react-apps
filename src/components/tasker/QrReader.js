@@ -12,7 +12,7 @@ class QrReader extends Component {
 
   handleScan = data => {
     if (data) {
-      if (data.substring(0, 4) === "usr_") {
+      if (data.substring(0, 3) === "dz_") {
         this.setState({
           result: data
         });
