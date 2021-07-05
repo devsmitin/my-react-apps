@@ -46,7 +46,7 @@ class Weather extends Component {
         this.setState({
           timeAgo: t,
         });
-      }, 1 * 1000);
+      }, 30 * 1000);
     }
   };
 
@@ -115,7 +115,7 @@ class Weather extends Component {
       </button>
     );
 
-    if (fap > 29) {
+    if (fap > 59) {
       return this.getLocation();
     } else if (fap >= 10 || fap === undefined) {
       return btn;
