@@ -21,22 +21,10 @@ body {
   border-radius: 3px;
 }
 
-.form-control {
-  // background-color: var(--light);
-  border-width: 0 0 2px 0;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-  border-radius: 0;
-  outline: none;
-  &:focus {
-    box-shadow: none;
-  }
-}
 
 .container,
 .container-fluid {
   @media (max-width: 767px) {
-    // padding: 0;
     .no-gutters-xs {
       margin-right: 0;
       margin-left: 0;
