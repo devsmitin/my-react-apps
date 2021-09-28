@@ -66,17 +66,18 @@ class Weather extends Component {
   getWeatherInfo = async (location) => {
     let { coords } = location;
     let weather = await Helper.getWeatherData(coords);
-    let s_country = await Helper.getCountryName(weather.sys.country);
+    // let s_country = await Helper.getCountryName(weather.sys.country);
+    const regionNamesInEnglish = new Intl.DisplayNames(['en'], { type: 'region' });
+    let s_country = regionNamesInEnglish.of(weather.sys.country);
+
+    console.log(`s_country`, s_country)
 
     let w_data = {
       w_temp: weather.main.temp,
       w_temp_feels: weather.main.feels_like,
       w_desc: weather.weather[0].main,
       w_wind: weather.wind.speed + "km/h",
-      w_location: {
-        city: weather.name,
-        country: s_country.name,
-      },
+      w_location: weather.name + ", " + s_country,
       w_time: Date.now(),
     };
 
@@ -148,9 +149,7 @@ class Weather extends Component {
                 {weather.w_temp.toFixed(1)}
                 &deg;C
               </h1>
-              <h4>
-                {weather.w_location.city + ", " + weather.w_location.country}
-              </h4>
+              <h4>{weather.w_location}</h4>
               <h5>
                 Feels like {weather.w_temp_feels.toFixed(1)}
                 &deg;C
