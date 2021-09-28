@@ -292,7 +292,7 @@ class Tasker extends Component {
         <main className="container">
           <h1 className="h3 font-weight-bold my-3">Tasker</h1>
           <div className="row">
-            <div className="col-lg-8">
+            <div className="col-lg-9">
               <div className="">
                 <List {...openItems} />
               </div>
@@ -300,8 +300,8 @@ class Tasker extends Component {
                 <List {...doneItems} />
               </div>
             </div>
-            <div className="col-lg-4">
-              <div className="card card-body text-center">
+            <div className="col-lg-3">
+              <div className="card card-body mb-3 text-center">
                 <p className="">
                   User ID: <strong>{otp}</strong>
                 </p>
