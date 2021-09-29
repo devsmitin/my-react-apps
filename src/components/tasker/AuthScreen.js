@@ -13,33 +13,32 @@ export default function AuthScreen(props) {
     props.login(user);
   };
 
-  const isMobile = Helper.checkDevice()
+  const isMobile = Helper.checkDevice();
 
   return (
     <div className="overlay">
-      <div className="login-box bg-white p-3 shadow">
-        <div>
+      <div className="card login-box rounded bg-white p-3 shadow-lg">
+        <h5 className="card-title">Login</h5>
+        <div className="input-group mb-3">
           <input
             name="uid"
             type="text"
-            className="form-control my-3"
+            className="form-control"
             value={u_id}
             onChange={onChange}
             maxLength="10"
             placeholder="User ID"
           />
-          <button
-            className="btn btn-primary my-2"
-            type="button"
-            onClick={userLogin}
-          >
-            Login using ID
-          </button>
+          <div className="input-group-append">
+            <button className="btn btn-primary" type="button" onClick={userLogin}>
+              Login using ID
+            </button>
+          </div>
         </div>
         {isMobile && (
-          <div>
+          <div className="mb-3">
             <button
-              className="btn btn-primary my-2"
+              className="btn btn-primary"
               type="button"
               onClick={props.showScanner}
             >
@@ -47,9 +46,9 @@ export default function AuthScreen(props) {
             </button>
           </div>
         )}
-        <div>
+        <div className="mb-3">
           <button
-            className="btn btn-secondary my-2"
+            className="btn btn-secondary"
             type="button"
             onClick={props.setNewUser}
           >

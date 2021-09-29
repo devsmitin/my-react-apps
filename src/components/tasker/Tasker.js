@@ -262,7 +262,7 @@ class Tasker extends Component {
     } = this.state;
 
     let openItems = {
-      title: "Open Tasks",
+      title: "Open Items",
       items: userLists && userLists.openItems,
       btn1Title: "Mark closed",
       btn1: this.handleDone,
@@ -271,7 +271,7 @@ class Tasker extends Component {
     };
 
     let doneItems = {
-      title: "Closed Tasks",
+      title: "Closed Items",
       items: userLists && userLists.doneItems,
       btn1Title: "Reopen",
       btn1: this.handleUndo,
@@ -289,44 +289,41 @@ class Tasker extends Component {
             login={this.onScan}
           />
         )}
-        <main className="">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-8">
-                <div className="">
-                  <List {...openItems} />
-                </div>
-                <div className="">
-                  <List {...doneItems} />
-                </div>
+        <main className="container">
+          <h1 className="h3 font-weight-bold my-3">Tasker</h1>
+          <div className="row">
+            <div className="col-lg-9">
+              <div className="">
+                <List {...openItems} />
               </div>
-              <div className="col-lg-4">
-                <div className="card rounded-0">
-                  <div className="card-body text-center">
-                    <p className="">
-                      User ID: <strong>{otp}</strong>
-                    </p>
-                    {!Helper.checkDevice() && (
-                      <>
-                        <h6 className="font-weight-bold mb-3">
-                          QR code for mobile login
-                        </h6>
-                        <img
-                          src={userImg}
-                          alt={currentUser}
-                          className="img-fluid border p-2 mb-3 bg-white shadow-sm"
-                        />
-                      </>
-                    )}
-                    <div>
-                      <button
-                        className="btn btn-danger"
-                        onClick={this.handleLogout}
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  </div>
+              <div className="">
+                <List {...doneItems} />
+              </div>
+            </div>
+            <div className="col-lg-3">
+              <div className="card card-body mb-3 text-center">
+                <p className="">
+                  User ID: <strong>{otp}</strong>
+                </p>
+                {!Helper.checkDevice() && (
+                  <>
+                    <h6 className="font-weight-bold mb-3">
+                      QR code for mobile login
+                    </h6>
+                    <img
+                      src={userImg}
+                      alt={currentUser}
+                      className="img-fluid border p-2 mb-3 bg-white shadow-sm"
+                    />
+                  </>
+                )}
+                <div>
+                  <button
+                    className="btn btn-danger"
+                    onClick={this.handleLogout}
+                  >
+                    Logout
+                  </button>
                 </div>
               </div>
             </div>
