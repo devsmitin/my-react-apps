@@ -30,7 +30,7 @@ class Weather extends Component {
         weather: w_data,
       },
       () => {
-        this.startTimer(w_data, "mount");
+        this.startTimer(w_data);
       }
     );
   }
@@ -39,7 +39,7 @@ class Weather extends Component {
     clearInterval(this.intervalID);
   }
 
-  startTimer = (weather, pos) => {
+  startTimer = (weather) => {
     if (weather && Object.entries(weather).length) {
       this.intervalID = setInterval(() => {
         let t = this.countDown();
@@ -86,7 +86,7 @@ class Weather extends Component {
         unsplash_img: image,
       },
       () => {
-        this.startTimer(weather, "else");
+        this.startTimer(weather);
       }
     );
 
@@ -153,10 +153,9 @@ class Weather extends Component {
               <h5 className="text-capitalize">
                 {weather.w_desc}, Wind: {weather.w_wind}
               </h5>
-              <p className="mb-1">
-                {"Checked at: " + Helper.handleDate(weather.w_time, "HH:mm")}
+              <p className="">
+                {"Checked at: " + Helper.handleDate(weather.w_time, "HH:mm, dd/mm/yyyy")}
               </p>
-              <p>{fap + " min ago"}</p>
               {this.refresher(fap)}
             </div>
           ) : (
