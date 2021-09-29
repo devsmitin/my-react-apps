@@ -122,6 +122,10 @@ export function getCountryName(code) {
   return res;
 }
 
+export const regionNamesInEnglish = new Intl.DisplayNames(["en"], {
+  type: "region",
+});
+
 export function geoError(error) {
   let err;
   switch (error.code) {

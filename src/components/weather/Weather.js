@@ -66,11 +66,7 @@ class Weather extends Component {
   getWeatherInfo = async (location) => {
     let { coords } = location;
     let weather = await Helper.getWeatherData(coords);
-    // let s_country = await Helper.getCountryName(weather.sys.country);
-    const regionNamesInEnglish = new Intl.DisplayNames(['en'], { type: 'region' });
-    let s_country = regionNamesInEnglish.of(weather.sys.country);
-
-    console.log(`s_country`, s_country)
+    let s_country = Helper.regionNamesInEnglish.of(weather.sys.country);
 
     let w_data = {
       w_temp: weather.main.temp,
