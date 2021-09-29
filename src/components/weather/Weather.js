@@ -77,7 +77,7 @@ class Weather extends Component {
       w_time: Date.now(),
     };
 
-    let image = await Helper.getRandomPhoto(w_data.w_desc);
+    let image = await Helper.getRandomPhoto();
     image.fetchedAt = Date.now();
 
     this.setState(

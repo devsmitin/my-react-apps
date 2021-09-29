@@ -92,7 +92,7 @@ export function getWeatherData(location) {
   return res;
 }
 
-export function getRandomPhoto(term) {
+export function getRandomPhoto(term = "sunny, rain, sea") {
   const API_KEY = unsplash.API_KEY;
   const apiEndPoint = unsplash.EndPoint;
 
