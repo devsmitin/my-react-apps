@@ -37,13 +37,14 @@ export function handleDate(timestamp, format) {
   const formatNumber = (n) => ("0" + n).slice(-2);
 
   let date = time.getDate(),
-    month = time.getMonth() + 1,
     year = time.getFullYear(),
+    month = formatNumber(time.getMonth() + 1),
     hours = formatNumber(time.getHours()),
     min = formatNumber(time.getMinutes()),
     sec = formatNumber(time.getSeconds()),
     strOut;
 
+  console.log(`min`, min);
   switch (format) {
     case "dd/mm/yyyy":
       strOut = date + "/" + month + "/" + year;
@@ -59,6 +60,9 @@ export function handleDate(timestamp, format) {
       break;
     case "HH:mm":
       strOut = hours + ":" + min;
+      break;
+    case "HH:mm, dd/mm/yyyy":
+      strOut = hours + ":" + min + ", " + date + "/" + month + "/" + year;
       break;
     default:
       strOut =
@@ -151,11 +155,13 @@ export function handleDateDiff(newTimestamp, oldTimestamp) {
   let secDiff = msDiff / 1000;
   let minDiff = secDiff / 60;
   let hrDiff = minDiff / 60;
+  let dayDiff = hrDiff / 24;
   let diffObj = {
     ms: parseInt(msDiff),
     seconds: parseInt(secDiff),
     minuits: parseInt(minDiff),
     hours: parseInt(hrDiff),
+    days: parseInt(dayDiff),
   };
   return diffObj;
 }
