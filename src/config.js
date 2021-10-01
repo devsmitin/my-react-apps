@@ -3,7 +3,7 @@ const AppData = {
   navlinks: [
     { title: "Weather", to: "/" },
     { title: "Tasker", to: "/tasker" },
-    { title: "Date calculator", to: "/date-duration" },
+    { title: "Days calculator", to: "/days-calc" },
   ],
 };
 
