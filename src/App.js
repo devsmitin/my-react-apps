@@ -17,7 +17,7 @@ class App extends Component {
     this.navlinks = [
       { title: "Days calculator", to: "/" },
       { title: "Weather", to: "/weather" },
-      { title: "Tasker", to: "/tasker" },
+      { title: "Tasker (Beta)", to: "/tasker" },
     ];
   }
 
