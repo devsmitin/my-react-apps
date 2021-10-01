@@ -44,7 +44,6 @@ export function handleDate(timestamp, format) {
     sec = formatNumber(time.getSeconds()),
     strOut;
 
-  console.log(`min`, min);
   switch (format) {
     case "dd/mm/yyyy":
       strOut = date + "/" + month + "/" + year;

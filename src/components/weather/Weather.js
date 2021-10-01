@@ -97,7 +97,7 @@ class Weather extends Component {
   countDown = () => {
     if (this.state.weather) {
       let i = Helper.handleDateDiff(Date.now(), this.state.weather.w_time)
-        .minuits;
+        .minutes;
       return i;
     }
   };
