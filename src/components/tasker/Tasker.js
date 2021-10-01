@@ -142,7 +142,7 @@ class Tasker extends Component {
     if (user !== undefined) {
       let queryString = `?data=${user}&size=256x256`;
       this.setState({
-        userImg: qrProvider.EndPoint + queryString,
+        userImg: qrProvider.endPoint + queryString,
         showLoading: false,
       });
     }

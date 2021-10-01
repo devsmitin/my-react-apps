@@ -16,12 +16,22 @@ class Header extends Component {
   };
 
   render() {
+    let { title, background, links } = this.props;
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-2 mb-md-3 sticky-top">
-        <span className="navbar-brand p-0">{this.props.title}</span>
-        {/* <NavLink className="navbar-brand p-0" exact to="/">
-          {this.props.title}
-        </NavLink> */}
+      <nav
+        className="navbar navbar-expand-lg navbar-light mb-2 mb-md-3 border-bottom sticky-top"
+        style={{ backgroundColor: background }}
+      >
+        <span className="navbar-brand p-0">
+          <img
+            src="/owl-72.png"
+            className="app-logo"
+            alt="logo"
+            width="30"
+            height="30"
+          />
+          {title}
+        </span>
         <button
           className={"navbar-toggler" + (this.state.isOpen ? "" : " collapsed")}
           type="button"
@@ -35,8 +45,8 @@ class Header extends Component {
           }
         >
           <ul className="navbar-nav ml-lg-auto">
-            {this.props.links &&
-              this.props.links.map((link, index) => {
+            {links &&
+              links.map((link, index) => {
                 return (
                   <li className="nav-item" key={index}>
                     <NavLink

@@ -139,7 +139,7 @@ class DateCalculator extends Component {
 
         {has_error === true && (
           <div className="alert alert-danger">
-            <p className="mb-0">Either date is not valid</p>
+            <p className="mb-0">Enter valid date. Start date can not be after end date.</p>
           </div>
         )}
       </main>
