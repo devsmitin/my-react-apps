@@ -44,7 +44,6 @@ export function handleDate(timestamp, format) {
     sec = formatNumber(time.getSeconds()),
     strOut;
 
-  console.log(`min`, min);
   switch (format) {
     case "dd/mm/yyyy":
       strOut = date + "/" + month + "/" + year;
@@ -152,16 +151,37 @@ export function geoError(error) {
 
 export function handleDateDiff(newTimestamp, oldTimestamp) {
   let msDiff = newTimestamp - oldTimestamp;
-  let secDiff = msDiff / 1000;
-  let minDiff = secDiff / 60;
-  let hrDiff = minDiff / 60;
-  let dayDiff = hrDiff / 24;
+  let secDiff = Math.floor(msDiff / 1000);
+  let minDiff = Math.floor(secDiff / 60);
+  let hrDiff = Math.floor(minDiff / 60);
+  let dayDiff = Math.floor(hrDiff / 24);
+  let monDiff = Math.floor(dayDiff / 30);
+  let yearsDiff = Math.floor(monDiff / 12);
+
+  let yearsDifference = Math.floor(msDiff / 1000 / 60 / 60 / 24 / 30.42 / 12);
+  msDiff -= yearsDifference * 1000 * 60 * 60 * 24 * 30.42 * 12;
+
+  let monthsDifference = Math.floor(msDiff / 1000 / 60 / 60 / 24 / 30.42);
+  msDiff -= monthsDifference * 1000 * 60 * 60 * 24 * 30.42;
+
+  let daysDifference = Math.floor(msDiff / 1000 / 60 / 60 / 24);
+  msDiff -= daysDifference * 1000 * 60 * 60 * 24;
+
   let diffObj = {
-    ms: parseInt(msDiff),
-    seconds: parseInt(secDiff),
-    minuits: parseInt(minDiff),
-    hours: parseInt(hrDiff),
-    days: parseInt(dayDiff),
+    ms: msDiff,
+    seconds: secDiff,
+    minutes: minDiff,
+    hours: hrDiff,
+    days: dayDiff,
+    months: monDiff,
+    years: yearsDiff,
+    diff:
+      yearsDifference +
+      (yearsDifference > 1 ? " years " : " year ") +
+      monthsDifference +
+      (monthsDifference > 1 ? " months " : " month ") +
+      daysDifference +
+      (daysDifference > 1 ? " days " : " day ") 
   };
   return diffObj;
 }

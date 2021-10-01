@@ -25,7 +25,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Weather} />
           <Route path="/tasker" component={Tasker} />
-          <Route path="/date-duration" component={DateCalculator} />
+          <Route path="/days-calc" component={DateCalculator} />
         </Switch>
       </BrowserRouter>
     );
