@@ -74,14 +74,14 @@ export function handleDate(timestamp, format) {
 export function getWeatherData(location) {
   const { latitude, longitude } = location;
 
-  const key = weather.API_KEY;
-  const apiEndPoint = weather.EndPoint;
+  const key = weather.apiKey;
+  const apiendPoint = weather.endPoint;
   const units = weather.Units;
 
   let queryString = `?lat=${latitude}&lon=${longitude}&appid=${key}&units=${units}`;
 
   let res = axios
-    .get(apiEndPoint + queryString)
+    .get(apiendPoint + queryString)
     .then((response) => response.data)
     .catch((err) => {
       pushNotify(
@@ -96,14 +96,14 @@ export function getWeatherData(location) {
 }
 
 export function getRandomPhoto(term = "sunny, rain, sea") {
-  const API_KEY = unsplash.API_KEY;
-  const apiEndPoint = unsplash.EndPoint;
+  const apiKey = unsplash.apiKey;
+  const apiendPoint = unsplash.endPoint;
 
   let res = axios
-    .get(apiEndPoint, {
+    .get(apiendPoint, {
       params: { query: term },
       headers: {
-        Authorization: "Client-ID " + API_KEY,
+        Authorization: "Client-ID " + apiKey,
       },
     })
     .then((response) => response.data)
@@ -115,9 +115,9 @@ export function getRandomPhoto(term = "sunny, rain, sea") {
 }
 
 export function getCountryName(code) {
-  const apiEndPoint = countryData.EndPoint;
+  const apiendPoint = countryData.endPoint;
   let res = axios
-    .get(apiEndPoint + code)
+    .get(apiendPoint + code)
     .then((response) => response.data)
     .catch((err) => {
       console.log(err);

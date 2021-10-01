@@ -14,16 +14,26 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.navlinks = [
+      { title: "Days calculator", to: "/" },
+      { title: "Weather", to: "/weather" },
+      { title: "Tasker (Beta)", to: "/tasker" },
+    ];
   }
 
   render() {
-    let { apptitle, navlinks } = AppData;
+    let { appTitle, themeColor } = AppData;
 
     return (
       <BrowserRouter>
-        <Header title={apptitle} links={navlinks} />
+        <Header
+          title={appTitle}
+          links={this.navlinks}
+          background={themeColor}
+        />
         <Switch>
-          <Route exact path="/" component={Weather} />
+          <Route exact path="/" component={DateCalculator} />
+          <Route path="/weather" component={Weather} />
           <Route path="/tasker" component={Tasker} />
           <Route path="/days-calc" component={DateCalculator} />
         </Switch>

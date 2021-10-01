@@ -1,6 +1,7 @@
 {
-  "short_name": "Smit's Apps",
-  "name": "Smit's React Apps",
+  "short_name": "Owley Apps",
+  "name": "Owley React Apps",
+  "version": "1.0.0",
   "icons": [
     {
       "src": "favicon.ico",
@@ -22,5 +23,5 @@
   "scope": "/",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#afd4e5"
+  "background_color": "#e3f2fd"
 }

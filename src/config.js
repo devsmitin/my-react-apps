@@ -1,29 +1,25 @@
 const AppData = {
-  apptitle: "My Apps",
-  navlinks: [
-    { title: "Weather", to: "/" },
-    { title: "Tasker", to: "/tasker" },
-    { title: "Days calculator", to: "/days-calc" },
-  ],
+  appTitle: "Owley Apps",
+  themeColor: "#e3f2fd"
 };
 
 const weather = {
-  API_KEY: "3dc98cc5c53896bfed6db93c5b6a03a0",
-  EndPoint: "https://api.openweathermap.org/data/2.5/weather",
+  apiKey: "3dc98cc5c53896bfed6db93c5b6a03a0",
+  endPoint: "https://api.openweathermap.org/data/2.5/weather",
   Units: "metric",
 };
 
 const unsplash = {
-  API_KEY: "cd1ba1edce7d302607850f0bfd96f3220a70eec97b0aced1476398ca880d1a09",
-  EndPoint: "https://api.unsplash.com/photos/random",
+  apiKey: "cd1ba1edce7d302607850f0bfd96f3220a70eec97b0aced1476398ca880d1a09",
+  endPoint: "https://api.unsplash.com/photos/random",
 };
 
 const countryData = {
-  EndPoint: "https://restcountries.eu/rest/v2/alpha/",
+  endPoint: "https://restcountries.eu/rest/v2/alpha/",
 };
 
 const qrProvider = {
-  EndPoint: "https://api.qrserver.com/v1/create-qr-code/",
+  endPoint: "https://api.qrserver.com/v1/create-qr-code/",
 };
 
 const fireconfig = {

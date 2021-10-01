@@ -18,7 +18,7 @@
       transform: translateX(-100%);
       &.show {
         transform: translateX(0);
-        background: var(--gray-dark);
+        background: var(--light);
         box-shadow: 5px 0px 10px -5px rgba(#333, 0.4);
       }
     }
@@ -37,7 +37,7 @@
         height: 2px;
         width: 80%;
         margin: 0 auto;
-        background-color: #fff;
+        background-color: currentColor;
         font-size: 0;
         &:before,
         &:after {
@@ -46,7 +46,7 @@
           height: 2px;
           width: 80%;
           position: absolute;
-          background-color: #fff;
+          background-color: currentColor;
           transition: 0.25s all;
         }
         &:before {
@@ -65,5 +65,12 @@
         }
       }
     }
+  }
+
+  .app-logo {
+    height: 30px;
+    width: 30px;
+    border-radius: 0.25rem;
+    margin-right: 0.5rem;
   }
 }
