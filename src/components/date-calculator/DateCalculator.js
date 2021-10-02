@@ -42,7 +42,7 @@ class DateCalculator extends Component {
       let end = new Date(end_date);
       end = Date.parse(end);
 
-      if (start <= end) {
+      if (start < end) {
         let diffObj = handleDateDiff(end, start);
         this.setState({ has_error: false, diffObj });
       } else {
@@ -54,7 +54,24 @@ class DateCalculator extends Component {
   };
 
   render() {
-    let { diffObj, has_error } = this.state;
+    let { diffObj, has_error, start_date, end_date } = this.state;
+
+    const option = { year: "numeric", month: "long", day: "numeric" };
+
+    let start = new Date(start_date);
+    start = start.toLocaleDateString(undefined, option);
+    let end = new Date(end_date);
+    end = end.toLocaleDateString(undefined, option);
+
+    let tweet_text = `Hey! It is ${diffObj.days}${
+      diffObj.days > 1 ? " days" : " day"
+    } between ${start} and ${end}!`;
+    let tweet_url = `https://2no.co/24rHQ6`;
+    let tweet_user = "devsmitin";
+
+    let href = `https://twitter.com/intent/tweet?text=${tweet_text}`;
+    href += `&url=${tweet_url}&via=${tweet_user}&hashtags=reactapp`;
+
     return (
       <main className="container">
         <h1 className="h3 font-weight-bold my-3">Days calculator</h1>
@@ -139,8 +156,21 @@ class DateCalculator extends Component {
 
         {has_error === true && (
           <div className="alert alert-danger">
-            <p className="mb-0">Enter valid date. Start date can not be after end date.</p>
+            <p className="mb-0">
+              Enter valid date. Start date can not be after end date.
+            </p>
           </div>
+        )}
+
+        {diffObj && (
+          <a
+            className="twitter-share-button btn btn-primary"
+            target="_blank"
+            href={href}
+          >
+            <i className="bi bi-twitter"></i>
+            Tweet
+          </a>
         )}
       </main>
     );
