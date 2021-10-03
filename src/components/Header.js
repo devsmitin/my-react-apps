@@ -44,7 +44,7 @@ class Header extends Component {
             "navbar-collapse flex-lg-fill" + (this.state.isOpen ? " show" : "")
           }
         >
-          <ul className="navbar-nav ml-lg-auto">
+          <ul className="navbar-nav ms-lg-auto">
             {links &&
               links.map((link, index) => {
                 return (

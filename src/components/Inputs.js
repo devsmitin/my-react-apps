@@ -26,15 +26,29 @@ class Inputs extends Component {
 
   render() {
     const { label, value, handler, ...inputProps } = this.props;
+    const nontext_elms = ["textarea", "select", "checkbox", "radio"];
     return (
       <>
-        <label htmlFor={inputProps.id} className="form-label">{label}:</label>
+        {label && (
+          <label htmlFor={inputProps.id} className="form-label">
+            {label}:
+          </label>
+        )}
 
-        <input
-          value={this.state.value}
-          onChange={this.onChange}
-          {...inputProps}
-        />
+        {this.props.type === "textarea" && (
+          <textarea
+            value={this.state.value}
+            onChange={this.onChange}
+            {...inputProps}
+          ></textarea>
+        )}
+        {!nontext_elms.includes(this.props.type) && (
+          <input
+            value={this.state.value}
+            onChange={this.onChange}
+            {...inputProps}
+          />
+        )}
       </>
     );
   }
