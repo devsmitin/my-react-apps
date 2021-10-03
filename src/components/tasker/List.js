@@ -48,7 +48,7 @@ class List extends Component {
                   )}
                 </div>
                 <span
-                  className="btn btn-sm ml-auto text-muted"
+                  className="btn btn-sm ms-auto text-muted"
                   title={this.handleDate(item.time)}
                 >
                   {this.handleDate(item.time, "dd/mm/yyyy")}

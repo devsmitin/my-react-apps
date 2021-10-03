@@ -38,35 +38,35 @@ class DateCalculator extends Component {
     const { start_date, end_date } = this.state;
     if (start_date !== "" && end_date !== "") {
       let start = new Date(start_date);
-      start = Date.parse(start);
       let end = new Date(end_date);
-      end = Date.parse(end);
+      let start_ts = Date.parse(start);
+      let end_ts = Date.parse(end);
 
-      if (start < end) {
-        let diffObj = handleDateDiff(end, start);
-        this.setState({ has_error: false, diffObj });
+      if (start_ts <= end_ts) {
+        let diffObj = handleDateDiff(end_ts, start_ts);
+
+        const option = { year: "numeric", month: "long", day: "numeric" };
+        let f_start = start.toLocaleDateString(undefined, option);
+        let f_end = end.toLocaleDateString(undefined, option);
+
+        let tweet_text = `Hey! It is ${diffObj.days}${
+          diffObj.days > 1 ? " days" : " day"
+        } between ${f_start} and ${f_end}!`;
+
+        this.setState({ has_error: false, diffObj, tweet_text });
       } else {
-        this.setState({ has_error: true, diffObj: "" });
+        this.setState({ has_error: true, diffObj: "", tweet_text: "" });
       }
     } else {
-      this.setState({ has_error: true, diffObj: "" });
+      this.setState({ has_error: true, diffObj: "", tweet_text: "" });
     }
   };
 
   render() {
-    let { diffObj, has_error, start_date, end_date } = this.state;
+    let { diffObj, has_error, tweet_text } = this.state;
 
-    const option = { year: "numeric", month: "long", day: "numeric" };
-
-    let start = new Date(start_date);
-    start = start.toLocaleDateString(undefined, option);
-    let end = new Date(end_date);
-    end = end.toLocaleDateString(undefined, option);
-
-    let tweet_text = `Hey! It is ${diffObj.days}${
-      diffObj.days > 1 ? " days" : " day"
-    } between ${start} and ${end}!`;
-    let tweet_url = `https://2no.co/24rHQ6`;
+    // let tweet_url = `https://2no.co/24rHQ6`;
+    let tweet_url = `https://react.devsmit.in/day-calc`;
     let tweet_user = "devsmitin";
 
     let href = `https://twitter.com/intent/tweet?text=${tweet_text}`;
@@ -120,7 +120,7 @@ class DateCalculator extends Component {
                   Result:{" "}
                   {`${diffObj.days} ${diffObj.days > 1 ? " days" : " day"}`}
                 </h5>
-                <ul className="pl-4">
+                <ul className="ps-4">
                   <li>
                     It is{" "}
                     {`${diffObj.days} ${diffObj.days > 1 ? " days" : " day"}`}{" "}
@@ -135,7 +135,7 @@ class DateCalculator extends Component {
                   Alternatively:{" "}
                   {`${diffObj.days} ${diffObj.days > 1 ? " days" : " day"}`} are
                 </h5>
-                <ul className="pl-4">
+                <ul className="ps-4">
                   <li>{`${diffObj.seconds} ${
                     diffObj.seconds > 1 ? " seconds" : " second"
                   }`}</li>
@@ -163,14 +163,30 @@ class DateCalculator extends Component {
         )}
 
         {diffObj && (
-          <a
-            className="twitter-share-button btn btn-primary"
-            target="_blank"
-            href={href}
-          >
-            <i className="bi bi-twitter"></i>
-            Tweet
-          </a>
+          <div className="">
+            <div className="mb-2">
+              <Inputs
+                type="textarea"
+                id="tweet_text"
+                className="form-control"
+                rows="3"
+                value={tweet_text}
+                handler={this.getData}
+                disabled
+              />
+              {/* <div className="form-text">#Hashtags are not supported for now!</div> */}
+            </div>
+
+            <a
+              href={href}
+              className="btn btn-primary mx-auto mb-4"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="bi bi-twitter"></i>{" "}
+              Tweet
+            </a>
+          </div>
         )}
       </main>
     );

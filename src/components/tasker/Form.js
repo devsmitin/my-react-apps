@@ -73,7 +73,7 @@ class Form extends Component {
               placeholder="Description"
             />
             <button
-              className="btn btn-success mr-2"
+              className="btn btn-success me-2"
               disabled={
                 title.trim().length === 0 ||
                 details.trim().length === 0 ||
@@ -83,7 +83,7 @@ class Form extends Component {
               Add
             </button>
             <button
-              className="btn btn-outline-secondary mr-2"
+              className="btn btn-outline-secondary me-2"
               onClick={this.props.closeForm}
             >
               Cancel
