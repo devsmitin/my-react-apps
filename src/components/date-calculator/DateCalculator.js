@@ -66,11 +66,10 @@ class DateCalculator extends Component {
     let { diffObj, has_error, tweet_text } = this.state;
 
     // let tweet_url = `https://2no.co/24rHQ6`;
-    let tweet_url = `https://react.devsmit.in/day-calc`;
+    let tweet_url = `https://react.devsmit.in/days-calc`;
     let tweet_user = "devsmitin";
 
-    let href = `https://twitter.com/intent/tweet?text=${tweet_text}`;
-    href += `&url=${tweet_url}&via=${tweet_user}&hashtags=reactapp`;
+    let href = `https://twitter.com/intent/tweet?text=${tweet_text}&url=${tweet_url}&via=${tweet_user}&hashtags=daycalculator,reactapp`;
 
     return (
       <main className="container">
