@@ -22,7 +22,7 @@ class Header extends Component {
         className="navbar navbar-expand-lg navbar-light mb-2 mb-md-3 border-bottom sticky-top"
         style={{ backgroundColor: background }}
       >
-        <div class="container-fluid">
+        <div className="container-fluid">
           <span className="navbar-brand p-0">
             <img
               src="/owl-72.png"
