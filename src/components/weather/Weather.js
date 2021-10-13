@@ -55,10 +55,17 @@ class Weather extends Component {
     if (!navigator.geolocation) {
       console.log("Browser does not support location access.");
     } else {
-      navigator.geolocation.getCurrentPosition(
-        this.getWeatherInfo,
-        Helper.geoError,
-        this.locationOptions
+      this.setState(
+        {
+          timeAgo: 0,
+        },
+        () => {
+          navigator.geolocation.getCurrentPosition(
+            this.getWeatherInfo,
+            Helper.geoError,
+            this.locationOptions
+          );
+        }
       );
     }
   };
@@ -154,7 +161,8 @@ class Weather extends Component {
                 {weather.w_desc}, Wind: {weather.w_wind}
               </h5>
               <p className="">
-                {"Checked at: " + Helper.handleDate(weather.w_time, "HH:mm, dd/mm/yyyy")}
+                {"Checked at: " +
+                  Helper.handleDate(weather.w_time, "HH:mm, dd/mm/yyyy")}
               </p>
               {this.refresher(fap)}
             </div>
