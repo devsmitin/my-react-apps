@@ -47,31 +47,32 @@ class Tasker extends Component {
   };
 
   userData = async (userId) => {
-    let items = await (getUserData(userId));
-
-    console.log(`items`, items)
-    if (items) {
-      this.setState(
-        {
-          currentUser: userId,
-          userLists: items,
-          otp: userId.replace("dz_", ""),
-        },
-        () => {
-          localStorage.setItem("react_user", userId);
-          this.notif(
-            "Data synced with your data on server",
-            "Data sync finished!"
-          );
-          this.setUserImg(userId);
-        }
-      );
-    } else {
-      this.notif("User not found!", "Error!");
-      setTimeout(() => {
-        this.setState({ showLoading: false, showAuth: true });
-      }, 2 * 1000);
+    let cb = (items) => {
+      if (items) {
+        this.setState(
+          {
+            currentUser: userId,
+            userLists: items,
+            otp: userId.replace("dz_", ""),
+          },
+          () => {
+            localStorage.setItem("react_user", userId);
+            this.notif(
+              "Data synced with your data on server",
+              "Data sync finished!"
+            );
+            this.setUserImg(userId);
+          }
+        );
+      } else {
+        this.notif("User not found!", "Error!");
+        setTimeout(() => {
+          this.setState({ showLoading: false, showAuth: true });
+        }, 2 * 1000);
+      }
     }
+
+    getUserData(userId, cb);
   };
 
   notif = (msg, title) => {
