@@ -4,6 +4,16 @@
 
 .navbar {
   height: var(--navbar-height);
+  &.navbar-light {
+    .nav-link {
+      color: #000;
+    }
+  }
+  &.navbar-dark {
+    .nav-link {
+      color: #fff;
+    }
+  }
   @media (max-width: 991px) {
     .navbar-collapse {
       position: fixed;
@@ -20,6 +30,9 @@
         transform: translateX(0);
         background: var(--bs-light);
         box-shadow: 5px 0px 10px -5px rgba(#333, 0.4);
+      }
+      .nav-link {
+        color: #464646;
       }
     }
 
@@ -63,6 +76,9 @@
             width: 100%;
           }
         }
+      }
+      &:focus {
+        box-shadow: none;
       }
     }
   }

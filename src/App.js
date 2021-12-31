@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import "./scss/App.scss";
+import "./assets/App.scss";
 
 import { AppData } from "./config";
 
@@ -15,7 +15,7 @@ class App extends Component {
     super(props);
     this.state = {};
     this.navlinks = [
-      { title: "Days calculator", to: "/" },
+      { title: "Days calculator", to: "/days-calc" },
       { title: "Weather", to: "/weather" },
       { title: "Tasker (Beta)", to: "/tasker" },
     ];
@@ -25,19 +25,21 @@ class App extends Component {
     let { appTitle, themeColor } = AppData;
 
     return (
-      <BrowserRouter>
-        <Header
-          title={appTitle}
-          links={this.navlinks}
-          background={themeColor}
-        />
-        <Switch>
-          <Route exact path="/" component={DateCalculator} />
-          <Route path="/weather" component={Weather} />
-          <Route path="/tasker" component={Tasker} />
-          <Route path="/days-calc" component={DateCalculator} />
-        </Switch>
-      </BrowserRouter>
+      <React.StrictMode>
+        <BrowserRouter>
+          <Header
+            title={appTitle}
+            links={this.navlinks}
+            background={themeColor}
+          />
+          <Routes>
+            <Route index path="/" element={<Tasker />} />
+            <Route path="/weather" element={<Weather />} />
+            <Route path="/tasker" element={<Tasker />} />
+            <Route path="/days-calc" element={<DateCalculator />} />
+          </Routes>
+        </BrowserRouter>
+      </React.StrictMode>
     );
   }
 }

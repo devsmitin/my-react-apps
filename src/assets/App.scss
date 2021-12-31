@@ -11,34 +11,20 @@ body {
 
 // override classes
 
+.form-control,
+.btn {
+  &:focus {
+    box-shadow: none;
+  }
+}
+
 .btn:disabled {
   cursor: not-allowed;
 }
 
-.card,
-.btn,
-.btn-group > .btn {
-  border-radius: 3px;
-}
-
-
-.container,
-.container-fluid {
-  @media (max-width: 767px) {
-    .no-gutters-xs {
-      margin-right: 0;
-      margin-left: 0;
-      > .col,
-      > [class*="col-"] {
-        padding-right: 0;
-        padding-left: 0;
-      }
-    }
-    // .list-group-item {
-    //   border-left: 0;
-    //   border-right: 0;
-    // }
-  }
+.btn.btn-sm {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
 // component classes
@@ -63,7 +49,6 @@ body {
   z-index: 9998;
   justify-content: center;
   padding-top: 80px;
-  // display: none;
 }
 
 .fab-wrapper {
@@ -130,4 +115,12 @@ body {
   left: 0;
   right: 0;
   padding: 80px 15px 15px;
+}
+
+.button-group {
+  .btn {
+    &:not(:last-child) {
+      margin-right: 0.5rem;
+    }
+  }
 }

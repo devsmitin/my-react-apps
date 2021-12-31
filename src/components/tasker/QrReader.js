@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import QRReader from "react-qr-reader";
+// import QRReader from "react-qr-reader";
 
 class QrReader extends Component {
   constructor(props) {
@@ -35,12 +35,12 @@ class QrReader extends Component {
   render() {
     return (
       <div className="text-center">
-        <QRReader
+        {/* <QRReader
           delay={this.state.delay}
           onError={this.handleError}
           onScan={this.handleScan}
           style={{ width: "100%", marginBottom: "1rem" }}
-        />
+        /> */}
         <p>{this.state.result}</p>
         <button className="btn btn-danger" onClick={this.props.closeScanner}>
           Cancel
