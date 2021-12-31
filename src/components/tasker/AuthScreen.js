@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import Inputs from "../Inputs";
 
 const AuthScreen = (props) => {
@@ -40,6 +41,9 @@ const AuthScreen = (props) => {
           >
             New User? Click here
           </button>
+          <NavLink className="btn btn-link" to={"/"} end>
+            Return home
+          </NavLink>
         </div>
       </div>
     </div>

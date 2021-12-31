@@ -31,7 +31,9 @@
         background: var(--bs-light);
         box-shadow: 5px 0px 10px -5px rgba(#333, 0.4);
       }
-      .nav-link {
+      .nav-link,
+      .nav-link:hover,
+      .nav-link.active {
         color: #464646;
       }
     }
