@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import fb_db from "./fire";
+import { getUserData, writeUserData } from "./fire";
 import * as Helper from "../../Helper";
 
-import QrReader from "./QrReader";
+// import QrReader from "./QrReader";
 import Form from "./Form";
 import List from "./List";
 import AuthScreen from "./AuthScreen";
@@ -27,8 +27,7 @@ class Tasker extends Component {
           otp: user.replace("dz_", ""),
         },
         () => {
-          const dataRef = fb_db.database().ref(user);
-          this.getUserData(dataRef, user);
+          this.userData(user);
         }
       );
     } else {
@@ -43,43 +42,36 @@ class Tasker extends Component {
     let { userLists, currentUser } = this.state;
     let userDataOld = prevState.userLists;
     if (JSON.stringify(userLists) !== JSON.stringify(userDataOld)) {
-      this.writeUserData(currentUser, userLists);
+      writeUserData(currentUser, userLists);
     }
   };
 
-  getUserData = (ref, userId) => {
-    ref.on("value", (snapshot) => {
-      let items = snapshot.val();
-      if (items) {
-        this.setState(
-          {
-            currentUser: userId,
-            userLists: items,
-            otp: userId.replace("dz_", ""),
-          },
-          () => {
-            localStorage.setItem("react_user", userId);
-            // this.notif(
-            //   "Data synced with your data on server",
-            //   "Data sync finished!"
-            // );
-            this.setUserImg(userId);
-          }
-        );
-      } else {
-        this.notif("User not found!", "Error!");
-        setTimeout(() => {
-          this.setState({ showLoading: false, showAuth: true });
-        }, 2 * 1000);
-      }
-    });
-  };
+  userData = async (userId) => {
+    let items = await (getUserData(userId));
 
-  writeUserData = (ref, refdata) => {
-    fb_db
-      .database()
-      .ref(ref)
-      .set(refdata);
+    console.log(`items`, items)
+    if (items) {
+      this.setState(
+        {
+          currentUser: userId,
+          userLists: items,
+          otp: userId.replace("dz_", ""),
+        },
+        () => {
+          localStorage.setItem("react_user", userId);
+          this.notif(
+            "Data synced with your data on server",
+            "Data sync finished!"
+          );
+          this.setUserImg(userId);
+        }
+      );
+    } else {
+      this.notif("User not found!", "Error!");
+      setTimeout(() => {
+        this.setState({ showLoading: false, showAuth: true });
+      }, 2 * 1000);
+    }
   };
 
   notif = (msg, title) => {
@@ -101,10 +93,7 @@ class Tasker extends Component {
         showLoading: true,
       },
       () => {
-        // setTimeout(() => {
-        const dataRef = fb_db.database().ref(userId);
-        this.getUserData(dataRef, userId);
-        // }, 1000);
+        this.userData(userId);
         this.setUserImg(userId);
       }
     );
@@ -342,10 +331,10 @@ class Tasker extends Component {
           {scanCode && (
             <div className="overlay">
               <div className="w-300 mx-auto">
-                <QrReader
+                {/* <QrReader
                   getCode={this.onScan}
                   closeScanner={this.toggleScanner}
-                />
+                /> */}
               </div>
             </div>
           )}

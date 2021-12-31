@@ -17,7 +17,7 @@ export default function AuthScreen(props) {
 
   return (
     <div className="overlay">
-      <div className="card login-box rounded bg-white p-3 shadow-lg">
+      <div className="card login-box rounded bg-white p-3 shadow-lg text-center">
         <h5 className="card-title">Login</h5>
         <div className="input-group mb-3">
           <input
@@ -35,7 +35,7 @@ export default function AuthScreen(props) {
             </button>
           </div>
         </div>
-        {isMobile && (
+        {isMobile && false && (
           <div className="mb-3">
             <button
               className="btn btn-primary"
@@ -46,6 +46,7 @@ export default function AuthScreen(props) {
             </button>
           </div>
         )}
+        <p>Or</p>
         <div className="mb-3">
           <button
             className="btn btn-secondary"

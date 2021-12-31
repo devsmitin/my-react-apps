@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import * as Helper from "../../Helper";
-import "../../scss/Weather.scss";
+import "../../assets/Weather.scss";
 
 class Weather extends Component {
   constructor(props) {

@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { countryData, unsplash, weather } from "./config";
 
 export function pushNotify(msg, title, i) {
@@ -26,7 +25,7 @@ export function showLoader(show) {
   return show !== "hide" ? (
     <div className="loading-screen d-flex justify-content-center align-items-center">
       <div className="spinner-border" role="status">
-        <span className="sr-only">Loading...</span>
+        <span className="visually-hidden">Loading...</span>
       </div>
     </div>
   ) : null;
@@ -80,8 +79,7 @@ export function getWeatherData(location) {
 
   let queryString = `?lat=${latitude}&lon=${longitude}&appid=${key}&units=${units}`;
 
-  let res = axios
-    .get(apiendPoint + queryString)
+  let res = fetch(apiendPoint + queryString)
     .then((response) => response.data)
     .catch((err) => {
       pushNotify(
@@ -99,8 +97,7 @@ export function getRandomPhoto(term = "sunny, rain, sea") {
   const apiKey = unsplash.apiKey;
   const apiendPoint = unsplash.endPoint;
 
-  let res = axios
-    .get(apiendPoint, {
+  let res = fetch(apiendPoint, {
       params: { query: term },
       headers: {
         Authorization: "Client-ID " + apiKey,
@@ -116,8 +113,7 @@ export function getRandomPhoto(term = "sunny, rain, sea") {
 
 export function getCountryName(code) {
   const apiendPoint = countryData.endPoint;
-  let res = axios
-    .get(apiendPoint + code)
+  let res = fetch(apiendPoint + code)
     .then((response) => response.data)
     .catch((err) => {
       console.log(err);

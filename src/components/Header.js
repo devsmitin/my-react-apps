@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 
-import "../scss/Header.scss";
+import "../assets/Header.scss";
 
 class Header extends Component {
   constructor(props) {
@@ -55,9 +55,9 @@ class Header extends Component {
                     <li className="nav-item" key={index}>
                       <NavLink
                         className="nav-link"
-                        exact
                         to={link.to}
                         onClick={this.toggleNav}
+                        end
                       >
                         {link.title}
                       </NavLink>
