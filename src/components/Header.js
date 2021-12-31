@@ -1,75 +1,64 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import "../assets/Header.scss";
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-    };
-  }
+const Header = (props) => {
+  const [isOpen, changeOpenState] = useState(false);
 
-  toggleNav = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+  const toggleNav = () => {
+    changeOpenState(!isOpen);
   };
 
-  render() {
-    let { title, background, links } = this.props;
-    return (
-      <nav
-        className="navbar navbar-expand-lg navbar-light mb-2 mb-md-3 border-bottom sticky-top"
-        style={{ backgroundColor: background }}
-      >
-        <div className="container-fluid">
-          <span className="navbar-brand p-0">
-            <img
-              src="/owl-72.png"
-              className="app-logo"
-              alt="logo"
-              width="30"
-              height="30"
-            />
-            {title}
-          </span>
-          <button
-            className={
-              "navbar-toggler" + (this.state.isOpen ? "" : " collapsed")
-            }
-            type="button"
-            onClick={this.toggleNav}
-          >
-            <span className="toggle-icon">Toggle Navbar</span>
-          </button>
-          <div
-            className={
-              "navbar-collapse flex-lg-fill" +
-              (this.state.isOpen ? " show" : "")
-            }
-          >
-            <ul className="navbar-nav ms-lg-auto">
-              {links &&
-                links.map((link, index) => {
-                  return (
-                    <li className="nav-item" key={index}>
-                      <NavLink
-                        className="nav-link"
-                        to={link.to}
-                        onClick={this.toggleNav}
-                        end
-                      >
-                        {link.title}
-                      </NavLink>
-                    </li>
-                  );
-                })}
-            </ul>
-          </div>
+  const { title, background, links } = props;
+
+  return (
+    <nav
+      className="navbar navbar-expand-lg navbar-dark mb-2 mb-md-3 border-bottom sticky-top"
+      style={{ backgroundColor: background }}
+    >
+      <div className="container-fluid">
+        <NavLink className="navbar-brand p-0" to={"/"} end>
+          <img
+            src="/owl-72.png"
+            className="app-logo"
+            alt="logo"
+            width="30"
+            height="30"
+          />
+          {title}
+        </NavLink>
+        <button
+          className={`navbar-toggler ${isOpen ? "" : " collapsed"}`}
+          type="button"
+          onClick={toggleNav}
+        >
+          <span className="toggle-icon">Toggle Navbar</span>
+        </button>
+        <div
+          className={"navbar-collapse flex-lg-fill" + (isOpen ? " show" : "")}
+        >
+          <ul className="navbar-nav ms-lg-auto">
+            {links &&
+              links.map((link, index) => {
+                return (
+                  <li className="nav-item" key={index}>
+                    <NavLink
+                      className="nav-link"
+                      to={link.to}
+                      onClick={toggleNav}
+                      end
+                    >
+                      {link.title}
+                    </NavLink>
+                  </li>
+                );
+              })}
+          </ul>
         </div>
-      </nav>
-    );
-  }
-}
+      </div>
+    </nav>
+  );
+};
 
 export default Header;

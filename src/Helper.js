@@ -9,7 +9,7 @@ export function pushNotify(msg, title, i) {
 
   if (isProd) {
     if (Notification.permission === "granted") {
-      navigator.serviceWorker.ready.then(function(registration) {
+      navigator.serviceWorker.ready.then(function (registration) {
         registration.showNotification(title, {
           body: msg,
           icon: i ? i : "",
@@ -17,7 +17,7 @@ export function pushNotify(msg, title, i) {
       });
     }
   } else {
-    console.log(title, msg);
+    // console.log(title, msg);
   }
 }
 
@@ -70,7 +70,7 @@ export function handleDate(timestamp, format) {
   return strOut;
 }
 
-export function getWeatherData(location) {
+export const getWeatherData = (location) => {
   const { latitude, longitude } = location;
 
   const key = weather.apiKey;
@@ -80,7 +80,7 @@ export function getWeatherData(location) {
   let queryString = `?lat=${latitude}&lon=${longitude}&appid=${key}&units=${units}`;
 
   let res = fetch(apiendPoint + queryString)
-    .then((response) => response.data)
+    .then((res) => res.json())
     .catch((err) => {
       pushNotify(
         "There was an error. Please try again later",
@@ -89,21 +89,20 @@ export function getWeatherData(location) {
       );
       console.log(err);
     });
-
   return res;
-}
+};
 
 export function getRandomPhoto(term = "sunny, rain, sea") {
   const apiKey = unsplash.apiKey;
   const apiendPoint = unsplash.endPoint;
 
   let res = fetch(apiendPoint, {
-      params: { query: term },
-      headers: {
-        Authorization: "Client-ID " + apiKey,
-      },
-    })
-    .then((response) => response.data)
+    params: { query: term },
+    headers: {
+      Authorization: "Client-ID " + apiKey,
+    },
+  })
+    .then((response) => response.json())
     .catch((err) => {
       console.log(err);
     });
@@ -177,7 +176,7 @@ export function handleDateDiff(newTimestamp, oldTimestamp) {
       monthsDifference +
       (monthsDifference > 1 ? " months " : " month ") +
       daysDifference +
-      (daysDifference > 1 ? " days " : " day ") 
+      (daysDifference > 1 ? " days " : " day "),
   };
   return diffObj;
 }

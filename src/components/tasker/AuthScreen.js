@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import * as Helper from "../../Helper";
+import Inputs from "../Inputs";
 
-export default function AuthScreen(props) {
+const AuthScreen = (props) => {
   const [u_id, setUid] = useState("");
 
   const onChange = (e) => {
@@ -13,14 +13,12 @@ export default function AuthScreen(props) {
     props.login(user);
   };
 
-  const isMobile = Helper.checkDevice();
-
   return (
     <div className="overlay">
       <div className="card login-box rounded bg-white p-3 shadow-lg text-center">
-        <h5 className="card-title">Login</h5>
-        <div className="input-group mb-3">
-          <input
+        <h5 className="card-title fw-bold my-4">Login</h5>
+        <div className="input-group mb-4">
+          <Inputs
             name="uid"
             type="text"
             className="form-control"
@@ -29,34 +27,22 @@ export default function AuthScreen(props) {
             maxLength="10"
             placeholder="User ID"
           />
-          <div className="input-group-append">
-            <button className="btn btn-primary" type="button" onClick={userLogin}>
-              Login using ID
-            </button>
-          </div>
+          <button className="btn btn-primary" type="button" onClick={userLogin}>
+            Login using ID
+          </button>
         </div>
-        {isMobile && false && (
-          <div className="mb-3">
-            <button
-              className="btn btn-primary"
-              type="button"
-              onClick={props.showScanner}
-            >
-              Login using QR Code
-            </button>
-          </div>
-        )}
-        <p>Or</p>
+        {/* <p>Or</p> */}
         <div className="mb-3">
           <button
-            className="btn btn-secondary"
+            className="btn btn-link"
             type="button"
             onClick={props.setNewUser}
           >
-            New User
+            New User? Click here
           </button>
         </div>
       </div>
     </div>
   );
-}
+};
+export default AuthScreen;

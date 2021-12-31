@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { getUserData, writeUserData } from "./fire";
 import * as Helper from "../../Helper";
 
-// import QrReader from "./QrReader";
 import Form from "./Form";
 import List from "./List";
 import AuthScreen from "./AuthScreen";
@@ -54,14 +53,10 @@ class Tasker extends Component {
             currentUser: userId,
             userLists: items,
             otp: userId.replace("dz_", ""),
+            showLoading: false,
           },
           () => {
             localStorage.setItem("react_user", userId);
-            this.notif(
-              "Data synced with your data on server",
-              "Data sync finished!"
-            );
-            this.setUserImg(userId);
           }
         );
       } else {
@@ -70,7 +65,7 @@ class Tasker extends Component {
           this.setState({ showLoading: false, showAuth: true });
         }, 2 * 1000);
       }
-    }
+    };
 
     getUserData(userId, cb);
   };
@@ -87,7 +82,7 @@ class Tasker extends Component {
     this.setState({ showForm: !this.state.showForm });
   };
 
-  onScan = (userId) => {
+  onEntry = (userId) => {
     this.setState(
       {
         showAuth: false,
@@ -95,7 +90,6 @@ class Tasker extends Component {
       },
       () => {
         this.userData(userId);
-        this.setUserImg(userId);
       }
     );
   };
@@ -114,18 +108,13 @@ class Tasker extends Component {
     let user = "dz_" + uid;
 
     localStorage.setItem("react_user", user);
-    this.setState(
-      {
-        currentUser: user,
-        showLoading: false,
-        showAuth: false,
-        otp: uid,
-        userLists: { last_update: Date.now() },
-      },
-      () => {
-        this.setUserImg(user);
-      }
-    );
+    this.setState({
+      currentUser: user,
+      showLoading: false,
+      showAuth: false,
+      otp: uid,
+      userLists: { last_update: Date.now() },
+    });
   };
 
   setUserImg = (user) => {
@@ -239,34 +228,54 @@ class Tasker extends Component {
     window.location.reload();
   };
 
+  renderList = (all_items) => {
+    let html = [];
+    for (const item in all_items) {
+      if (Object.hasOwnProperty.call(all_items, item)) {
+        const itmObj = all_items[item];
+        html.push(<List key={itmObj.title} {...itmObj} />);
+      }
+    }
+    return html;
+  };
+
   render() {
-    const {
-      currentUser,
-      showLoading,
-      showAuth,
-      showForm,
-      scanCode,
-      userImg,
-      otp,
-      userLists,
-    } = this.state;
+    const { showLoading, showAuth, showForm, otp, userLists } = this.state;
 
-    let openItems = {
-      title: "Open Items",
-      items: userLists && userLists.openItems,
-      btn1Title: "Mark closed",
-      btn1: this.handleDone,
-      btn2Title: "Delete",
-      btn2: (e) => this.handleRemove(e, "open"),
-    };
+    let all_items = {
+      openItems: {
+        title: "Open Items",
+        items: userLists && userLists.openItems,
+        buttons: [
+          {
+            title: "Mark closed",
+            type: "primary",
+            action: this.handleDone,
+          },
+          {
+            title: "Delete",
+            type: "outline-secondary",
+            action: (e) => this.handleRemove(e, "open"),
+          },
+        ],
+      },
 
-    let doneItems = {
-      title: "Closed Items",
-      items: userLists && userLists.doneItems,
-      btn1Title: "Reopen",
-      btn1: this.handleUndo,
-      btn2Title: "Delete",
-      btn2: (e) => this.handleRemove(e, "done"),
+      doneItems: {
+        title: "Closed Items",
+        items: userLists && userLists.doneItems,
+        buttons: [
+          {
+            title: "Reopen",
+            type: "primary",
+            action: this.handleUndo,
+          },
+          {
+            title: "Delete",
+            type: "outline-secondary",
+            action: (e) => this.handleRemove(e, "done"),
+          },
+        ],
+      },
     };
 
     return (
@@ -276,40 +285,21 @@ class Tasker extends Component {
           <AuthScreen
             showScanner={this.toggleScanner}
             setNewUser={this.setNewUser}
-            login={this.onScan}
+            login={this.onEntry}
           />
         )}
         <main className="container">
           <h1 className="h3 font-weight-bold my-3">Tasker</h1>
           <div className="row">
-            <div className="col-lg-9">
-              <div className="">
-                <List {...openItems} />
-              </div>
-              <div className="">
-                <List {...doneItems} />
-              </div>
-            </div>
+            <div className="col-lg-9">{this.renderList(all_items)}</div>
             <div className="col-lg-3">
-              <div className="card card-body mb-3 text-center">
-                <p className="">
-                  User ID: <strong>{otp}</strong>
-                </p>
-                {!Helper.checkDevice() && (
-                  <>
-                    <h6 className="font-weight-bold mb-3">
-                      QR code for mobile login
-                    </h6>
-                    <img
-                      src={userImg}
-                      alt={currentUser}
-                      className="img-fluid border p-2 mb-3 bg-white shadow-sm"
-                    />
-                  </>
-                )}
-                <div>
+              <div className="card card-body border-primary mb-3">
+                <div className="d-flex align-items-center">
+                  <span className="">
+                    Unique ID: <strong>{otp}</strong>
+                  </span>
                   <button
-                    className="btn btn-danger"
+                    className="btn btn-sm btn-danger rounded-pill ms-auto"
                     onClick={this.handleLogout}
                   >
                     Logout
@@ -329,25 +319,12 @@ class Tasker extends Component {
             </button>
           </div>
 
-          {scanCode && (
-            <div className="overlay">
-              <div className="w-300 mx-auto">
-                {/* <QrReader
-                  getCode={this.onScan}
-                  closeScanner={this.toggleScanner}
-                /> */}
-              </div>
-            </div>
-          )}
-
           {showForm && (
-            <div className="overlay">
-              <Form
-                hasClass="w-600 mx-auto shadow-lg"
-                submitForm={this.onSubmit}
-                closeForm={this.toggleForm}
-              />
-            </div>
+            <Form
+              hasClass="w-600 mx-auto shadow-lg"
+              submitForm={this.onSubmit}
+              closeForm={this.toggleForm}
+            />
           )}
         </main>
       </>

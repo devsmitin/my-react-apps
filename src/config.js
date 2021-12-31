@@ -1,6 +1,6 @@
 const AppData = {
   appTitle: "Owley Apps",
-  themeColor: "#e3f2fd"
+  themeColor: "#084c3f",
 };
 
 const weather = {
@@ -33,4 +33,16 @@ const fireconfig = {
   measurementId: "G-4DY7BGNBTX",
 };
 
-export { AppData, fireconfig, weather, unsplash, qrProvider, countryData };
+const taskerConf = {
+  addTitle: false,
+};
+
+export {
+  AppData,
+  fireconfig,
+  weather,
+  unsplash,
+  qrProvider,
+  countryData,
+  taskerConf,
+};

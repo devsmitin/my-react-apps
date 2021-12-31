@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { taskerConf } from "../../config";
+import Inputs from "../Inputs";
 
 class Form extends Component {
   constructor(props) {
@@ -46,53 +48,63 @@ class Form extends Component {
   render() {
     let { title, details, maxLen } = this.state;
     return (
-      <div className={"card shadow-sm mb-3 " + this.props.hasClass}>
-        <div className="card-body">
-          <h4 className="card-title">Add Tasks</h4>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              name="title"
-              type="text"
-              className={
-                "form-control mb-3" + (title.length === 50 ? " is-invalid" : "")
-              }
-              value={title}
-              onChange={this.onChange}
-              maxLength="50"
-              placeholder="Title"
-            />
-            <textarea
-              name="details"
-              className={
-                "form-control mb-3" +
-                (details.length >= maxLen ? " is-invalid" : "")
-              }
-              value={details}
-              onChange={this.onChange}
-              rows="4"
-              placeholder="Description"
-            />
-            <button
-              className="btn btn-success me-2"
-              disabled={
-                title.trim().length === 0 ||
-                details.trim().length === 0 ||
-                details.length > maxLen
-              }
-            >
-              Add
-            </button>
-            <button
-              className="btn btn-outline-secondary me-2"
-              onClick={this.props.closeForm}
-            >
-              Cancel
-            </button>
-            <span className="btn float-right disabled">
-              {maxLen - details.length}
-            </span>
-          </form>
-          {this.overflowAlert()}
+      <div className="overlay">
+        <div className={"card shadow-sm mb-3 " + this.props.hasClass}>
+          <div className="card-body">
+            <h4 className="card-title">Add Tasks</h4>
+            <form onSubmit={this.handleSubmit}>
+              {taskerConf.addTitle && (
+                <Inputs
+                  name="title"
+                  type="text"
+                  className={
+                    "form-control mb-3" +
+                    (title.length === 50 ? " is-invalid" : "")
+                  }
+                  value={title}
+                  onChange={this.onChange}
+                  maxLength="50"
+                  placeholder="Title"
+                />
+              )}
+
+              <Inputs
+                type="textarea"
+                name="details"
+                className={
+                  "form-control mb-3" +
+                  (details.length >= maxLen ? " is-invalid" : "")
+                }
+                value={details}
+                onChange={this.onChange}
+                rows="4"
+                placeholder="Description"
+              />
+              <div className="d-flex">
+                <div className="button-group">
+                  <button
+                    className="btn btn-sm btn-success rounded-pill me-2"
+                    disabled={
+                      // title.trim().length === 0 ||
+                      details.trim().length === 0 || details.length > maxLen
+                    }
+                  >
+                    Add
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-secondary rounded-pill me-2"
+                    onClick={this.props.closeForm}
+                  >
+                    Cancel
+                  </button>
+                </div>
+                <span className="btn ms-auto text-muted">
+                  {maxLen - details.length}
+                </span>
+              </div>
+            </form>
+            {this.overflowAlert()}
+          </div>
         </div>
       </div>
     );

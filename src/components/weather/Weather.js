@@ -73,6 +73,9 @@ class Weather extends Component {
   getWeatherInfo = async (location) => {
     let { coords } = location;
     let weather = await Helper.getWeatherData(coords);
+    if (!weather) {
+      return false;
+    }
     let s_country = Helper.regionNamesInEnglish.of(weather.sys.country);
 
     let w_data = {
@@ -103,8 +106,10 @@ class Weather extends Component {
 
   countDown = () => {
     if (this.state.weather) {
-      let i = Helper.handleDateDiff(Date.now(), this.state.weather.w_time)
-        .minutes;
+      let i = Helper.handleDateDiff(
+        Date.now(),
+        this.state.weather.w_time
+      ).minutes;
       return i;
     }
   };
