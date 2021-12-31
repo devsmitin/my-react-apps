@@ -33,7 +33,7 @@ class App extends Component {
             background={themeColor}
           />
           <Routes>
-            <Route index path="/" element={<Tasker />} />
+            <Route index path="/" element={<Weather />} />
             <Route path="/weather" element={<Weather />} />
             <Route path="/tasker" element={<Tasker />} />
             <Route path="/days-calc" element={<DateCalculator />} />
