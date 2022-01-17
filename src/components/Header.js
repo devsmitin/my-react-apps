@@ -4,10 +4,10 @@ import { NavLink } from "react-router-dom";
 import "../assets/Header.scss";
 
 const Header = (props) => {
-  const [isOpen, changeOpenState] = useState(false);
+  let [isOpen, changeOpenState] = useState(false);
 
-  const toggleNav = () => {
-    changeOpenState(!isOpen);
+  const toggleNav = (e, state) => {
+    changeOpenState(state != undefined ? state : !isOpen);
   };
 
   const { title, background, links } = props;
@@ -18,7 +18,12 @@ const Header = (props) => {
       style={{ backgroundColor: background }}
     >
       <div className="container-fluid">
-        <NavLink className="navbar-brand p-0" to={"/"} end>
+        <NavLink
+          className="navbar-brand p-0"
+          to={"/"}
+          onClick={(e) => toggleNav(e, false)}
+          end
+        >
           <img
             src="/owl-72.png"
             className="app-logo"
