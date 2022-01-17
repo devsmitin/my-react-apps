@@ -7,7 +7,7 @@ const Header = (props) => {
   let [isOpen, changeOpenState] = useState(false);
 
   const toggleNav = (e, state) => {
-    changeOpenState(state != undefined ? state : !isOpen);
+    changeOpenState(state !== undefined ? state : !isOpen);
   };
 
   const { title, background, links } = props;
