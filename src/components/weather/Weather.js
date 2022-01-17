@@ -117,10 +117,10 @@ class Weather extends Component {
   refresher = (fap) => {
     let btn = (
       <button
-        className="btn btn-secondary rounded position-relative"
+        className="btn btn-secondary position-relative"
         onClick={this.getLocation}
       >
-        Check Weather
+        Update Weather
       </button>
     );
 
