@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { getUserData, writeUserData } from "./fire";
 import * as Helper from "../../Helper";
 
-import Form from "./Form";
+import NewTask from "./NewTask";
 import List from "./List";
 import AuthScreen from "./AuthScreen";
 import { qrProvider } from "../../config";
@@ -46,7 +46,8 @@ class Tasker extends Component {
   };
 
   userData = async (userId) => {
-    let cb = (items) => {
+    // callback for getUserData
+    const cb = (items) => {
       if (items) {
         this.setState(
           {
@@ -127,7 +128,7 @@ class Tasker extends Component {
     }
   };
 
-  onSubmit = (formTitle, formDetails) => {
+  onSubmit = (formTitle = "", formDetails = "") => {
     let { userLists } = this.state;
     let obj = {
       title: formTitle.trim(),
@@ -320,7 +321,7 @@ class Tasker extends Component {
           </div>
 
           {showForm && (
-            <Form
+            <NewTask
               hasClass="w-600 mx-auto shadow-lg"
               submitForm={this.onSubmit}
               closeForm={this.toggleForm}
