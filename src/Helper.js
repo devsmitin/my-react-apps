@@ -1,7 +1,7 @@
 import React from "react";
 import { countryData, unsplash, weather } from "./config";
 
-export function pushNotify(msg, title, i) {
+export function pushNotify(msg, title, i = "owl-72.png") {
   let isProd = true;
   if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
     isProd = false;
@@ -13,11 +13,12 @@ export function pushNotify(msg, title, i) {
         registration.showNotification(title, {
           body: msg,
           icon: i ? i : "",
+          vibrate: 200
         });
       });
     }
   } else {
-    // console.log(title, msg);
+    console.log(title, msg);
   }
 }
 

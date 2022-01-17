@@ -61,7 +61,7 @@ class Tasker extends Component {
           }
         );
       } else {
-        this.notif("User not found!", "Error!");
+        Helper.pushNotify("User not found!", "Error!");
         setTimeout(() => {
           this.setState({ showLoading: false, showAuth: true });
         }, 2 * 1000);
@@ -69,10 +69,6 @@ class Tasker extends Component {
     };
 
     getUserData(userId, cb);
-  };
-
-  notif = (msg, title) => {
-    Helper.pushNotify(msg, title, "owl-72.png");
   };
 
   toggleScanner = () => {
@@ -153,7 +149,7 @@ class Tasker extends Component {
       if (index !== id) {
         return item;
       } else {
-        this.notif(item.title + " marked as closed!", "Closed!");
+        Helper.pushNotify("Marked as closed!", "Closed!");
         return null;
       }
     });
@@ -175,7 +171,7 @@ class Tasker extends Component {
       if (index !== id) {
         return item;
       } else {
-        this.notif(item.title + " marked as open!", "Reopened!");
+        Helper.pushNotify("Marked as open!", "Reopened!");
         return null;
       }
     });
@@ -203,7 +199,7 @@ class Tasker extends Component {
       if (index !== id) {
         return item;
       } else {
-        this.notif(item.title + " deleted successfully!", "Deleted!");
+        Helper.pushNotify("Deleted successfully!", "Deleted!");
         return null;
       }
     });
@@ -291,7 +287,7 @@ class Tasker extends Component {
         )}
         <main className="container">
           <h1 className="h3 font-weight-bold my-3">Tasker</h1>
-          <div className="row">
+          <div className="row g-0">
             <div className="col-lg-9">{this.renderList(all_items)}</div>
             <div className="col-lg-3">
               <div className="card card-body border-primary mb-3">
