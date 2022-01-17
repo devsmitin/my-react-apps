@@ -287,7 +287,7 @@ class Tasker extends Component {
         )}
         <main className="container">
           <h1 className="h3 font-weight-bold my-3">Tasker</h1>
-          <div className="row g-0">
+          <div className="row">
             <div className="col-lg-9">{this.renderList(all_items)}</div>
             <div className="col-lg-3">
               <div className="card card-body border-primary mb-3">
