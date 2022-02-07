@@ -10,13 +10,10 @@ const Header = (props) => {
     changeOpenState(state !== undefined ? state : !isOpen);
   };
 
-  const { title, background, links } = props;
+  const { title, links } = props;
 
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-dark mb-2 mb-md-3 border-bottom sticky-top"
-      style={{ backgroundColor: background }}
-    >
+    <nav className="navbar navbar-expand-lg navbar-dark mb-2 mb-md-3 border-bottom sticky-top">
       <div className="container-fluid">
         <NavLink
           className="navbar-brand p-0"

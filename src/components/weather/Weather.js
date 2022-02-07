@@ -124,7 +124,9 @@ class Weather extends Component {
       </button>
     );
 
-    if (fap > 59) {
+    console.log(`fap`, fap);
+
+    if (fap > 59 & false) {
       return this.getLocation();
     } else if (fap >= 10 || fap === undefined) {
       return btn;

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { getUserData, writeUserData } from "./fire";
+// import { taskerConf } from "../../config";
 import * as Helper from "../../Helper";
 
 import NewTask from "./NewTask";
-import List from "./List";
 import AuthScreen from "./AuthScreen";
-import { qrProvider } from "../../config";
+import ListItem2 from "./ListItem2";
 
-class Tasker extends Component {
+class Tasker2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,10 +71,6 @@ class Tasker extends Component {
     getUserData(userId, cb);
   };
 
-  toggleScanner = () => {
-    this.setState({ scanCode: !this.state.scanCode });
-  };
-
   toggleForm = () => {
     this.setState({ showForm: !this.state.showForm });
   };
@@ -114,22 +110,13 @@ class Tasker extends Component {
     });
   };
 
-  setUserImg = (user) => {
-    if (user !== undefined) {
-      let queryString = `?data=${user}&size=256x256`;
-      this.setState({
-        userImg: qrProvider.endPoint + queryString,
-        showLoading: false,
-      });
-    }
-  };
-
   onSubmit = (formTitle = "", formDetails = "") => {
     let { userLists } = this.state;
     let obj = {
       title: formTitle.trim(),
       details: formDetails.trim(),
       time: Date.now(),
+      done: false,
     };
 
     let oi = userLists.openItems ? userLists.openItems : [];
@@ -143,81 +130,39 @@ class Tasker extends Component {
     });
   };
 
-  handleDone = (id) => {
+  updateDone = (id) => {
     let { userLists } = this.state;
-    const remainderList = userLists.openItems.filter((item, index) => {
-      if (index !== id) {
-        return item;
-      } else {
+    const updatedList = userLists.openItems.map((item, index) => {
+      if (index === id) {
+        console.log(item);
+        item.done = !item.done;
         Helper.pushNotify("Marked as closed!", "Closed!");
-        return null;
       }
+      return item;
     });
-    const doneList = userLists.openItems.filter((item, index) => index === id);
-    let di = userLists.doneItems ? userLists.doneItems : [];
+
     this.setState({
       userLists: {
         ...userLists,
-        openItems: remainderList,
-        doneItems: [...di, ...doneList],
+        openItems: updatedList,
         last_update: Date.now(),
       },
     });
   };
 
-  handleUndo = (id) => {
+  handleRemove = (id) => {
     let { userLists } = this.state;
-    const remainderList = userLists.doneItems.filter((item, index) => {
-      if (index !== id) {
-        return item;
-      } else {
-        Helper.pushNotify("Marked as open!", "Reopened!");
-        return null;
-      }
-    });
-    const doneList = userLists.doneItems.filter((item, index) => index === id);
-    let oi = userLists.openItems ? userLists.openItems : [];
+
+    const updatedList = userLists.openItems.filter(
+      (item, index) => id !== index
+    );
     this.setState({
       userLists: {
         ...userLists,
-        doneItems: remainderList,
-        openItems: [...oi, ...doneList],
+        openItems: updatedList,
         last_update: Date.now(),
       },
     });
-  };
-
-  handleRemove = (id, currentList) => {
-    let itemClicked;
-    let { userLists } = this.state;
-
-    currentList === "open"
-      ? (itemClicked = userLists.openItems)
-      : (itemClicked = userLists.doneItems);
-
-    const remainder = itemClicked.filter((item, index) => {
-      if (index !== id) {
-        return item;
-      } else {
-        Helper.pushNotify("Deleted successfully!", "Deleted!");
-        return null;
-      }
-    });
-    currentList === "open"
-      ? this.setState({
-          userLists: {
-            ...userLists,
-            openItems: remainder,
-            last_update: Date.now(),
-          },
-        })
-      : this.setState({
-          userLists: {
-            ...userLists,
-            doneItems: remainder,
-            last_update: Date.now(),
-          },
-        });
   };
 
   handleLogout = () => {
@@ -225,55 +170,40 @@ class Tasker extends Component {
     window.location.reload();
   };
 
-  renderList = (all_items) => {
-    let html = [];
-    for (const item in all_items) {
-      if (Object.hasOwnProperty.call(all_items, item)) {
-        const itmObj = all_items[item];
-        html.push(<List key={itmObj.title} {...itmObj} />);
-      }
-    }
-    return html;
+  renderList = (list) => {
+    let btnActions = {
+      update: this.updateDone,
+      delete: this.handleRemove,
+    };
+
+    return (
+      <div className="task-list mb-4">
+        {list.length ? (
+          list.map((item, index) => (
+            <ListItem2
+              key={index}
+              index={index}
+              item={item}
+              buttons={btnActions}
+            />
+          ))
+        ) : (
+          <div className="task-list-item theme-bg theme-radius p-3 mb-3 text-center">
+            No items
+          </div>
+        )}
+      </div>
+    );
   };
 
   render() {
     const { showLoading, showAuth, showForm, otp, userLists } = this.state;
-
-    let all_items = {
-      openItems: {
-        title: "Open Items",
-        items: userLists && userLists.openItems,
-        buttons: [
-          {
-            title: "Mark closed",
-            type: "primary",
-            action: this.handleDone,
-          },
-          {
-            title: "Delete",
-            type: "outline-secondary",
-            action: (e) => this.handleRemove(e, "open"),
-          },
-        ],
-      },
-
-      doneItems: {
-        title: "Closed Items",
-        items: userLists && userLists.doneItems,
-        buttons: [
-          {
-            title: "Reopen",
-            type: "primary",
-            action: this.handleUndo,
-          },
-          {
-            title: "Delete",
-            type: "outline-secondary",
-            action: (e) => this.handleRemove(e, "done"),
-          },
-        ],
-      },
-    };
+    let listIncomplete = [],
+      listComplete = [];
+    if (userLists && userLists.openItems) {
+      listIncomplete = userLists.openItems.filter((item) => !item.done);
+      listComplete = userLists.openItems.filter((item) => item.done);
+    }
 
     return (
       <>
@@ -288,12 +218,23 @@ class Tasker extends Component {
         <main className="container">
           <h1 className="h2 fw-bold my-3">Tasker</h1>
           <div className="row">
-            <div className="col-lg-9">{this.renderList(all_items)}</div>
-            <div className="col-lg-3">
-              <div className="card card-body border-primary mb-3">
+            <div className="col-lg-8">
+              <div className="row">
+                <div className="col-lg-6">
+                  <h2 className="h5">Tasks</h2>
+                  {this.renderList(listIncomplete)}
+                </div>
+                <div className="col-lg-6">
+                  <h2 className="h5">Completed</h2>
+                  {this.renderList(listComplete)}
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <div className="theme-border theme-shadow theme-radius p-3 mb-3">
                 <div className="d-flex align-items-center">
                   <span className="">
-                    Unique ID: <strong>{otp}</strong>
+                    Unique user ID: <strong>{otp}</strong>
                   </span>
                   <button
                     className="btn btn-sm btn-danger rounded-pill ms-auto"
@@ -329,4 +270,4 @@ class Tasker extends Component {
   }
 }
 
-export default Tasker;
+export default Tasker2;

@@ -1,6 +1,6 @@
 const AppData = {
   appTitle: "Owley Apps",
-  themeColor: "#084c3f",
+  themeColor: "8,76,63",
 };
 
 const weather = {

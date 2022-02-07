@@ -124,3 +124,19 @@ body {
     }
   }
 }
+
+
+
+
+.theme-bg {
+  background-color: rgba(var(--theme-color), 0.15);
+}
+.theme-border {
+  border: 1px solid rgba(var(--theme-color), 0.25)
+}
+.theme-shadow {
+  box-shadow: 0 0.25rem 0.125rem 0 rgba(var(--theme-color), 0.10);
+}
+.theme-radius {
+  border-radius: 0.8rem;
+}

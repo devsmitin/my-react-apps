@@ -73,7 +73,7 @@ class DateCalculator extends Component {
 
     return (
       <main className="container">
-        <h1 className="h3 font-weight-bold my-3">Days calculator</h1>
+        <h1 className="h2 fw-bold my-3">Days calculator</h1>
         <div className="card card-body mb-3">
           <div className="row">
             {this.inputs.map((input) => (

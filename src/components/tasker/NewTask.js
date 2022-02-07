@@ -69,7 +69,7 @@ const NewTask = (props) => {
             <div className="d-flex">
               <div className="button-group">
                 <button
-                  className="btn btn-sm btn-success rounded-pill me-2"
+                  className="btn btn-sm btn-success rounded-pill"
                   disabled={
                     // formValues.title.trim().length === 0 ||
                     formValues.details.trim().length === 0 || formValues.details.length > maxLen
@@ -78,7 +78,7 @@ const NewTask = (props) => {
                   Add
                 </button>
                 <button
-                  className="btn btn-sm btn-outline-secondary rounded-pill me-2"
+                  className="btn btn-sm btn-outline-secondary rounded-pill"
                   onClick={props.closeForm}
                 >
                   Cancel

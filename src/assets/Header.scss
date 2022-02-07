@@ -4,6 +4,7 @@
 
 .navbar {
   height: var(--navbar-height);
+  background-color: rgba(var(--theme-color));
   &.navbar-light {
     .nav-link {
       color: #000;
